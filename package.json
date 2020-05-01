@@ -1,0 +1,15 @@
+{
+  "name": "etu2020",
+  "version": "1.0.0",
+  "repository": "https://github.com/seroydkin/the_last_one",
+  "author": "seroydkin",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "cd client && yarn build && cd ..",
+    "start": "yarn build && node ./server"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
