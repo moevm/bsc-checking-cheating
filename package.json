@@ -6,10 +6,11 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "cd client && yarn build && cd ..",
+    "build": "cd client && yarn compile && cd ..",
     "start": "yarn build && node ./server"
   },
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {}
 }

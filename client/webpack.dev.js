@@ -3,10 +3,11 @@ const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 
 module.exports = {
     mode: 'development',
+    devtool: 'inline-cheap-source-map',
     entry: './src/client.tsx',
     output: {
         path: path.resolve(__dirname, '../static/webpack'),
-        filename: 'client.js'
+        filename: '[name].js'
     },
     module: {
         rules: [
@@ -22,6 +23,29 @@ module.exports = {
             },
            
         ]
+    },
+    optimization: {
+        minimize: false,
+        splitChunks: {
+            chunks: 'async',
+            minSize: 30000,
+            minChunks: 1,
+            maxAsyncRequests: 6,
+            maxInitialRequests: 4,
+            automaticNameDelimiter: '~',
+            name: true,
+            cacheGroups: {
+                vendors: {
+                    test: /[\\/]node_modules[\\/]/,
+                    priority: -10
+                },
+                default: {
+                    minChunks: 2,
+                    priority: -20,
+                    reuseExistingChunk: true
+                }
+            }
+        } 
     },
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
