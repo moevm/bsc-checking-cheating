@@ -4,10 +4,14 @@ const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 module.exports = {
     mode: 'development',
     devtool: 'inline-cheap-source-map',
+    devServer: {
+        contentBase: './static/webpack'
+    },
     entry: './src/client.tsx',
     output: {
-        path: path.resolve(__dirname, '../static/webpack'),
-        filename: '[name].js'
+        path: path.resolve(__dirname, 'static/webpack'),
+        filename: '[name].js',
+        publicPath: '/'
     },
     module: {
         rules: [
