@@ -5,7 +5,12 @@ import { AppContainer } from 'react-hot-loader'
 import App from 'containers/App'
 
 const renderApp = () => {
-    render(<AppContainer><App count={11} /></AppContainer>, document.getElementById('root'))
+  render(
+    <AppContainer>
+      <App count={10} />
+    </AppContainer>,
+    document.getElementById('root')
+  )
 }
 
 renderApp()
