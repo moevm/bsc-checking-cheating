@@ -1,13 +1,15 @@
 const path = require('path')
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
+const webpack = require('webpack')
 
 module.exports = {
     mode: 'development',
     devtool: 'inline-cheap-source-map',
     devServer: {
-        contentBase: './static/webpack'
+        contentBase: './static/webpack',
+        hot: true
     },
-    entry: './src/client.tsx',
+    entry: ['webpack-hot-middleware/client', './src/client.tsx'],
     output: {
         path: path.resolve(__dirname, 'static/webpack'),
         filename: '[name].js',
@@ -51,7 +53,13 @@ module.exports = {
             }
         } 
     },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin()
+    ],
     resolve: {
+        alias: {
+            'react-dom': '@hot-loader/react-dom'
+        },
         extensions: ['.tsx', '.ts', '.js'],
         plugins: [
             new TSConfigPathsPlugin()

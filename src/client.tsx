@@ -1,10 +1,11 @@
 import React from 'react'
 import { render } from 'react-dom'
+import { AppContainer } from 'react-hot-loader'
 
 import App from 'containers/App'
 
 const renderApp = () => {
-    render(<App count={11} />, document.getElementById('root'))
+    render(<AppContainer><App count={11} /></AppContainer>, document.getElementById('root'))
 }
 
 renderApp()
