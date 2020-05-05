@@ -7,7 +7,7 @@ import App from 'containers/App'
 const renderApp = () => {
   render(
     <AppContainer>
-      <App count={10} />
+      <App count={4} />
     </AppContainer>,
     document.getElementById('root')
   )

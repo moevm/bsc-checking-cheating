@@ -8,8 +8,8 @@ const config = require('../webpack.dev.js')
 const compiler = webpack(config)
 
 app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath,
-  writeToDisk: true
+  publicPath: config.output.publicPath
+  // writeToDisk: true
 }))
 
 app.use(webpackHotMiddleware(compiler))
