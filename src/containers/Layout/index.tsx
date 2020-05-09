@@ -1,7 +1,16 @@
-import React from 'react'
+import React, { FC } from 'react'
+import styled from 'styled-components'
 
-const Layout = ({ children }) => {
-  return <>{children}</>
+// import styles from './styles'
+
+type Props = {}
+
+const Main = styled.main`
+  background-color: blue;
+`
+
+const Layout: FC<Props> = ({ children }) => {
+  return <Main>{children}</Main>
 }
 
 export default Layout

@@ -1,6 +1,6 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
+const HTMLWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const TSConfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 const webpack = require('webpack')
 
@@ -20,6 +20,11 @@ module.exports = {
     module: {
         rules: [
             {
+              test: /\.(jsx|tsx)$/,
+              include: /node_modules/,
+              use: ['react-hot-loader/webpack']
+            },
+            {
                 test: /\.tsx?$/,
                 exclude: /node_modules/,
                 loader: ['babel-loader', 'ts-loader']
@@ -28,8 +33,7 @@ module.exports = {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader'
-            },
-           
+            }
         ]
     },
     optimization: {
@@ -56,11 +60,11 @@ module.exports = {
         } 
     },
     plugins: [
-        new HtmlWebpackPlugin({
+        new HTMLWebpackPlugin({
           alwaysWriteToDisk: true,
           template: 'src/index.html'
         }),
-        new HtmlWebpackHarddiskPlugin(),
+        new HTMLWebpackHarddiskPlugin(),
         new webpack.HotModuleReplacementPlugin()
     ],
     resolve: {
