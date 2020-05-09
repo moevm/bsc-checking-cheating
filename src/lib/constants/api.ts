@@ -6,4 +6,6 @@ export enum METHOD {
   GET = 'get'
 }
 
-export const ENDPOINT = {}
+export const ENDPOINT = {
+  STUDENT_INFO: '/student_info'
+}

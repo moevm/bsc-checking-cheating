@@ -9,7 +9,9 @@
     "moduleResolution": "node",
     "paths": {
       "constants/*": ["src/lib/constants/*"],
-      "containers/*": ["src/containers/*"]
+      "containers/*": ["src/containers/*"],
+      "components/*": ["src/components/*"],
+      "services/*": ["src/lib/services/*"]
     },
     "typeRoots": ["./types", "./node_modules/@types"]
   },
