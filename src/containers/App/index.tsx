@@ -1,19 +1,18 @@
 import React from 'react'
 import { hot } from 'react-hot-loader/root'
+import { RouterProvider } from 'react-router5'
 
-import Layout from 'containers/Layout'
-import Button from 'components/Button'
+import Router from 'containers/Router'
 
 type TOuterProps = {
-  count: number
+  router: App.TRouter
 }
 type TProps = TOuterProps
 
-const App = ({ count }: TProps) => (
-  <Layout>
-    <p>Test {count}</p>
-    <Button title="students" />
-  </Layout>
+const App = ({ router }: TProps) => (
+  <RouterProvider router={router}>
+    <Router />
+  </RouterProvider>
 )
 
 export default hot(App)

@@ -11,7 +11,8 @@
       "constants/*": ["src/lib/constants/*"],
       "containers/*": ["src/containers/*"],
       "components/*": ["src/components/*"],
-      "services/*": ["src/lib/services/*"]
+      "services/*": ["src/lib/services/*"],
+      "utils/*": ["src/lib/utils/*"]
     },
     "typeRoots": ["./types", "./node_modules/@types"]
   },
