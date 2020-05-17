@@ -1,3 +1,3 @@
 export default {
-  MAX_HEIGHT: '0.625rem'
+  MAIN_PADDING: '1.25rem 1.875rem'
 }
