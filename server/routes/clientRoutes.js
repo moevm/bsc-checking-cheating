@@ -1,3 +1,3 @@
-const routes = ['/auth', '/student', '/teacher']
+const routes = ['/', '/auth', '/student', '/teacher']
 
 module.exports = routes

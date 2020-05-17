@@ -15,8 +15,11 @@ module.exports = {
   entry: ['webpack-hot-middleware/client', 'src/client.tsx'],
   output: {
     path: path.resolve(__dirname, 'static/webpack'),
-    filename: '[name].js',
-    publicPath: '/'
+    publicPath: '/',
+    filename: '[name].[hash].js',
+    chunkFilename: '[name].[contenthash].js',
+    hotUpdateChunkFilename: '[id].[hash].hot-update.js',
+    hotUpdateMainFilename: '[hash].hot-update.json'
   },
   module: {
     rules: [

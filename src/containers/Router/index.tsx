@@ -24,4 +24,4 @@ class Router extends PureComponent<TProps, TState> {
   }
 }
 
-export default compose(routeNode(''))(Router)
+export default compose(routeNode('auth'))(Router)
