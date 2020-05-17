@@ -1,4 +1,5 @@
 import React from 'react'
+import 'mobx-react/batchingForReactDom'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import createRouter from 'router5'

@@ -7,12 +7,12 @@ type TFetchOptions = {
   endpoint: string
 }
 
-export default function ({ method = METHOD.GET, endpoint }: TFetchOptions) {
+export default function <T>({ method = METHOD.GET, endpoint }: TFetchOptions) {
   const url = `${API_URL}${endpoint}`
 
   console.log(method.toUpperCase(), url)
 
-  return axios.request({
+  return axios.request<T>({
     url,
     method
   })

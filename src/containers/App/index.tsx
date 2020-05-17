@@ -3,7 +3,8 @@ import { ThemeProvider } from 'styled-components'
 import { hot } from 'react-hot-loader/root'
 import { RouterProvider } from 'react-router5'
 
-import { theme } from 'lib/theme'
+import { StoreProvider } from 'lib/contexts/store'
+import theme from 'lib/theme'
 import Router from 'containers/Router'
 
 export type TOuterProps = {
@@ -12,11 +13,13 @@ export type TOuterProps = {
 type TProps = TOuterProps
 
 const App: FC<TProps> = ({ router }) => (
-  <ThemeProvider theme={theme}>
-    <RouterProvider router={router}>
-      <Router />
-    </RouterProvider>
-  </ThemeProvider>
+  <StoreProvider>
+    <ThemeProvider theme={theme}>
+      <RouterProvider router={router}>
+        <Router />
+      </RouterProvider>
+    </ThemeProvider>
+  </StoreProvider>
 )
 
 export default hot(App)
