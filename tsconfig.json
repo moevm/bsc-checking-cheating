@@ -11,6 +11,7 @@
       "constants/*": ["src/lib/constants/*"],
       "containers/*": ["src/containers/*"],
       "components/*": ["src/components/*"],
+      "pages/*": ["src/pages/*"],
       "services/*": ["src/lib/services/*"],
       "utils/*": ["src/lib/utils/*"]
     },

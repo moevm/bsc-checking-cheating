@@ -4,17 +4,16 @@ import { SubscribeState } from 'router5'
 
 import compose from 'utils/compose'
 import Layout from 'containers/Layout'
+import StudentPage from 'pages/Student'
 
 type TOuterProps = {}
 type TRouteNodeProps = SubscribeState
 type TProps = TOuterProps & TRouteNodeProps
-type TState = {}
 
-class Router extends PureComponent<TProps, TState> {
+class Router extends PureComponent<TProps> {
   render() {
-    const Component = () => <div>Test</div>
     const { route } = this.props
-    console.log(route)
+    const Component = () => (route && route.name === 'student' ? <StudentPage /> : <div>Test</div>)
 
     return (
       <Layout>
@@ -24,4 +23,4 @@ class Router extends PureComponent<TProps, TState> {
   }
 }
 
-export default compose(routeNode('auth'))(Router)
+export default compose(routeNode(''))(Router)

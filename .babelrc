@@ -20,7 +20,8 @@
     [
       "babel-plugin-styled-components",
       {
-        "ssr": false
+        "ssr": false,
+        "fileName": false
       }
     ],
     "react-hot-loader/babel"
