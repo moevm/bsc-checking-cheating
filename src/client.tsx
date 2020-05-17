@@ -2,6 +2,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { AppContainer } from 'react-hot-loader'
 import createRouter from 'router5'
+import browserPlugin from 'router5-plugin-browser'
 
 import App from 'containers/App'
 import { routes } from 'constants/routes'
@@ -19,8 +20,11 @@ const renderApp = ({ ...config }: AppProps) => {
   )
 }
 
+// TODO add router browser plugin
 const startApp = () => {
   const router = createRouter(routes)
+
+  router.usePlugin(browserPlugin())
 
   router.start(() => {
     console.log('START Router5')
