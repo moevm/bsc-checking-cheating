@@ -4,12 +4,10 @@ import { AppContainer } from 'react-hot-loader'
 import createRouter from 'router5'
 import browserPlugin from 'router5-plugin-browser'
 
-import App from 'containers/App'
+import App, { TOuterProps } from 'containers/App'
 import { routes } from 'constants/routes'
 
-type AppProps = {
-  router: App.TRouter
-}
+type AppProps = TOuterProps
 
 const renderApp = ({ ...config }: AppProps) => {
   render(
@@ -20,7 +18,6 @@ const renderApp = ({ ...config }: AppProps) => {
   )
 }
 
-// TODO add router browser plugin
 const startApp = () => {
   const router = createRouter(routes)
 
