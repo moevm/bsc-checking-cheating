@@ -9,8 +9,6 @@ export default class Student {
   fetchStudentInfo = flow(function* () {
     const self = this as Student
 
-    console.log('REQUEST')
-
     try {
       const respose = yield fecthAPI<Data.Student>({ endpoint: ENDPOINT.STUDENT_INFO })
       const data = respose.data as Data.Student
