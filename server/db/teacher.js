@@ -20,8 +20,26 @@ module.exports = function (db) {
         })
     },
 
-    postNewSubject(req, res, next) {
+    createSubject(req, res, next) {
       db.none('insert into subject (name, teacher_id, groups) values (${name}, ${teacher_id}, ${groups})', req.body)
+        .then(function() {
+          res.status(200)
+            .json({
+              status: 'success',
+              message: 'ok'
+            })
+        })
+        .catch(function(err) {
+          res.status(400)
+            .json({
+              status: 'error',
+              message: 'wrong request data'
+            })
+        })
+    },
+
+    createTask(req, res, next) {
+      db.none('insert into task (name, exts, groups, subject_id, teacher_id) values (${name}, ${exts}, ${groups}, ${subject_id}, ${teacher_id})', req.body)
         .then(function() {
           res.status(200)
             .json({
