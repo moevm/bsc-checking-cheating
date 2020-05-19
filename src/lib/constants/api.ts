@@ -9,6 +9,7 @@ export enum METHOD {
 
 export const ENDPOINT = {
   CREATE_SUBJECT: '/create_subject',
+  CREATE_TASK: '/create_task',
   STUDENT_INFO: '/student_info',
   TEACHER_INFO: '/teacher_info'
 }

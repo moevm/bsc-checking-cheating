@@ -4,6 +4,7 @@ import { observer } from 'mobx-react'
 import useStore from 'hooks/useStore'
 import Button from 'components/Button'
 import Input from 'components/Input'
+import TaskItem from 'components/TaskItem'
 
 import S from './styles'
 
@@ -17,7 +18,7 @@ const SubjectItem: FC<TProps> = ({ data }) => {
 
   const onInputChange = useCallback(
     (property: string): ChangeEventHandler<HTMLInputElement> => e => {
-      teacher.changeSubject(data, property, e.target.value)
+      teacher.changeObject(data, property, e.target.value)
     },
     []
   )
@@ -28,17 +29,29 @@ const SubjectItem: FC<TProps> = ({ data }) => {
 
   return (
     <S.Item>
-      <Input
-        value={data.name}
-        onChange={onInputChange('name')}
-        disabled={!(data.isCreating || data.isEditing)}
-      />
-      <Input
-        value={data.groups.toString()}
-        onChange={onInputChange('groups')}
-        disabled={!(data.isCreating || data.isEditing)}
-      />
-      {data.isCreating ? <Button onClick={onCreateClick}>Создать</Button> : 'Сохранено'}
+      <S.Container>
+        <Input
+          value={data.name}
+          onChange={onInputChange('name')}
+          disabled={!(data.isCreating || data.isEditing)}
+        />
+        <Input
+          value={data.groups.toString()}
+          onChange={onInputChange('groups')}
+          disabled={!(data.isCreating || data.isEditing)}
+        />
+        {data.isCreating ? <Button onClick={onCreateClick}>Создать</Button> : 'Сохранено'}
+      </S.Container>
+
+      <S.TasksList>
+        {!!data.tasks &&
+          data.tasks.map((item, index) => <TaskItem key={index} data={item} subjectId={data.id} />)}
+        {!teacher.taskIsCreating && (
+          <li>
+            <Button onClick={() => teacher.addDraftTask(data)}>Добавить задание</Button>
+          </li>
+        )}
+      </S.TasksList>
     </S.Item>
   )
 }

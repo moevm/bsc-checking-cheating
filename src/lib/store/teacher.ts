@@ -5,10 +5,10 @@ import { ENDPOINT, METHOD } from 'constants/api'
 
 export default class Teacher {
   private id = 1
-  private counter = 1
 
   @observable public info: Data.Teacher | null = null
   @observable public subjectIsCreating: boolean = false
+  @observable public taskIsCreating: boolean = false
 
   public fetchTeacherInfo = flow(function* () {
     const self = this as Teacher
@@ -27,11 +27,19 @@ export default class Teacher {
   })
 
   @action
+  public changeObject = (object: Data.Subject | Data.Task, property: string, text: string) => {
+    if (object[property] instanceof Array) {
+      object[property] = text.split(',')
+    } else {
+      object[property] = text
+    }
+  }
+
+  @action
   public addDraftSubject = () => {
     const subject = {
-      id: this.counter,
-      name: this.counter.toString(),
-      groups: [6382, 6383],
+      name: '',
+      groups: [],
       tasks: [],
       isCreating: true
     }
@@ -53,13 +61,12 @@ export default class Teacher {
         endpoint: ENDPOINT.CREATE_SUBJECT,
         method: METHOD.POST,
         body: {
-          name: subject.name,
-          teacher_id: self.info.id,
-          groups: subject.groups
+          ...subject,
+          teacher_id: self.info.id
         }
       })
 
-      this.subjectIsCreating = false
+      self.subjectIsCreating = false
       subject.isCreating = false
     } catch (error) {
       console.error(error)
@@ -67,11 +74,41 @@ export default class Teacher {
   })
 
   @action
-  public changeSubject = (subject: Data.Subject, property: string, text: string) => {
-    if (subject[property] instanceof Array) {
-      subject[property] = text.split(',')
-    } else {
-      subject[property] = text
+  public addDraftTask = (subject: Data.Subject) => {
+    const task = {
+      name: '',
+      exts: [],
+      groups: subject.groups,
+      isCreating: true
     }
+
+    if (subject.tasks) {
+      subject.tasks.push(task)
+    } else {
+      subject.tasks = [task]
+    }
+    this.taskIsCreating = true
   }
+
+  @action
+  public createTask = flow(function* (task: Data.Task, subjectId: number) {
+    const self = this as Teacher
+
+    try {
+      yield fecthAPI({
+        endpoint: ENDPOINT.CREATE_TASK,
+        method: METHOD.POST,
+        body: {
+          ...task,
+          teacher_id: self.info.id,
+          subject_id: subjectId
+        }
+      })
+
+      self.taskIsCreating = false
+      task.isCreating = false
+    } catch (error) {
+      console.error(error)
+    }
+  })
 }

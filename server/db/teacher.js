@@ -2,11 +2,21 @@ module.exports = function (db) {
   return {
     // TODO: remove after making jwt auth
     getTeacherInfo(req, res, next) {
-      db.one('select id, name, login from teacher where id = ${id}', req.params)
-        .then(function(data) {
+      db.task(t => {
+        return db.one('select id, name, login from teacher where id = ${id}', req.params)
+          .then(function(teacher_info) {
+            return db.many('select * from subject where teacher_id = ${id}', req.params)
+              .then(function (subjects) {
+                teacher_info.subjects = subjects
+
+                return teacher_info
+              })
+          })
+      })
+        .then(function (data) {
           res.status(200)
             .json(data)
-        })
+        })  
         .catch(function(err) {
           res.status(400)
             .json({

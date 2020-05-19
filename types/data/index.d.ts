@@ -10,16 +10,18 @@ declare namespace Data {
   }
 
   type Subject = {
-    id: number
+    id?: number
     name: string
     groups: number[]
     tasks: Task[]
   } & MetaInfo
 
   type Task = {
-    id: number
+    id?: number
     name: string
-  }
+    exts: string[]
+    groups: number[]
+  } & MetaInfo
 
   type Teacher = {
     id: string
