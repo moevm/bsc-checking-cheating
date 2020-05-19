@@ -1,10 +1,9 @@
-import React, { FC, useEffect } from 'react'
+import React, { FC, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react'
 
-import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
 
-import { Section } from './styles'
+import S from './styles'
 
 type TOuterProps = {}
 type TProps = TOuterProps
@@ -19,12 +18,20 @@ const TeacherPage: FC<TProps> = () => {
     teacher.fetchTeacherInfo()
   }, [])
 
+  const onAddSubjectClick = useCallback(() => {
+    teacher.addDraftSubject()
+  }, [])
+
   return (
-    <Section>
-      {!!teacher.info && <h1>{teacher.info.name}</h1>}
-      <button onClick={() => this.setState({ modalIsOpen: true })}>open</button>
-      {/* {modalIsOpen && <UploadModal onClose={this.onCloseClick} />} */}
-    </Section>
+    !!teacher.info && (
+      <S.Section>
+        {<h1>{teacher.info.name}</h1>}
+        {/* <button onClick={() => this.setState({ modalIsOpen: true })}>open</button> */}
+        {/* {modalIsOpen && <UploadModal onClose={this.onCloseClick} />} */}
+
+        <S.SubjectsList list={teacher.info.subjects} onAddButtonClick={onAddSubjectClick} />
+      </S.Section>
+    )
   )
 }
 

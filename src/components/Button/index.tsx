@@ -1,22 +1,14 @@
-import React, { FC } from 'react'
-import styled from 'styled-components'
+import React, { FC, ButtonHTMLAttributes } from 'react'
 
-import fetchAPI from 'services/fetchAPI'
-import { ENDPOINT } from 'constants/api'
-
-type TOuterProps = {
-  title: string
-}
+type TOuterProps = ButtonHTMLAttributes<HTMLButtonElement>
 type TProps = TOuterProps
 
-const Button: FC<TProps> = ({ title }) => {
-  const onButtonClick = async () => {
-    const data = await fetchAPI({ endpoint: ENDPOINT.STUDENT_INFO })
-
-    console.log('RESULT', data)
-  }
-
-  return <button onClick={onButtonClick}>send student request</button>
+const Button: FC<TProps> = ({ children, ...props }) => {
+  return (
+    <button type="button" {...props}>
+      {children}
+    </button>
+  )
 }
 
 export default Button

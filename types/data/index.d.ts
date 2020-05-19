@@ -4,9 +4,21 @@ declare namespace Data {
     name: string
   }
 
+  type Subject = {
+    id: number
+    name: string
+    tasks: Task[]
+  }
+
+  type Task = {
+    id: number
+    name: string
+  }
+
   type Teacher = {
     id: string
     name: string
+    subjects: Subject[]
   }
 }
 

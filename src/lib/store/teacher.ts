@@ -1,10 +1,11 @@
-import { observable, flow } from 'mobx'
+import { observable, action, flow, autorun } from 'mobx'
 
 import fecthAPI from 'services/fetchAPI'
 import { ENDPOINT } from 'constants/api'
 
 export default class Teacher {
   private id = 1
+  private counter = 1
 
   @observable public info: Data.Teacher | null = null
 
@@ -24,4 +25,21 @@ export default class Teacher {
       console.error(error)
     }
   })
+
+  @action
+  addDraftSubject = () => {
+    const subject = {
+      id: this.counter,
+      name: this.counter.toString(),
+      tasks: []
+    }
+
+    if (this.info.subjects) {
+      this.info.subjects.push(subject)
+    } else {
+      this.info.subjects = [subject]
+    }
+
+    this.counter++
+  }
 }
