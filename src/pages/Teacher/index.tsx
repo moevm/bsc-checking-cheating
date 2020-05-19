@@ -25,11 +25,8 @@ const TeacherPage: FC<TProps> = () => {
   return (
     !!teacher.info && (
       <S.Section>
-        {<h1>{teacher.info.name}</h1>}
-        {/* <button onClick={() => this.setState({ modalIsOpen: true })}>open</button> */}
-        {/* {modalIsOpen && <UploadModal onClose={this.onCloseClick} />} */}
-
-        <S.SubjectsList list={teacher.info.subjects} onAddButtonClick={onAddSubjectClick} />
+        <h1>{teacher.info.name}</h1>
+        <S.SubjectsList subjects={teacher.info.subjects} onAddButtonClick={onAddSubjectClick} />
       </S.Section>
     )
   )

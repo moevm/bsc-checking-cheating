@@ -1,4 +1,9 @@
 declare namespace Data {
+  type MetaInfo = {
+    isCreating?: boolean
+    isEditing?: boolean
+  }
+
   type Student = {
     id: number
     name: string
@@ -7,8 +12,9 @@ declare namespace Data {
   type Subject = {
     id: number
     name: string
+    groups: number[]
     tasks: Task[]
-  }
+  } & MetaInfo
 
   type Task = {
     id: number

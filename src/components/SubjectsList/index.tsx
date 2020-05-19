@@ -1,24 +1,26 @@
 import React, { FC, MouseEventHandler } from 'react'
 import { observer } from 'mobx-react'
 
+import useStore from 'hooks/useStore'
 import Button from 'components/Button'
+import SubjectItem from 'components/SubjectItem'
 
 import S from './styles'
 
 type TOuterProps = {
   className?: string
-  list: {
-    name: string
-  }[]
+  subjects: Data.Subject[]
   onAddButtonClick?: MouseEventHandler<HTMLButtonElement>
 }
 type TProps = TOuterProps
 
-const List: FC<TProps> = ({ className, children, list, onAddButtonClick }) => {
+const List: FC<TProps> = ({ className, subjects, onAddButtonClick }) => {
+  const { teacher } = useStore()
+
   return (
     <S.List className={className}>
-      {!!list && list.map((item, index) => <S.Item key={index}>{item.name}</S.Item>)}
-      {!!onAddButtonClick && (
+      {!!subjects && subjects.map((item, index) => <SubjectItem key={index} data={item} />)}
+      {!!onAddButtonClick && !teacher.subjectIsCreating && (
         <S.Item>
           <Button onClick={onAddButtonClick}>Добавить предмет</Button>
         </S.Item>

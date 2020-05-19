@@ -17,6 +17,7 @@ module.exports = function (db) {
     },
 
     createSubject(req, res, next) {
+      console.log(req.body)
       db.none('insert into subject (name, teacher_id, groups) values (${name}, ${teacher_id}, ${groups})', req.body)
         .then(function() {
           res.status(200)
