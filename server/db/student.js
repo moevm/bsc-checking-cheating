@@ -12,7 +12,11 @@ module.exports = function (db) {
             })
         })
         .catch(function(err) {
-          return next(err)
+          res.status(400)
+          .json({
+            status: 'error',
+            message: 'no such user'
+          })
         })
     }
   }

@@ -2,7 +2,7 @@ module.exports = function (db) {
   return {
     // TODO: remove after making jwt auth
     getTeacherInfo(req, res, next) {
-      db.one('select id, name, login from teacher where id = 1')
+      db.one('select id, name, login from teacher where id = ${id}', req.body)
         .then(function(data) {
           res.status(200)
             .json({
@@ -12,7 +12,11 @@ module.exports = function (db) {
             })
         })
         .catch(function(err) {
-          return next(err)
+          res.status(400)
+            .json({
+              status: 'error',
+              message: 'no such user'
+            })
         })
     },
 
