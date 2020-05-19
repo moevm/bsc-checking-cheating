@@ -2,14 +2,10 @@ module.exports = function (db) {
   return {
     // TODO: remove after making jwt auth
     getTeacherInfo(req, res, next) {
-      db.one('select id, name, login from teacher where id = ${id}', req.body)
+      db.one('select id, name, login from teacher where id = ${id}', req.params)
         .then(function(data) {
           res.status(200)
-            .json({
-              status: 'success',
-              data: data,
-              message: 'ok'
-            })
+            .json(data)
         })
         .catch(function(err) {
           res.status(400)

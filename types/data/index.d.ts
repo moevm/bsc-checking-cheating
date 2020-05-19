@@ -3,6 +3,11 @@ declare namespace Data {
     id: number
     name: string
   }
+
+  type Teacher = {
+    id: string
+    name: string
+  }
 }
 
 export = Data

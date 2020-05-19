@@ -7,5 +7,6 @@ export enum METHOD {
 }
 
 export const ENDPOINT = {
-  STUDENT_INFO: '/student_info'
+  STUDENT_INFO: '/student_info',
+  TEACHER_INFO: '/teacher_info'
 }
