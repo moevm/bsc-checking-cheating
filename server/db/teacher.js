@@ -2,7 +2,7 @@ module.exports = function (db) {
   return {
     // TODO: remove after making jwt auth
     getTeacherInfo(req, res, next) {
-      db.one('select name, login from teacher where id = 1')
+      db.one('select id, name, login from teacher where id = 1')
         .then(function(data) {
           res.status(200)
             .json({
@@ -13,6 +13,24 @@ module.exports = function (db) {
         })
         .catch(function(err) {
           return next(err)
+        })
+    },
+
+    postNewSubject(req, res, next) {
+      db.none('insert into subject (name, teacher_id, groups) values (${name}, ${teacher_id}, ${groups})', req.body)
+        .then(function() {
+          res.status(200)
+            .json({
+              status: 'success',
+              message: 'ok'
+            })
+        })
+        .catch(function(err) {
+          res.status(400)
+            .json({
+              status: 'error',
+              message: 'wrong request data'
+            })
         })
     }
   }
