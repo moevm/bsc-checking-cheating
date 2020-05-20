@@ -3,7 +3,7 @@ module.exports = function (db) {
     // TODO: remove after making jwt auth
     getTeacherInfo(req, res, next) {
       db.task(async t => {
-        const teacher_info = await db.one('select id, name, login from teacher where id = ${id}', req.params)
+        const teacherInfo = await db.one('select id, name, login from teacher where id = ${id}', req.params)
         const subjects = await db.any('select * from subject where teacher_id = ${id}', req.params)
         
         for (subject of subjects) {
@@ -11,9 +11,9 @@ module.exports = function (db) {
 
           subject.tasks = tasks
         }
-        teacher_info.subjects = subjects
+        teacherInfo.subjects = subjects
       
-        return teacher_info
+        return teacherInfo
       })
         .then(function (data) {
           res.status(200)
