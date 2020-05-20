@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useCallback } from 'react'
 import { observer } from 'mobx-react'
+import { hot } from 'react-hot-loader/root'
 
+import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
 
 import S from './styles'
@@ -32,4 +34,4 @@ const TeacherPage: FC<TProps> = () => {
   )
 }
 
-export default observer(TeacherPage)
+export default compose(hot, observer)(TeacherPage)

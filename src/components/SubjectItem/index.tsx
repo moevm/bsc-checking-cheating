@@ -40,7 +40,11 @@ const SubjectItem: FC<TProps> = ({ data }) => {
           onChange={onInputChange('groups')}
           disabled={!(data.isCreating || data.isEditing)}
         />
-        {data.isCreating ? <Button onClick={onCreateClick}>Создать</Button> : 'Сохранено'}
+        {data.isCreating ? (
+          <Button onClick={onCreateClick}>Создать</Button>
+        ) : (
+          <Button>Сохранено</Button>
+        )}
       </S.Container>
 
       <S.TasksList>

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export default {
   Item: styled.li`
-    display: 'flex';
+    display: flex;
     list-style: none;
   `
 }
