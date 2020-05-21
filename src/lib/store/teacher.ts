@@ -58,7 +58,7 @@ export default class Teacher {
 
     try {
       yield fecthAPI({
-        endpoint: ENDPOINT.CREATE_SUBJECT,
+        endpoint: ENDPOINT.SUBJECT,
         method: METHOD.POST,
         body: {
           ...subject,
@@ -95,7 +95,7 @@ export default class Teacher {
 
     try {
       yield fecthAPI({
-        endpoint: ENDPOINT.CREATE_TASK,
+        endpoint: ENDPOINT.TASK,
         method: METHOD.POST,
         body: {
           ...task,

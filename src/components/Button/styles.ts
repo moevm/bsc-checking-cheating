@@ -6,7 +6,7 @@ export default {
     padding: 0 0.9375rem;
     color: white;
     background-color: black;
-    border: 1px solid ${props => (props.disabled ? 'transparent' : props.theme.colors.BORDER_COLOR)};
+    border: 1px solid ${props => (props.disabled ? 'transparent' : props.theme.colors.BLACK)};
     border-radius: 0.3125rem;
     outline: none;
     &:hover {

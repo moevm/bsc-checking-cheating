@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const webpack = require('webpack');
+const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 

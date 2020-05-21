@@ -6,7 +6,7 @@ export default {
     padding: 0 0.9375rem;
     text-overflow: ellipsis;
     background-color: ${props => props.theme.colors.MAIN};
-    border: 1px solid ${props => (props.disabled ? 'transparent' : props.theme.colors.BORDER_COLOR)};
+    border: 1px solid ${props => (props.disabled ? 'transparent' : props.theme.colors.BLACK)};
     border-radius: 0.3125rem;
   `
 }

@@ -12,8 +12,9 @@ module.exports = function (db) {
           const new_task = {
             id: item.id,
             name: item.name,
-            exts: item.exts
-          }
+            exts: item.exts,
+            subjectId: item.subject_id
+          } 
           const new_subject = {
             id: item.subject_id,
             name: item.subject_name,
@@ -45,6 +46,13 @@ module.exports = function (db) {
             message: 'no such user'
           })
         })
+    },
+
+    checkSolution(req, res, next) {
+      console.log(req.file)
+      console.log(req.body)
+
+      res.status(200)
     }
   }
 }

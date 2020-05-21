@@ -20,6 +20,7 @@ declare namespace Data {
   type Task = {
     id?: number
     name: string
+    subjectId?: number
     exts: string[]
     groups: number[]
   } & MetaInfo
