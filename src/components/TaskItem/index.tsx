@@ -9,12 +9,13 @@ import S from './styles'
 
 type TOuterProps = {
   data: Data.Task
+  isStudent: boolean
   subjectId: number
 }
 type TProps = TOuterProps
 
-const SubjectItem: FC<TProps> = ({ data, subjectId }) => {
-  const { teacher } = useStore()
+const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
+  const { student, teacher } = useStore()
 
   const onInputChange = useCallback(
     (property: string): ChangeEventHandler<HTMLInputElement> => e => {
@@ -22,6 +23,10 @@ const SubjectItem: FC<TProps> = ({ data, subjectId }) => {
     },
     []
   )
+
+  const onOpenModalClick = useCallback(() => {
+    student.openModal()
+  }, [])
 
   const onCreateClick = useCallback(() => {
     teacher.createTask(data, subjectId)
@@ -39,12 +44,20 @@ const SubjectItem: FC<TProps> = ({ data, subjectId }) => {
         onChange={onInputChange('exts')}
         disabled={!(data.isCreating || data.isEditing)}
       />
-      <Input
-        value={data.groups.toString()}
-        onChange={onInputChange('groups')}
-        disabled={!(data.isCreating || data.isEditing)}
-      />
-      {data.isCreating ? <Button onClick={onCreateClick}>Создать</Button> : 'Сохранено'}
+      {!isStudent && (
+        <Input
+          value={data.groups.toString()}
+          onChange={onInputChange('groups')}
+          disabled={!(data.isCreating || data.isEditing)}
+        />
+      )}
+      {isStudent ? (
+        <Button onClick={onOpenModalClick}>Загрузить</Button>
+      ) : data.isCreating ? (
+        <Button onClick={onCreateClick}>Создать</Button>
+      ) : (
+        'Сохранено'
+      )}
     </S.Item>
   )
 }

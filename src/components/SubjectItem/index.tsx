@@ -10,10 +10,11 @@ import S from './styles'
 
 type TOuterProps = {
   data: Data.Subject
+  isStudent: boolean
 }
 type TProps = TOuterProps
 
-const SubjectItem: FC<TProps> = ({ data }) => {
+const SubjectItem: FC<TProps> = ({ data, isStudent }) => {
   const { teacher } = useStore()
 
   const onInputChange = useCallback(
@@ -35,22 +36,28 @@ const SubjectItem: FC<TProps> = ({ data }) => {
           onChange={onInputChange('name')}
           disabled={!(data.isCreating || data.isEditing)}
         />
-        <Input
-          value={data.groups.toString()}
-          onChange={onInputChange('groups')}
-          disabled={!(data.isCreating || data.isEditing)}
-        />
-        {data.isCreating ? (
-          <Button onClick={onCreateClick}>Создать</Button>
-        ) : (
-          <Button>Сохранено</Button>
+        {!isStudent && (
+          <Input
+            value={data.groups.toString()}
+            onChange={onInputChange('groups')}
+            disabled={!(data.isCreating || data.isEditing)}
+          />
         )}
+
+        {!isStudent &&
+          (data.isCreating ? (
+            <Button onClick={onCreateClick}>Создать</Button>
+          ) : (
+            <Button>Сохранено</Button>
+          ))}
       </S.Container>
 
       <S.TasksList>
         {!!data.tasks &&
-          data.tasks.map((item, index) => <TaskItem key={index} data={item} subjectId={data.id} />)}
-        {!teacher.taskIsCreating && (
+          data.tasks.map((item, index) => (
+            <TaskItem key={index} data={item} subjectId={data.id} isStudent={isStudent} />
+          ))}
+        {!isStudent && !teacher.taskIsCreating && (
           <li>
             <Button onClick={() => teacher.addDraftTask(data)}>Добавить задание</Button>
           </li>

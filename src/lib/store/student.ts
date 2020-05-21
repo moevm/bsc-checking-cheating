@@ -1,4 +1,4 @@
-import { observable, flow } from 'mobx'
+import { observable, flow, action } from 'mobx'
 
 import fecthAPI from 'services/fetchAPI'
 import { ENDPOINT } from 'constants/api'
@@ -6,9 +6,10 @@ import { ENDPOINT } from 'constants/api'
 export default class Student {
   private id = 2
 
-  @observable info: Data.Student | null = null
+  @observable public info: Data.Student | null = null
+  @observable public modalIsOpen: boolean = false
 
-  fetchStudentInfo = flow(function* () {
+  public fetchStudentInfo = flow(function* () {
     const self = this as Student
 
     try {
@@ -23,4 +24,13 @@ export default class Student {
       console.error(error)
     }
   })
+
+  @action
+  public openModal = () => {
+    this.modalIsOpen = true
+  }
+
+  @action closeModal = () => {
+    this.modalIsOpen = false
+  }
 }

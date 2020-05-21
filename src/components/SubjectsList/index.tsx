@@ -9,18 +9,22 @@ import S from './styles'
 
 type TOuterProps = {
   className?: string
+  isStudent?: boolean
   subjects: Data.Subject[]
   onAddButtonClick?: MouseEventHandler<HTMLButtonElement>
 }
 type TProps = TOuterProps
 
-const List: FC<TProps> = ({ className, subjects, onAddButtonClick }) => {
+const List: FC<TProps> = ({ className, isStudent, subjects, onAddButtonClick }) => {
   const { teacher } = useStore()
 
   return (
     <S.List className={className}>
-      {!!subjects && subjects.map((item, index) => <SubjectItem key={index} data={item} />)}
-      {!!onAddButtonClick && !teacher.subjectIsCreating && (
+      {!!subjects &&
+        subjects.map((item, index) => (
+          <SubjectItem key={index} data={item} isStudent={isStudent} />
+        ))}
+      {!!onAddButtonClick && !teacher.subjectIsCreating && !isStudent && (
         <S.Item>
           <Button onClick={onAddButtonClick}>Добавить предмет</Button>
         </S.Item>

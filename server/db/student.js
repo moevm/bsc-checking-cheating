@@ -2,15 +2,13 @@ module.exports = function (db) {
   return {
     // TODO: remove after making jwt auth
     getStudentInfo(req, res, next) {
-      console.log(req.params)
       db.task(async t => {
         const studentInfo = await db.one('select name, group_number, login from student where id = ${id}', req.params)
-        const tasks = await db.any('select task.subject_id, subject.name as subject_name, task.id, task.name, task.exts from subject inner join task on subject.id = task.subject_id where ${group} = any (task.groups)', {
+        const tasks = await db.any('select task.subject_id, subject.name as subject_name, task.id, task.name, task.exts from subject inner join task on subject.id = task.subject_id where ${group} = any (task.groups) order by name', {
             group: studentInfo.group_number 
           })
 
         tasks.forEach(item => {
-          console.log(item)
           const new_task = {
             id: item.id,
             name: item.name,
@@ -34,10 +32,6 @@ module.exports = function (db) {
             studentInfo.subjects = [new_subject]
           }
         })
-      
-        console.log(studentInfo)
-
-        studentInfo.tasks = tasks
         return studentInfo
       })     
         .then(function(data) {
