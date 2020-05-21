@@ -13,6 +13,8 @@ export const Wrapper = styled.div`
 `
 
 export const Container = styled.div`
-  padding: 0.9375rem 1.25rem;
+  position: absolute;
+  padding: 1.25rem 1.5625rem;
   background-color: ${({ theme }) => theme.colors.WHITE};
+  border-radius: ${props => props.theme.styles.borderRadius};
 `

@@ -25,8 +25,8 @@ const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
   )
 
   const onOpenModalClick = useCallback(() => {
-    student.openModal()
-  }, [])
+    student.openModal(data.id)
+  }, [data.id])
 
   const onCreateClick = useCallback(() => {
     teacher.createTask(data, subjectId)

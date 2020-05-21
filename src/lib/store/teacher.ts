@@ -90,7 +90,6 @@ export default class Teacher {
     this.taskIsCreating = true
   }
 
-  @action
   public createTask = flow(function* (task: Data.Task, subjectId: number) {
     const self = this as Teacher
 

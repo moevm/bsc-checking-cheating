@@ -24,6 +24,7 @@ const StudentPage: FC<TProps> = () => {
 
   const onCloseClick = useCallback(() => {
     student.closeModal()
+    student.removeFile()
   }, [])
 
   return (
