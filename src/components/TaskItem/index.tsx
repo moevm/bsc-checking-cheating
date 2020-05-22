@@ -58,6 +58,7 @@ const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
       ) : (
         'Сохранено'
       )}
+      {data.originality}
     </S.Item>
   )
 }

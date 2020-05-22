@@ -19,11 +19,11 @@ export default class Student {
     const self = this as Student
 
     try {
-      const respose = yield fetchAPI({
+      const response = yield fetchAPI({
         endpoint: ENDPOINT.STUDENT_INFO,
         path: `/${this.id}`
       })
-      const data = respose.data as Data.Student
+      const data = response.data as Data.Student
 
       self.info = data
     } catch (error) {
@@ -59,12 +59,16 @@ export default class Student {
     formData.append('solution', self.uploadedFile)
 
     try {
-      yield fetchAPI({
+      const response = yield fetchAPI({
         endpoint: ENDPOINT.SOLUTION,
         method: METHOD.POST,
         body: formData
       })
+      const data = response.data as { originality: number }
+      const subject = self.info.subjects.find(item => item.id === self.choosenTask.subjectId)
+      const task = subject.tasks.find(item => item.id === self.choosenTask.id)
 
+      task.originality = data.originality
       self.closeModal()
       self.removeFile()
     } catch (error) {

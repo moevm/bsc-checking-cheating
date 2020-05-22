@@ -18,7 +18,7 @@ const UploadModal: FC<TProps> = ({ className, onClose }) => {
   const { student } = useStore()
 
   const dropzoneParams: DropzoneOptions = {
-    accept: ['.cpp', 'image/jpg', 'image/jpeg'],
+    accept: ['.cpp', '.js', 'image/jpeg'],
     maxSize: 10 * 1024 * 1024 * 8,
     onDrop: useCallback(
       acceptedFiles => {

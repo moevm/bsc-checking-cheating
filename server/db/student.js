@@ -1,3 +1,5 @@
+const { findFingerprint, findSimilarity } = require('../antiplagiat')
+
 module.exports = function (db) {
   return {
     // TODO: remove after making jwt auth
@@ -49,10 +51,34 @@ module.exports = function (db) {
     },
 
     checkSolution(req, res, next) {
-      console.log(req.file)
-      console.log(req.body)
+      const buf = Buffer.from(req.file.buffer)
+      const fingerprint = findFingerprint(buf.toString())
 
-      res.status(200)
+      db.task(async  t => {
+        const hashes = await db.many(`select id, task_id, student_id, hashes from solution`)
+        const originality = Math.round(findSimilarity(hashes, fingerprint) * 100)
+
+        console.log(`originality: ${originality}%`)
+        return originality
+      })
+        .then(data => {
+          res.status(200)
+            .json({
+              originality: data
+            })
+        })
+        .catch(err => {
+          res.status(400)
+        })
+
+      // db.none(`
+      //     insert into solution (task_id, student_id, hashes, file) 
+      //     values ($[task_id], $[student_id], $[fingerprint], $[buf])
+      //   `, {
+      //     ...req.body,
+      //     fingerprint,
+      //     buf: `\\x${buf.toString('hex')}`
+      //   })
     }
   }
 }

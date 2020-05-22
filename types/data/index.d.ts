@@ -21,6 +21,7 @@ declare namespace Data {
     id?: number
     name: string
     subjectId?: number
+    originality?: number
     exts: string[]
     groups: number[]
   } & MetaInfo
