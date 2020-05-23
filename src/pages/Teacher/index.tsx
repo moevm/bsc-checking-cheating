@@ -4,14 +4,11 @@ import { hot } from 'react-hot-loader/root'
 
 import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
-
-import S from './styles'
+import PageSection from 'components/PageSection'
+import SubjectsList from 'components/SubjectsList'
 
 type TOuterProps = {}
 type TProps = TOuterProps
-type TState = {
-  modalIsOpen: boolean
-}
 
 const TeacherPage: FC<TProps> = () => {
   const { teacher } = useStore()
@@ -26,10 +23,9 @@ const TeacherPage: FC<TProps> = () => {
 
   return (
     !!teacher.info && (
-      <S.Section>
-        <h1>{teacher.info.name}</h1>
-        <S.SubjectsList subjects={teacher.info.subjects} onAddButtonClick={onAddSubjectClick} />
-      </S.Section>
+      <PageSection title={teacher.info.name}>
+        <SubjectsList subjects={teacher.info.subjects} onAddButtonClick={onAddSubjectClick} />
+      </PageSection>
     )
   )
 }

@@ -4,16 +4,12 @@ import { hot } from 'react-hot-loader/root'
 
 import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
+import PageSection from 'components/PageSection'
 import SubjectsList from 'components/SubjectsList'
 import UploadModal from './components/UploadModal'
 
-import { Section } from './styles'
-
 type TOuterProps = {}
 type TProps = TOuterProps
-type TState = {
-  modalIsOpen: boolean
-}
 
 const StudentPage: FC<TProps> = () => {
   const { student } = useStore()
@@ -29,12 +25,10 @@ const StudentPage: FC<TProps> = () => {
 
   return (
     !!student.info && (
-      <Section>
-        <h1>{student.info.name}</h1>
-        {/* <button onClick={() => this.setState({ modalIsOpen: true })}>open</button> */}
+      <PageSection title={student.info.name}>
         {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
         <SubjectsList subjects={student.info.subjects} isStudent />
-      </Section>
+      </PageSection>
     )
   )
 }

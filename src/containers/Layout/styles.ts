@@ -11,6 +11,7 @@ export const GlobalStyle = createGlobalStyle`
     width: 100%;
     height: 100%;
     font: 16px "Open Sans";
+    overflow: hidden;
   }
 
   #root {
@@ -33,6 +34,5 @@ export const Navigation = styled.nav`
 export const Main = styled.main`
   flex: 1;
   width: 100%;
-  height: 100%;
   background-color: ${props => props.theme.colors.MAIN};
 `
