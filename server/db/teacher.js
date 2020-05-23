@@ -63,6 +63,26 @@ module.exports = function (db) {
               message: 'wrong request data'
             })
         })
+    },
+
+    getSolutions(req, res, next) {
+      db.any(`
+        select solution.id, solution.task_id, student.name, student.group_number, originality from solution
+        inner join student
+        on student.id = solution.student_id
+        where solution.task_id = $[id]
+      `, req.params)
+        .then(data => [
+          res.status(200)
+            .json(data)
+        ])
+        .catch(error => {
+          res.status(400)
+            .json({
+              status: 'error',
+              message: 'wrong request data'
+            })
+        })
     }
   }
 }

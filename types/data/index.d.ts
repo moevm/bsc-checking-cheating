@@ -4,6 +4,12 @@ declare namespace Data {
     isEditing?: boolean
   }
 
+  type Solution = {
+    id: number
+    student_name: string
+    originality: number
+  }
+
   type Student = {
     id: number
     name: string
@@ -24,6 +30,7 @@ declare namespace Data {
     originality?: number
     exts: string[]
     groups: number[]
+    solutions?: Solution[]
   } & MetaInfo
 
   type Teacher = {

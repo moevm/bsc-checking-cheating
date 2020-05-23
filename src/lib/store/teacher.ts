@@ -14,11 +14,11 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      const respose = yield fecthAPI({
+      const response = yield fecthAPI({
         endpoint: ENDPOINT.TEACHER_INFO,
         path: `/${this.id}`
       })
-      const data = respose.data as Data.Teacher
+      const data = response.data as Data.Teacher
 
       self.info = data
     } catch (error) {
@@ -106,6 +106,22 @@ export default class Teacher {
 
       self.taskIsCreating = false
       task.isCreating = false
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  public getSolutionsByTask = flow(function* (task: Data.Task) {
+    const self = this as Teacher
+
+    try {
+      const response = yield fecthAPI({
+        endpoint: ENDPOINT.SOLUTIONS,
+        path: `/${task.id}`
+      })
+      const data = response.data as Data.Solution[]
+
+      task.solutions = data
     } catch (error) {
       console.error(error)
     }

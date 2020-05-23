@@ -32,6 +32,10 @@ const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
     teacher.createTask(data, subjectId)
   }, [])
 
+  const onSolutionsClick = useCallback(() => {
+    teacher.getSolutionsByTask(data)
+  }, [data])
+
   return (
     <S.Item>
       <Input
@@ -56,8 +60,9 @@ const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
       ) : data.isCreating ? (
         <Button onClick={onCreateClick}>Создать</Button>
       ) : (
-        'Сохранено'
+        <Button onClick={onSolutionsClick}>Решения</Button>
       )}
+      {console.log(data.solutions)}
       {data.originality}
     </S.Item>
   )

@@ -8,9 +8,10 @@ export enum METHOD {
 }
 
 export const ENDPOINT = {
+  SOLUTION: '/solution',
+  SOLUTIONS: '/solutions',
   SUBJECT: '/subject',
   TASK: '/task',
-  SOLUTION: '/solution',
   STUDENT_INFO: '/student_info',
   TEACHER_INFO: '/teacher_info'
 }

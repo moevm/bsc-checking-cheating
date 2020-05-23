@@ -8,15 +8,11 @@ export type TOuterProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 }
 type TProps = TOuterProps
 
-const Button: FC<TProps> = ({ children, ...props }) => {
-  console.log(props)
-
-  return (
-    <S.Button type="button" {...props}>
-      {children}
-    </S.Button>
-  )
-}
+const Button: FC<TProps> = ({ children, ...props }) => (
+  <S.Button type="button" {...props}>
+    {children}
+  </S.Button>
+)
 
 Button.defaultProps = {
   color: 'primary',
