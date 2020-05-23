@@ -10,11 +10,17 @@ export const GlobalStyle = createGlobalStyle`
   html, body, #root {
     width: 100%;
     height: 100%;
+    font: 16px "Open Sans";
   }
 
   #root {
     display: flex;
     flex-direction: column;
+  }
+
+  button:not(:disabled) {
+    cursor: pointer;
+    user-select: none;
   }
 `
 
