@@ -19,8 +19,9 @@ const Styled = {
     border: 1px solid transparent;
     border-radius: 0.25rem;
     outline: none;
+    transition: box-shadow 0.3s;
     &:hover {
-      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+      box-shadow: inset 0 0 20px ${props => props.theme.colors.TINT[20]};
     }
   `
 }

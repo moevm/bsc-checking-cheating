@@ -16,5 +16,5 @@ export const Container = styled.div`
   position: absolute;
   padding: 1.25rem 1.5625rem;
   background-color: ${({ theme }) => theme.colors.WHITE};
-  border-radius: ${props => props.theme.styles.borderRadius};
+  border-radius: 0.3125rem;
 `

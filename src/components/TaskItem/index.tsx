@@ -9,7 +9,7 @@ import S from './styles'
 
 type TOuterProps = {
   data: Data.Task
-  isStudent: boolean
+  isStudent?: boolean
   subjectId: number
 }
 type TProps = TOuterProps

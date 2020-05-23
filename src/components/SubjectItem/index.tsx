@@ -57,7 +57,7 @@ const SubjectItem: FC<TProps> = ({ data, isStudent }) => {
           data.tasks.map((item, index) => (
             <TaskItem key={index} data={item} subjectId={data.id} isStudent={isStudent} />
           ))}
-        {!isStudent && !teacher.taskIsCreating && (
+        {!isStudent && !teacher.noActiveAction && (
           <li>
             <Button onClick={() => teacher.addDraftTask(data)}>Добавить задание</Button>
           </li>

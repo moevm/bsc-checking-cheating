@@ -19,6 +19,7 @@ declare namespace Data {
   type Subject = {
     id?: number
     name: string
+    isOpened?: boolean
     groups: number[]
     tasks: Task[]
   } & MetaInfo

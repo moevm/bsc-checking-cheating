@@ -1,4 +1,4 @@
-import { observable, action, flow, autorun } from 'mobx'
+import { observable, action, flow, autorun, computed } from 'mobx'
 
 import fecthAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
@@ -7,8 +7,12 @@ export default class Teacher {
   private id = 1
 
   @observable public info: Data.Teacher | null = null
-  @observable public subjectIsCreating: boolean = false
-  @observable public taskIsCreating: boolean = false
+  @observable public editableElement: Data.Subject | Data.Task | null = null
+
+  @computed
+  get noActiveAction() {
+    return !this.editableElement
+  }
 
   public fetchTeacherInfo = flow(function* () {
     const self = this as Teacher
@@ -36,7 +40,7 @@ export default class Teacher {
   }
 
   @action
-  public addDraftSubject = () => {
+  public addLocalSubject = () => {
     const subject = {
       name: '',
       groups: [],
@@ -49,7 +53,13 @@ export default class Teacher {
     } else {
       this.info.subjects = [subject]
     }
-    this.subjectIsCreating = true
+    this.editableElement = this.info.subjects[this.info.subjects.length - 1]
+  }
+
+  @action
+  public removeLocalSubject = () => {
+    this.editableElement = null
+    this.info.subjects.pop()
   }
 
   @action
@@ -66,12 +76,23 @@ export default class Teacher {
         }
       })
 
-      self.subjectIsCreating = false
+      self.editableElement = null
       subject.isCreating = false
     } catch (error) {
       console.error(error)
     }
   })
+
+  @action
+  public editSubject = (subject: Data.Subject) => {
+    this.editableElement = subject
+    subject.isEditing = true
+  }
+
+  @action uneditSubject = () => {
+    this.editableElement.isEditing = false
+    this.editableElement = null
+  }
 
   @action
   public addDraftTask = (subject: Data.Subject) => {
@@ -87,7 +108,7 @@ export default class Teacher {
     } else {
       subject.tasks = [task]
     }
-    this.taskIsCreating = true
+    this.editableElement = subject.tasks[subject.tasks.length - 1]
   }
 
   public createTask = flow(function* (task: Data.Task, subjectId: number) {
@@ -104,7 +125,7 @@ export default class Teacher {
         }
       })
 
-      self.taskIsCreating = false
+      self.editableElement = null
       task.isCreating = false
     } catch (error) {
       console.error(error)

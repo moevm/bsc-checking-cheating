@@ -10,7 +10,7 @@ const Styled = {
     margin-bottom: 1rem;
     font-size: 2.5rem;
     font-weight: 300;
-    color: ${props => props.theme.colors.TEXT};
+    color: ${props => props.theme.colors.TITLE};
   `
 }
 

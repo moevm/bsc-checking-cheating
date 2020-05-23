@@ -26,8 +26,8 @@ const StudentPage: FC<TProps> = () => {
   return (
     !!student.info && (
       <PageSection title={student.info.name}>
-        {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
-        <SubjectsList subjects={student.info.subjects} isStudent />
+        {/* {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
+        <SubjectsList subjects={student.info.subjects} /> */}
       </PageSection>
     )
   )

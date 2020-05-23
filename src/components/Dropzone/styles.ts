@@ -16,8 +16,8 @@ export const Container = styled.div<TContainerProps>`
   height: 18.75rem;
   padding: 1.875rem;
   text-align: center;
-  border: ${props => props.theme.styles.border};
-  border-radius: ${props => props.theme.styles.borderRadius};
+  border: ${props => props.theme.colors.TINT[100]};
+  border-radius: 0.3125rem;
 `
 
 export const Info = styled.p``
