@@ -36,7 +36,9 @@ const SubjectItem: FC<TProps> = ({ data }) => {
     teacher.updateSubject()
   }, [])
 
-  const onDeleteClick = useCallback(() => {}, [])
+  const onDeleteClick = useCallback(() => {
+    teacher.deleteSubject()
+  }, [])
 
   const onCancelClick = useCallback(() => {
     teacher.uneditSubject()

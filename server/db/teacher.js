@@ -52,7 +52,25 @@ const teacher = db => ({
           groups = $[groups]
       where id = $[id]
     `, req.body)
-      .then(data => {
+      .then(() => {
+        res.status(200)
+          .json('ok')
+      })
+      .catch(error => {
+        res.status(400)
+          .json({
+            status: 'error',
+            message: 'wrong request data'
+          })
+      })
+  },
+
+  deleteSubject(req, res, next) {
+    db.none(`
+      delete from subject
+      where id = $[id]
+    `, req.body)
+      .then(() => {
         res.status(200)
           .json('ok')
       })

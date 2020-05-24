@@ -1,4 +1,4 @@
-import { observable, action, flow, autorun, computed } from 'mobx'
+import { observable, action, flow, autorun, computed, IObservableArray } from 'mobx'
 
 import fecthAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
@@ -58,8 +58,10 @@ export default class Teacher {
 
   @action
   public removeLocalSubject = () => {
+    const array = this.info.subjects as IObservableArray<Data.Subject>
+
+    array.remove(this.editableElement as Data.Subject)
     this.editableElement = null
-    this.info.subjects.pop()
   }
 
   @action
@@ -98,6 +100,25 @@ export default class Teacher {
 
       self.editableElement.isEditing = false
       self.editableElement = null
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  @action
+  public deleteSubject = flow(function* () {
+    const self = this as Teacher
+
+    try {
+      yield fecthAPI({
+        endpoint: ENDPOINT.SUBJECT,
+        method: METHOD.DELETE,
+        body: {
+          id: self.editableElement.id
+        }
+      })
+
+      self.removeLocalSubject()
     } catch (error) {
       console.error(error)
     }
