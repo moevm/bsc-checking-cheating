@@ -4,7 +4,8 @@ export const API_URL = `${DEV_DOMAIN}/api/v1`
 
 export enum METHOD {
   GET = 'get',
-  POST = 'post'
+  POST = 'post',
+  PATCH = 'patch'
 }
 
 export const ENDPOINT = {

@@ -32,7 +32,9 @@ const SubjectItem: FC<TProps> = ({ data }) => {
     teacher.removeLocalSubject()
   }, [])
 
-  const onSaveClick = useCallback(() => {}, [])
+  const onSaveClick = useCallback(() => {
+    teacher.updateSubject()
+  }, [])
 
   const onDeleteClick = useCallback(() => {}, [])
 

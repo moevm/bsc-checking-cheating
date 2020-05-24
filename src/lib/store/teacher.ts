@@ -84,6 +84,26 @@ export default class Teacher {
   })
 
   @action
+  public updateSubject = flow(function* () {
+    const self = this as Teacher
+
+    try {
+      yield fecthAPI({
+        endpoint: ENDPOINT.SUBJECT,
+        method: METHOD.PATCH,
+        body: {
+          ...self.editableElement
+        }
+      })
+
+      self.editableElement.isEditing = false
+      self.editableElement = null
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  @action
   public editSubject = (subject: Data.Subject) => {
     this.editableElement = subject
     subject.isEditing = true
