@@ -1,13 +1,15 @@
 import React, { FC, ChangeEventHandler, useCallback } from 'react'
 import { observer } from 'mobx-react'
+import { Link } from 'react-router5'
 
 import useStore from 'hooks/useStore'
 import Button from 'components/Button'
 import Input from 'components/Input'
-import Item from 'components/Item'
+
+import S from './styles'
 
 type TOuterProps = {
-  data: Data.Subject
+  data: Data.Task
 }
 type TProps = TOuterProps
 
@@ -21,34 +23,34 @@ const TaskItem: FC<TProps> = ({ data }) => {
     []
   )
 
-  const onCreateClick = useCallback(() => {
-    teacher.createSubject(data)
-  }, [])
-
   return (
-    <Item>
+    <S.Item>
       <Input
-        placeholder="Название"
         value={data.name}
         onChange={onInputChange('name')}
         disabled={!(data.isCreating || data.isEditing)}
       />
       <Input
-        placeholder="Группы"
+        value={data.exts.toString()}
+        onChange={onInputChange('exts')}
+        disabled={!(data.isCreating || data.isEditing)}
+      />
+
+      <Input
         value={data.groups.toString()}
         onChange={onInputChange('groups')}
         disabled={!(data.isCreating || data.isEditing)}
       />
-      {/* {data.isCreating ? (
-        <Button color="success" onClick={onCreateClick}>
-          Создать
-        </Button>
-      ) : (
-        <Button color="success" onClick={onSaveClick}>
-          Сохранить
-        </Button>
-      )} */}
-    </Item>
+
+      {/* {isStudent ? (
+        <Button onClick={onOpenModalClick}>Загрузить</Button>
+      ) : data.isCreating ? (
+        <Button onClick={onCreateClick}>Создать</Button>
+      ) : ( */}
+      <Link routeName="teacher.task" routeParams={{ id: data.id }}>
+        Решения
+      </Link>
+    </S.Item>
   )
 }
 

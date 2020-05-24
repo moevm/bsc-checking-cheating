@@ -5,7 +5,7 @@ import useStore from 'hooks/useStore'
 import Button from 'components/Button'
 import Input from 'components/Input'
 import ItemWithCollapse from 'components/ItemWithCollapse'
-import TaskItem from 'components/TaskItem'
+import TaskItem from '../TaskItem'
 
 import S from './styles'
 
@@ -96,8 +96,7 @@ const SubjectItem: FC<TProps> = ({ data }) => {
       }
       isOpened={true}
     >
-      {!!data.tasks &&
-        data.tasks.map((item, index) => <TaskItem key={index} data={item} subjectId={data.id} />)}
+      {!!data.tasks && data.tasks.map((item, index) => <TaskItem key={index} data={item} />)}
     </ItemWithCollapse>
   )
 }

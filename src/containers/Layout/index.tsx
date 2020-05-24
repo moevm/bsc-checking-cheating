@@ -12,13 +12,13 @@ const Layout: FC<TProps> = ({ children }) => {
   return (
     <>
       <GlobalStyle />
-      <Navigation>
+      {/* <Navigation>
         {routes.map((item, index) => (
           <Link key={index} routeName={item.name}>
             {item.name}
           </Link>
         ))}
-      </Navigation>
+      </Navigation> */}
       <Main>{children}</Main>
     </>
   )

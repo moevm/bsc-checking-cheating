@@ -1,5 +1,4 @@
-import { ComponentType } from 'react'
-import { Route, SubscribeState } from 'router5'
+import { Route } from 'router5'
 import universal from 'react-universal-component'
 
 export type TCustomRoute = Route & {
@@ -7,7 +6,7 @@ export type TCustomRoute = Route & {
 }
 
 const universalRoute = loadSpec =>
-  universal<Partial<SubscribeState>>(loadSpec, {
+  universal<Partial<App.TInjectedRouteProps>>(loadSpec, {
     ignoreBabelRename: true
   })
 
@@ -35,7 +34,7 @@ export const routes: TCustomRoute[] = [
   },
   {
     name: 'teacher.task',
-    path: '/task',
+    path: '/task/:id',
     component: universalRoute(import('../../pages/Teacher/sub_pages/Task'))
   },
   {
