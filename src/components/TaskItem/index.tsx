@@ -62,7 +62,6 @@ const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
       ) : (
         <Button onClick={onSolutionsClick}>Решения</Button>
       )}
-      {console.log(data.solutions)}
       {data.originality}
     </S.Item>
   )

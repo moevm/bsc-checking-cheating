@@ -5250,7 +5250,7 @@ react-dropzone@^11.0.1:
     file-selector "^0.1.12"
     prop-types "^15.7.2"
 
-react-hot-loader@^4.12.21:
+react-hot-loader@^4.12.21, react-hot-loader@^4.3.6:
   version "4.12.21"
   resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.12.21.tgz#332e830801fb33024b5a147d6b13417f491eb975"
   integrity sha512-Ynxa6ROfWUeKWsTHxsrL2KMzujxJVPjs385lmB2t5cHUxdoRPGind9F00tOkdc1l5WBleOF4XEAMILY1KPIIDA==
@@ -5290,6 +5290,15 @@ react-transition-group@^4.4.0:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-universal-component@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/react-universal-component/-/react-universal-component-4.0.1.tgz#01eec19dafda55ee7cf71f3aeb996c924718cc19"
+  integrity sha512-dm3HT1ITlony+8Mb7m8i6jTD2cpStRGErMdHxYTdIFw1aBiGbuFOwZ1U13bgGT4gssANLRz0KrmjgarBuy+QJQ==
+  dependencies:
+    hoist-non-react-statics "^3.3.0"
+    prop-types "^15.7.2"
+    react-hot-loader "^4.3.6"
 
 react@^16.13.1:
   version "16.13.1"
