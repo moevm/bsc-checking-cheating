@@ -7,7 +7,8 @@ const Styled = {
     overflow: auto;
   `,
   Title: styled.h1`
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    padding-left: 0.8125rem;
     font-size: 2.5rem;
     font-weight: 300;
     color: ${props => props.theme.colors.TITLE};

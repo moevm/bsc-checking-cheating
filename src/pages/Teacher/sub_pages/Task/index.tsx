@@ -5,16 +5,21 @@ import { withRoute } from 'react-router5'
 
 import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
-import Button from 'components/Button'
-import PageSection from 'components/PageSection'
-import Route from 'components/Route'
-import SubjectsList from 'components/SubjectsList'
+import SolutionsTable from 'components/SolutionsTable'
 
 type TOuterProps = App.TInjectedRouteProps & {}
 type TProps = TOuterProps
 
 const TeacherTaskPage: FC<TProps> = ({ route }) => {
-  return <div>{route.params.id}</div>
+  const { teacher } = useStore()
+
+  useEffect(() => {
+    teacher.getSolutionsByTaskId(route.params.id)
+  }, [])
+
+  console.log(teacher.solutions)
+
+  return !!teacher.solutions && <SolutionsTable solutions={teacher.solutions} />
 }
 
 export default compose(hot, observer)(TeacherTaskPage)

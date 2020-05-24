@@ -8,6 +8,7 @@ export default class Teacher {
 
   @observable public info: Data.Teacher | null = null
   @observable public editableElement: Data.Subject | Data.Task | null = null
+  @observable public solutions: Data.Solution[] | null = null
 
   @computed
   get noActiveAction() {
@@ -173,17 +174,17 @@ export default class Teacher {
     }
   })
 
-  public getSolutionsByTask = flow(function* (task: Data.Task) {
+  public getSolutionsByTaskId = flow(function* (id: number) {
     const self = this as Teacher
 
     try {
       const response = yield fecthAPI({
         endpoint: ENDPOINT.SOLUTIONS,
-        path: `/${task.id}`
+        path: `/${id}`
       })
       const data = response.data as Data.Solution[]
 
-      task.solutions = data
+      self.solutions = data
     } catch (error) {
       console.error(error)
     }

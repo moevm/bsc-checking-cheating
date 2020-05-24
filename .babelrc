@@ -29,6 +29,7 @@
         "fileName": false
       }
     ],
+    "universal-import",
     "react-hot-loader/babel"
   ]
 }

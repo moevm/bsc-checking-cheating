@@ -33,7 +33,7 @@ const SubjectItem: FC<TProps> = ({ data, isStudent, subjectId }) => {
   }, [])
 
   const onSolutionsClick = useCallback(() => {
-    teacher.getSolutionsByTask(data)
+    teacher.getSolutionsByTaskId(data.id)
   }, [data])
 
   return (

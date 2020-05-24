@@ -6,7 +6,8 @@ declare namespace Data {
 
   type Solution = {
     id: number
-    student_name: string
+    name: string
+    group_number: number
     originality: number
   }
 
