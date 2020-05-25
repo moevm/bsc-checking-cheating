@@ -10,11 +10,10 @@ import S from './styles'
 
 type TOuterProps = {
   className?: string
-  onClose: MouseEventHandler<HTMLButtonElement>
 }
 type TProps = TOuterProps
 
-const UploadModal: FC<TProps> = ({ className, onClose }) => {
+const UploadModal: FC<TProps> = ({ className }) => {
   const { student } = useStore()
 
   const dropzoneParams: DropzoneOptions = {
@@ -37,6 +36,11 @@ const UploadModal: FC<TProps> = ({ className, onClose }) => {
     student.sendSolution()
   }, [])
 
+  const onCloseClick = useCallback(() => {
+    student.closeModal()
+    student.removeFile()
+  }, [])
+
   return (
     <Modal>
       {student.uploadedFile ? (
@@ -48,7 +52,7 @@ const UploadModal: FC<TProps> = ({ className, onClose }) => {
       ) : (
         <Dropzone params={dropzoneParams} />
       )}
-      <S.CrossButton onClick={onClose}>Закрыть</S.CrossButton>
+      <S.CrossButton onClick={onCloseClick}>Закрыть</S.CrossButton>
     </Modal>
   )
 }

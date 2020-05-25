@@ -10,6 +10,7 @@ export const Wrapper = styled.div`
   bottom: 0;
   left: 0;
   background-color: ${({ theme }) => theme.colors.TRANSLUCENT_BLACK};
+  z-index: 1;
 `
 
 export const Container = styled.div`

@@ -19,11 +19,6 @@ const StudentPage: FC<TProps> = () => {
     student.fetchStudentInfo()
   }, [])
 
-  const onCloseClick = useCallback(() => {
-    student.closeModal()
-    student.removeFile()
-  }, [])
-
   const onSubjectItemClick = useCallback(
     (subject: Data.Subject) => () => {
       student.toggleSubject(subject)
@@ -34,7 +29,7 @@ const StudentPage: FC<TProps> = () => {
   return (
     !!student.info && (
       <PageSection title={student.info.name}>
-        {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
+        {student.modalIsOpen && <UploadModal />}
         <SubjectsList
           subjects={student.info.subjects}
           TaskItem={TaskItem}

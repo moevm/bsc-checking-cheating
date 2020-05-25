@@ -5,37 +5,44 @@ module.exports = function (db) {
     // TODO: remove after making jwt auth
     getStudentInfo(req, res, next) {
       db.task(async t => {
-        const studentInfo = await db.one('select name, group_number, login from student where id = ${id}', req.params)
-        const tasks = await db.any('select task.subject_id, subject.name as subject_name, task.id, task.name, task.exts from subject inner join task on subject.id = task.subject_id where ${group} = any (task.groups) order by name', {
-            group: studentInfo.group_number 
-          })
+        const studentInfo = await db.any(`
+          select distinct on (task.id) task.id as task_id, task.name as task_name, task.exts, task.subject_id, subject.name as subject_name, student.name, solution.id as solution_id, solution.originality from task
+          inner join subject
+          on task.subject_id = subject.id
+          inner join student
+          on student.group_number = any (task.groups)
+          left join solution
+          on student.id = solution.student_id and task.id = solution.task_id
+          where student.id = $[id]
+        `, req.params)
+        const result = {
+          name: studentInfo[0].name,
+          subjects: []
+        }
 
-        tasks.forEach(item => {
+        studentInfo.forEach(item => {
           const new_task = {
-            id: item.id,
-            name: item.name,
+            id: item.task_id,
+            name: item.task_name,
             exts: item.exts,
-            subjectId: item.subject_id
+            subjectId: item.subject_id,
+            solution_id: item.solution_id,
+            originality: item.originality
           } 
           const new_subject = {
             id: item.subject_id,
             name: item.subject_name,
             tasks: [new_task]
           }
+          const subject = result.subjects.find(subject => subject.id === item.subject_id)
 
-          if (studentInfo.subjects) {
-            const subject = studentInfo.subjects.find(subject => subject.id === item.subject_id)
-
-            if (subject) {
-              subject.tasks.push(new_task)
-            } else {
-              studentInfo.subjects.push(new_subject)
-            }
+          if (subject) {
+            subject.tasks.push(new_task)
           } else {
-            studentInfo.subjects = [new_subject]
+            result.subjects.push(new_subject)
           }
         })
-        return studentInfo
+        return result
       })     
         .then(function(data) {
           res.status(200)
