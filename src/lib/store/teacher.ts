@@ -1,6 +1,6 @@
 import { observable, action, flow, autorun, computed, IObservableArray } from 'mobx'
 
-import fecthAPI from 'services/fetchAPI'
+import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 export default class Teacher {
@@ -19,7 +19,7 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      const response = yield fecthAPI({
+      const response = yield fetchAPI({
         endpoint: ENDPOINT.TEACHER_INFO,
         path: `/${this.id}`
       })
@@ -70,7 +70,7 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      yield fecthAPI({
+      yield fetchAPI({
         endpoint: ENDPOINT.SUBJECT,
         method: METHOD.POST,
         body: {
@@ -91,7 +91,7 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      yield fecthAPI({
+      yield fetchAPI({
         endpoint: ENDPOINT.SUBJECT,
         method: METHOD.PATCH,
         body: {
@@ -111,7 +111,7 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      yield fecthAPI({
+      yield fetchAPI({
         endpoint: ENDPOINT.SUBJECT,
         method: METHOD.DELETE,
         body: {
@@ -162,7 +162,7 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      yield fecthAPI({
+      yield fetchAPI({
         endpoint: ENDPOINT.TASK,
         method: METHOD.POST,
         body: {
@@ -183,13 +183,29 @@ export default class Teacher {
     const self = this as Teacher
 
     try {
-      const response = yield fecthAPI({
+      const response = yield fetchAPI({
         endpoint: ENDPOINT.TASK,
         path: `/${id}`
       })
       const data = response.data as Data.Task
 
       self.task = data
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  public updateTask = flow(function* (task: Data.Task) {
+    const self = this as Teacher
+
+    try {
+      yield fetchAPI({
+        endpoint: ENDPOINT.TASK,
+        method: METHOD.PATCH,
+        body: task
+      })
+
+      self.task = task
     } catch (error) {
       console.error(error)
     }

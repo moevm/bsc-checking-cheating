@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import Paper from '@material-ui/core/Paper'
 import Table from '@material-ui/core/Table'
 import TableBody from '@material-ui/core/TableBody'
 import TableCell from '@material-ui/core/TableCell'
@@ -13,28 +14,30 @@ type TProps = TOuterProps
 
 const SolutionsTable: FC<TProps> = ({ solutions }) => {
   return (
-    <TableContainer>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Ф.И.О</TableCell>
-            <TableCell>Группа</TableCell>
-            <TableCell>Результат</TableCell>
-            <TableCell>Файл работы</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {solutions.map((item, index) => (
-            <TableRow key={index}>
-              <TableCell>{item.name}</TableCell>
-              <TableCell>{item.group_number}</TableCell>
-              <TableCell>{item.originality}</TableCell>
-              <TableCell>File</TableCell>
+    <Paper elevation={4}>
+      <TableContainer>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Ф.И.О</TableCell>
+              <TableCell>Группа</TableCell>
+              <TableCell>Результат</TableCell>
+              <TableCell>Файл работы</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {solutions.map((item, index) => (
+              <TableRow key={index}>
+                <TableCell>{item.name}</TableCell>
+                <TableCell>{item.group_number}</TableCell>
+                <TableCell>{item.originality}</TableCell>
+                <TableCell>File</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    </Paper>
   )
 }
 

@@ -89,15 +89,13 @@ const teacher = db => ({
           select * from task
           where id = $[id]
         `, req.params)
-
-      console.log(taskInfo)
       const solutions = await db.any(`
           select solution.id, solution.task_id, student.name, student.group_number, originality from solution
           inner join student
           on student.id = solution.student_id
           where solution.task_id = $[id]
         `, req.params)
-      console.log(solutions)
+
       taskInfo.solutions = solutions
 
       return taskInfo
@@ -125,6 +123,27 @@ const teacher = db => ({
           })
       })
       .catch(function(err) {
+        res.status(400)
+          .json({
+            status: 'error',
+            message: 'wrong request data'
+          })
+      })
+  },
+
+  updateTask(req, res) {
+    console.log(req.body)
+    db.none(`
+      update task
+      set name = $[name],
+          exts = $[exts]
+      where id = $[id]
+    `, req.body)
+      .then(() => {
+        res.status(200)
+          .json('ok')
+      })
+      .catch(error => {
         res.status(400)
           .json({
             status: 'error',
