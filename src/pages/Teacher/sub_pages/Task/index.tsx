@@ -18,10 +18,14 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
     teacher.fetchTaskInfo(route.params.id)
   }, [])
 
+  const onFormSubmit = useCallback((task: Data.Task) => {}, [])
+
+  const onCancelClick = useCallback(() => {}, [])
+
   if (teacher.task) {
     return (
       <Box>
-        <TaskForm task={teacher.task} />
+        <TaskForm task={teacher.task} onFormSubmit={onFormSubmit} onCancelClick={onCancelClick} />
         <SolutionsTable solutions={teacher.task.solutions} />
       </Box>
     )

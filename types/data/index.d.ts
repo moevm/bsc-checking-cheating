@@ -27,6 +27,7 @@ declare namespace Data {
 
   type Task = {
     id?: number
+    description?: string
     name: string
     subjectId?: number
     originality?: number
