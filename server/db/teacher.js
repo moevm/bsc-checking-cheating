@@ -83,6 +83,38 @@ const teacher = db => ({
       })
   },
 
+  getTaskInfo(req, res) {
+    db.task(async t => {
+      const taskInfo = await db.one(`
+          select * from task
+          where id = $[id]
+        `, req.params)
+
+      console.log(taskInfo)
+      const solutions = await db.any(`
+          select solution.id, solution.task_id, student.name, student.group_number, originality from solution
+          inner join student
+          on student.id = solution.student_id
+          where solution.task_id = $[id]
+        `, req.params)
+      console.log(solutions)
+      taskInfo.solutions = solutions
+
+      return taskInfo
+    })
+      .then(task => {
+        res.status(200)
+          .json(task)
+      })
+      .catch(error => {
+        res.status(400)
+          .json({
+            status: 'error',
+            message: 'wrong request data'
+          })
+      })
+  },
+
   createTask(req, res, next) {
     db.none('insert into task (name, exts, groups, subject_id, teacher_id) values (${name}, ${exts}, ${groups}, ${subject_id}, ${teacher_id})', req.body)
       .then(function() {
