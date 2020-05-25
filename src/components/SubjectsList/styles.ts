@@ -1,10 +1,10 @@
+import ListItem from '@material-ui/core/ListItem'
 import styled from 'styled-components'
 
-export default {
-  List: styled.ul`
-    margin-top: 1.25rem;
-  `,
-  Item: styled.li`
-    list-style: none;
+const Styled = {
+  NestedItem: styled(ListItem)`
+    padding-left: ${props => props.theme.sizes.NESTED_LIST_PADDING};
   `
 }
+
+export default Styled

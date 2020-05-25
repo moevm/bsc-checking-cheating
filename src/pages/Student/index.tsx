@@ -23,11 +23,18 @@ const StudentPage: FC<TProps> = () => {
     student.removeFile()
   }, [])
 
+  const onSubjectItemClick = useCallback(
+    (subject: Data.Subject) => () => {
+      student.toggleSubject(subject)
+    },
+    [student.toggleSubject]
+  )
+
   return (
     !!student.info && (
       <PageSection title={student.info.name}>
-        {/* {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
-        <SubjectsList subjects={student.info.subjects} /> */}
+        {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
+        <SubjectsList subjects={student.info.subjects} onSubjectItemClick={onSubjectItemClick} />
       </PageSection>
     )
   )

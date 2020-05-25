@@ -19,8 +19,19 @@ const TeacherIndexPage: FC<TProps> = ({ route }) => {
     teacher.addLocalSubject()
   }, [])
 
+  const onSubjectItemClick = useCallback(
+    (subject: Data.Subject) => () => {
+      teacher.toggleSubject(subject)
+    },
+    []
+  )
+
   return (
-    <SubjectsList Item={SubjectItem} subjects={teacher.info.subjects}>
+    <SubjectsList
+      Item={SubjectItem}
+      subjects={teacher.info.subjects}
+      onSubjectItemClick={onSubjectItemClick}
+    >
       {teacher.noActiveAction && <Button onClick={onAddSubjectClick}>Добавить предмет</Button>}
     </SubjectsList>
   )

@@ -50,6 +50,11 @@ export default class Student {
     this.uploadedFile = null
   }
 
+  @action
+  public toggleSubject = (subject: Data.Subject) => {
+    subject.isOpened = !subject.isOpened
+  }
+
   public sendSolution = flow(function* () {
     const self = this as Student
     const formData = new FormData()

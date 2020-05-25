@@ -126,6 +126,11 @@ export default class Teacher {
   })
 
   @action
+  public toggleSubject = (subject: Data.Subject) => {
+    subject.isOpened = !subject.isOpened
+  }
+
+  @action
   public editSubject = (subject: Data.Subject) => {
     this.editableElement = subject
     subject.isEditing = true

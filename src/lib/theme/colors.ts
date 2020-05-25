@@ -9,7 +9,8 @@ export const TINT = {
   200: '#3C4858',
   300: '#777',
   500: '#ddd',
-  600: '#fff'
+  600: '#f5f5f5',
+  700: '#fff'
 }
 
 export const TITLE = TINT[200]
