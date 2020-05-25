@@ -7,8 +7,11 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import Paper from '@material-ui/core/Paper'
+import { makeStyles } from '@material-ui/core/styles'
 import { observer } from 'mobx-react'
+
+import sizes from 'lib/theme/sizes'
+import CustomPaper from 'components/CustomPaper'
 
 type TOuterProps = {
   subjects: Data.Subject[]
@@ -17,11 +20,19 @@ type TOuterProps = {
 }
 type TProps = TOuterProps
 
-const SubjectsList: FC<TProps> = ({ children, subjects, TaskItem, onSubjectItemClick }) => (
-  <Paper elevation={4}>
+const useStyles = makeStyles(() => ({
+  paper: {
+    marginBottom: sizes.MARGIN
+  }
+}))
+
+const SubjectsList: FC<TProps> = ({ children, subjects, TaskItem, onSubjectItemClick }) => {
+  const classes = useStyles()
+
+  return (
     <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
       {subjects.map((item, index) => (
-        <Box key={index}>
+        <CustomPaper key={index} className={classes.paper}>
           <ListItem button onClick={onSubjectItemClick(item)}>
             <ListItemText>{item.name}</ListItemText>
             {item.isOpened ? <ExpandLess /> : <ExpandMore />}
@@ -33,10 +44,10 @@ const SubjectsList: FC<TProps> = ({ children, subjects, TaskItem, onSubjectItemC
               ))}
             </List>
           </Collapse>
-        </Box>
+        </CustomPaper>
       ))}
     </List>
-  </Paper>
-)
+  )
+}
 
 export default observer(SubjectsList)

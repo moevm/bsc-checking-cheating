@@ -6,7 +6,7 @@ module.exports = function (db) {
     getStudentInfo(req, res, next) {
       db.task(async t => {
         const studentInfo = await db.any(`
-          select distinct on (task.id) task.id as task_id, task.name as task_name, task.exts, task.subject_id, subject.name as subject_name, student.name, solution.id as solution_id, solution.originality from task
+          select distinct on (task.id) task.id as task_id, task.name as task_name, task.exts, task.subject_id, subject.name as subject_name, student.name, solution.originality from task
           inner join subject
           on task.subject_id = subject.id
           inner join student
@@ -26,7 +26,6 @@ module.exports = function (db) {
             name: item.task_name,
             exts: item.exts,
             subjectId: item.subject_id,
-            solution_id: item.solution_id,
             originality: item.originality
           } 
           const new_subject = {
@@ -49,6 +48,7 @@ module.exports = function (db) {
             .json(data)
         })
         .catch(function(err) {
+          console.log(err)
           res.status(400)
           .json({
             status: 'error',
