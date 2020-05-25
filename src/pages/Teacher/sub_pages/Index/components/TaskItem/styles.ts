@@ -1,10 +1,11 @@
+import { Link } from 'react-router5'
 import styled from 'styled-components'
 
-import Item from 'components/Item'
-
 const Styled = {
-  Item: styled(Item)`
+  Link: styled(Link)`
     display: flex;
+    color: ${props => props.theme.colors.TEXT};
+    text-decoration: none;
   `
 }
 

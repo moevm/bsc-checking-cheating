@@ -14,7 +14,7 @@ export const TINT = {
 }
 
 export const TITLE = TINT[200]
-export const TEXT = TINT[400]
+export const TEXT = TINT[200]
 export const MAIN = TINT[600]
 
 export default {

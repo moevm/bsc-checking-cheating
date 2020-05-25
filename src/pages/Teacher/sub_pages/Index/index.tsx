@@ -1,23 +1,18 @@
-import React, { FC, useEffect, useCallback } from 'react'
+import React, { FC, useCallback } from 'react'
 import { observer } from 'mobx-react'
 import { hot } from 'react-hot-loader/root'
 import { SubscribeState } from 'router5'
 
 import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
-import Button from 'components/Button'
 import SubjectsList from 'components/SubjectsList'
-import SubjectItem from './components/SubjectItem'
+import TaskItem from './components/TaskItem'
 
 type TOuterProps = SubscribeState & {}
 type TProps = TOuterProps
 
 const TeacherIndexPage: FC<TProps> = ({ route }) => {
   const { teacher } = useStore()
-
-  const onAddSubjectClick = useCallback(() => {
-    teacher.addLocalSubject()
-  }, [])
 
   const onSubjectItemClick = useCallback(
     (subject: Data.Subject) => () => {
@@ -28,12 +23,10 @@ const TeacherIndexPage: FC<TProps> = ({ route }) => {
 
   return (
     <SubjectsList
-      Item={SubjectItem}
       subjects={teacher.info.subjects}
+      TaskItem={TaskItem}
       onSubjectItemClick={onSubjectItemClick}
-    >
-      {teacher.noActiveAction && <Button onClick={onAddSubjectClick}>Добавить предмет</Button>}
-    </SubjectsList>
+    />
   )
 }
 

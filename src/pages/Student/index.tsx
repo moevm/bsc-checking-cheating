@@ -6,6 +6,7 @@ import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
 import PageSection from 'components/PageSection'
 import SubjectsList from 'components/SubjectsList'
+import TaskItem from './components/TaskItem'
 import UploadModal from './components/UploadModal'
 
 type TOuterProps = {}
@@ -34,7 +35,11 @@ const StudentPage: FC<TProps> = () => {
     !!student.info && (
       <PageSection title={student.info.name}>
         {student.modalIsOpen && <UploadModal onClose={onCloseClick} />}
-        <SubjectsList subjects={student.info.subjects} onSubjectItemClick={onSubjectItemClick} />
+        <SubjectsList
+          subjects={student.info.subjects}
+          TaskItem={TaskItem}
+          onSubjectItemClick={onSubjectItemClick}
+        />
       </PageSection>
     )
   )

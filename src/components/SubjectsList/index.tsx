@@ -1,4 +1,4 @@
-import React, { FC, ComponentType, useCallback } from 'react'
+import React, { FC, ComponentType } from 'react'
 import Box from '@material-ui/core/Box'
 import Collapse from '@material-ui/core/Collapse'
 import ExpandLess from '@material-ui/icons/ExpandLess'
@@ -10,42 +10,33 @@ import ListSubheader from '@material-ui/core/ListSubheader'
 import Paper from '@material-ui/core/Paper'
 import { observer } from 'mobx-react'
 
-import S from './styles'
-
 type TOuterProps = {
-  className?: string
-  Item?: ComponentType<{ data: Data.Subject }>
   subjects: Data.Subject[]
+  TaskItem: ComponentType<{ data: Data.Task }>
   onSubjectItemClick: (subject: Data.Subject) => () => void
 }
 type TProps = TOuterProps
 
-const SubjectsList: FC<TProps> = ({ className, children, Item, subjects, onSubjectItemClick }) => {
-  const onItemClick = useCallback(() => {}, [])
-
-  return (
-    <Paper elevation={4}>
-      <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
-        {subjects.map((item, index) => (
-          <Box key={index}>
-            <ListItem button onClick={onSubjectItemClick(item)}>
-              <ListItemText>{item.name}</ListItemText>
-              {item.isOpened ? <ExpandLess /> : <ExpandMore />}
-            </ListItem>
-            <Collapse in={item.isOpened}>
-              <List disablePadding>
-                {item.tasks.map((item, index) => (
-                  <S.NestedItem key={index} button>
-                    <ListItemText>{item.name}</ListItemText>
-                  </S.NestedItem>
-                ))}
-              </List>
-            </Collapse>
-          </Box>
-        ))}
-      </List>
-    </Paper>
-  )
-}
+const SubjectsList: FC<TProps> = ({ children, subjects, TaskItem, onSubjectItemClick }) => (
+  <Paper elevation={4}>
+    <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
+      {subjects.map((item, index) => (
+        <Box key={index}>
+          <ListItem button onClick={onSubjectItemClick(item)}>
+            <ListItemText>{item.name}</ListItemText>
+            {item.isOpened ? <ExpandLess /> : <ExpandMore />}
+          </ListItem>
+          <Collapse in={item.isOpened}>
+            <List disablePadding>
+              {item.tasks.map((item, index) => (
+                <TaskItem key={index} data={item} />
+              ))}
+            </List>
+          </Collapse>
+        </Box>
+      ))}
+    </List>
+  </Paper>
+)
 
 export default observer(SubjectsList)
