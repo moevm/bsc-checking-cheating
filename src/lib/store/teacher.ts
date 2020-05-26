@@ -9,7 +9,7 @@ export default class Teacher {
   @observable public info: Data.Teacher | null = null
   @observable public editableElement: Data.Subject | Data.Task | null = null
   @observable public task: Data.Task | null = null
-  @observable public difference: Data.Difference | null = null
+  @observable public modal: Data.Difference | null = null
 
   @computed
   get noActiveAction() {
@@ -222,9 +222,14 @@ export default class Teacher {
       })
       const data = response.data as Data.Difference
 
-      self.difference = response.data
+      self.modal = response.data
     } catch (error) {
       console.error(error)
     }
   })
+
+  @action
+  public closeModal = () => {
+    this.modal = null
+  }
 }

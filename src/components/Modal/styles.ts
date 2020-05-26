@@ -17,9 +17,11 @@ const Styled = {
   `,
   Container: styled.div`
     position: absolute;
+    max-height: 100%;
     padding: 1.25rem 1.5625rem;
     background-color: ${({ theme }) => theme.colors.WHITE};
     border-radius: 0.3125rem;
+    overflow: auto;
   `,
   Button: styled(Button)`
     position: absolute;

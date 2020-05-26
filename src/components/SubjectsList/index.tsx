@@ -33,12 +33,16 @@ const SubjectsList: FC<TProps> = ({ children, subjects, TaskItem, onSubjectItemC
     <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
       {subjects.map((item, index) => (
         <CustomPaper key={index} className={classes.paper}>
-          <ListItem button onClick={onSubjectItemClick(item)}>
+          <ListItem
+            button
+            divider={item.isOpened && !!item.tasks.length}
+            onClick={onSubjectItemClick(item)}
+          >
             <ListItemText>{item.name}</ListItemText>
             {item.isOpened ? <ExpandLess /> : <ExpandMore />}
           </ListItem>
           <Collapse in={item.isOpened}>
-            <List disablePadding>
+            <List>
               {item.tasks.map((item, index) => (
                 <TaskItem key={index} data={item} />
               ))}

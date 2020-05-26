@@ -5,8 +5,7 @@ declare namespace Data {
   }
 
   type DiffObject = {
-    name: string
-    group: string
+    title: string
     file: string
   }
 
@@ -21,6 +20,7 @@ declare namespace Data {
     name: string
     group_number: number
     originality: number
+    date: string
   }
 
   type Student = {

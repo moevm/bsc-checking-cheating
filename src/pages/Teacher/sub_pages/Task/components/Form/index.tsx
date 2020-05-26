@@ -136,7 +136,7 @@ const Form: FC<TProps> = ({ className, task, onFormSubmit }) => {
           />
         </form>
       ) : (
-        <ListItem className={classes.listItem} button divider onClick={() => setIsEditing(true)}>
+        <ListItem className={classes.listItem} button onClick={() => setIsEditing(true)}>
           <ListItemText>{task.name}</ListItemText>
           <Button className={classes.changeButton} variant="contained" color="primary">
             Изменить

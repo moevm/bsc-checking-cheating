@@ -14,11 +14,6 @@ export const GlobalStyle = createGlobalStyle`
     overflow: hidden;
   }
 
-  #root {
-    display: flex;
-    flex-direction: column;
-  }
-
   button:not(:disabled) {
     cursor: pointer;
     user-select: none;
@@ -32,7 +27,8 @@ export const Navigation = styled.nav`
 `
 
 export const Main = styled.main`
-  flex: 1;
   width: 100%;
+  height: 100%;
   background-color: ${props => props.theme.colors.MAIN};
+  overflow: auto;
 `

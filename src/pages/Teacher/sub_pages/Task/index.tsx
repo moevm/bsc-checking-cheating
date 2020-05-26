@@ -6,8 +6,8 @@ import { hot } from 'react-hot-loader/root'
 
 import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
-import DiffViewer from 'components/DiffViewer'
 import SolutionsTable from 'components/SolutionsTable'
+import DiffModal from './components/DiffModal'
 import TaskForm from './components/Form'
 
 type TOuterProps = App.TInjectedRouteProps & {}
@@ -38,16 +38,17 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
     []
   )
 
+  const onCloseModalClick = useCallback(() => {
+    teacher.closeModal()
+  }, [])
+
   if (teacher.task) {
     return (
       <Box>
         <TaskForm className={classes.paper} task={teacher.task} onFormSubmit={onFormSubmit} />
         <SolutionsTable solutions={teacher.task.solutions} onRowClick={onShowFileClick} />
-        {!!teacher.difference && (
-          <DiffViewer
-            original={teacher.difference.reference.file}
-            plagiat={teacher.difference.current.file}
-          />
+        {!!teacher.modal && (
+          <DiffModal difference={teacher.modal} onCloseClick={onCloseModalClick} />
         )}
       </Box>
     )

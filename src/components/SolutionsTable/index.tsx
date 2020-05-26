@@ -25,21 +25,17 @@ const SolutionsTable: FC<TProps> = ({ solutions, onRowClick }) => (
           <TableRow>
             <TableCell>Ф.И.О</TableCell>
             <TableCell>Группа</TableCell>
-            <TableCell>Результат</TableCell>
-            <TableCell>Файл работы</TableCell>
+            <TableCell>Оригинальность работы</TableCell>
+            <TableCell>Дата сдачи</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {solutions.map((item, index) => (
-            <TableRow key={index}>
+            <TableRow key={index} hover onClick={onRowClick(item)}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.group_number}</TableCell>
-              <TableCell>{item.originality}</TableCell>
-              <TableCell>
-                <Button variant="contained" onClick={onRowClick(item)}>
-                  File
-                </Button>
-              </TableCell>
+              <TableCell>{item.originality} %</TableCell>
+              <TableCell>{item.date}</TableCell>
             </TableRow>
           ))}
         </TableBody>

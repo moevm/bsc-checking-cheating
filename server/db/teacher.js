@@ -190,10 +190,11 @@ const teacher = db => ({
 
       return {
         reference: {
-          ...referenceFile,
+          title: `${referenceFile.name} гр.${referenceFile.group}`,
           file: referenceFile.file.toString()
         },
         current: {
+          title: `${currentFile.name} гр.${currentFile.group}`,
           file: currentFile.file.toString()
         }
       }
