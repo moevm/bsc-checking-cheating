@@ -4,11 +4,11 @@ module.exports = (solutions, fingerprint) => {
   solutions.forEach((solution, index) => {
     let count = 0
 
-    if (solution.hashes) {
+    if (solution.fingerprint) {
       fingerprint.forEach(newHash => {
-        solution.hashes.forEach((hash, index) => {
+        solution.fingerprint.forEach((hash, index) => {
           if (hash === newHash) {
-            solution.hashes[index] = -1
+            solution.fingerprint[index] = -1
             count += 1
             return
           }
@@ -20,6 +20,5 @@ module.exports = (solutions, fingerprint) => {
       }
     }
   })
-
   return (fingerprint.length - result) / fingerprint.length
 }

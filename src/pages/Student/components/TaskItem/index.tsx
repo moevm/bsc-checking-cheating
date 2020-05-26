@@ -35,7 +35,7 @@ const TaskItem: FC<TProps> = ({ data }) => {
 
   const onItemClick = useCallback(() => {
     // if (!data.originality) {
-      student.openModal(data)
+    student.openModal(data)
     // }
   }, [data])
 

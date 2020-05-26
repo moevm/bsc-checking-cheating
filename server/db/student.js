@@ -60,22 +60,26 @@ module.exports = function (db) {
     checkSolution(req, res, next) {
       const buf = Buffer.from(req.file.buffer)
       const fingerprint = findFingerprint(buf.toString())
-      console.log(req.body)
 
       db.task(async  t => {
-        const hashes = await db.many(`select task_id, student_id, hashes from solution`)
+        const hashes = await db.many(`select task_id, student_id, fingerprint from solution`)
         const originality = Math.round(findSimilarity(hashes, fingerprint) * 100)
 
         await db.none(`
-          insert into solution (task_id, student_id, subject_id, originality)
-          values ($[task_id], $[student_id], $[subject_id], $[originality])
+          insert into solution (task_id, student_id, subject_id, originality, date, fingerprint, file)
+          values ($[task_id], $[student_id], $[subject_id], $[originality], NOW(), $[fingerprint], $[file])
           on conflict on constraint solution_pkey
           do update 
-          set originality = $[originality]
+          set fingerprint = $[fingerprint],
+              file = $[file],
+              originality = $[originality],
+              date = NOW()
           where solution.task_id = excluded.task_id and solution.student_id = excluded.student_id
         `, {
           ...req.body,
-          originality: 33
+          file: `\\x${buf.toString('hex')}`,
+          fingerprint,
+          originality
         })
 
         console.log(`originality: ${originality}%`)
@@ -91,15 +95,6 @@ module.exports = function (db) {
           console.log(err)
           res.status(400)
         })
-
-      // db.none(`
-      //     insert into solution (task_id, student_id, hashes, file) 
-      //     values ($[task_id], $[student_id], $[fingerprint], $[buf])
-      //   `, {
-      //     ...req.body,
-      //     fingerprint,
-      //     buf: `\\x${buf.toString('hex')}`
-      //   })
     }
   }
 }

@@ -5,12 +5,8 @@ const splitOnKGrams = (code, t) => {
   const array = []
   for (let i = 0; i < code.length - t; i++) {
     const value =  code.slice(i, i + t)
-    const hash = crc32(value)
+    const hash = crc32(value).toString(16)
 
-    // array.push({
-    //   value,
-    //   hash: crc32(value)
-    // })
     array.push(hash)
   }
   return array
@@ -53,17 +49,11 @@ module.exports = function(code) {
 
   const tokenizedCode = code.replace(regExp, '')
   const k = 2
-  const t = 5
+  const t = 9
 
   const kGrams = splitOnKGrams(tokenizedCode, t)
   console.log('k-grams hashes count: ', kGrams.length)
 
-  // const unique = kGrams.reduce((result, item) => {
-  //   if (!result.find(res => res.hash === item.hash)) {
-  //     result.push(item)
-  //   }
-  //   return result
-  // }, [])
   const winnowedKGrams = winnowKGrams(kGrams, t, k)
   console.log('winnowed hashes: ', winnowedKGrams.length)
 
