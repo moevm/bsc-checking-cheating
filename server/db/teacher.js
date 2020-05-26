@@ -180,18 +180,20 @@ const teacher = db => ({
         on student.id = solution.student_id
         where task_id = $[task_id] and student_id = $[student_id]
       `, req.query)
-      const referenceFile = await db.one(`
+      const referenceFile = req.query.reference_id && await db.one(`
         select student.name, student.group_number as group, solution.file from solution
         inner join student
         on student.id = solution.student_id
         where solution.id = $[reference_id]
       `, req.query)
-      
 
       return {
-        reference: {
+        reference: referenceFile ? {
           title: `${referenceFile.name} гр.${referenceFile.group}`,
           file: referenceFile.file.toString()
+        } : {
+          title: 'Похожие решения отсутствуют',
+          file: ''
         },
         current: {
           title: `${currentFile.name} гр.${currentFile.group}`,

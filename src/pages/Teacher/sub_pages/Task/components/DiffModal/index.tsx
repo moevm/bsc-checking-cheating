@@ -1,4 +1,4 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC } from 'react'
 import { observer } from 'mobx-react'
 
 import DiffViewer from 'components/DiffViewer'

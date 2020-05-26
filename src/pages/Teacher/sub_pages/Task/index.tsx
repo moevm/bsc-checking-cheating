@@ -25,6 +25,8 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
 
   useEffect(() => {
     teacher.fetchTaskInfo(route.params.id)
+
+    return () => teacher.closeModal()
   }, [])
 
   const onFormSubmit = useCallback((task: Data.Task) => {
