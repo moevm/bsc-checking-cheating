@@ -34,21 +34,21 @@ const TaskItem: FC<TProps> = ({ data }) => {
   const classes = useStyles()
 
   const onItemClick = useCallback(() => {
-    if (!data.originality) {
+    // if (!data.originality) {
       student.openModal(data)
-    }
+    // }
   }, [data])
 
   return (
     <ListItem className={classes.listItem} button divider onClick={onItemClick}>
       <ListItemText>{data.name}</ListItemText>
-      {data.originality ? (
+      {/* {data.originality ? (
         <ListItemText className={classes.result}>оригинальность: {data.originality}%</ListItemText>
-      ) : (
-        <Button className={classes.button} color="primary" variant="contained">
-          Загрузить
-        </Button>
-      )}
+      ) : ( */}
+      <Button className={classes.button} color="primary" variant="contained">
+        Загрузить
+      </Button>
+      {/* )} */}
     </ListItem>
   )
 }

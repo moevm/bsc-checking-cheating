@@ -60,10 +60,23 @@ module.exports = function (db) {
     checkSolution(req, res, next) {
       const buf = Buffer.from(req.file.buffer)
       const fingerprint = findFingerprint(buf.toString())
+      console.log(req.body)
 
       db.task(async  t => {
-        const hashes = await db.many(`select id, task_id, student_id, hashes from solution`)
+        const hashes = await db.many(`select task_id, student_id, hashes from solution`)
         const originality = Math.round(findSimilarity(hashes, fingerprint) * 100)
+
+        await db.none(`
+          insert into solution (task_id, student_id, subject_id, originality)
+          values ($[task_id], $[student_id], $[subject_id], $[originality])
+          on conflict on constraint solution_pkey
+          do update 
+          set originality = $[originality]
+          where solution.task_id = excluded.task_id and solution.student_id = excluded.student_id
+        `, {
+          ...req.body,
+          originality: 33
+        })
 
         console.log(`originality: ${originality}%`)
         return originality
@@ -75,6 +88,7 @@ module.exports = function (db) {
             })
         })
         .catch(err => {
+          console.log(err)
           res.status(400)
         })
 

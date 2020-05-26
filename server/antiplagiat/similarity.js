@@ -4,18 +4,20 @@ module.exports = (solutions, fingerprint) => {
   solutions.forEach((solution, index) => {
     let count = 0
 
-    fingerprint.forEach(newHash => {
-      solution.hashes.forEach((hash, index) => {
-        if (hash === newHash) {
-          solution.hashes[index] = -1
-          count += 1
-          return
-        }
-      })
-    })  
-
-    if (!result || count > result) {
-      result = count
+    if (solution.hashes) {
+      fingerprint.forEach(newHash => {
+        solution.hashes.forEach((hash, index) => {
+          if (hash === newHash) {
+            solution.hashes[index] = -1
+            count += 1
+            return
+          }
+        })
+      })  
+  
+      if (!result || count > result) {
+        result = count
+      }
     }
   })
 

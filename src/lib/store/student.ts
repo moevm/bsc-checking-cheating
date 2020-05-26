@@ -66,7 +66,7 @@ export default class Student {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.SOLUTION,
-        method: METHOD.POST,
+        method: METHOD.PUT,
         body: formData
       })
       const data = response.data as { originality: number }

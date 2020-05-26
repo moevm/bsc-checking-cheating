@@ -5,6 +5,7 @@ export const API_URL = `${DEV_DOMAIN}/api/v1`
 export enum METHOD {
   GET = 'get',
   POST = 'post',
+  PUT = 'put',
   PATCH = 'patch',
   DELETE = 'delete'
 }

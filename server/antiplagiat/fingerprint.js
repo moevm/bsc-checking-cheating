@@ -53,7 +53,7 @@ module.exports = function(code) {
 
   const tokenizedCode = code.replace(regExp, '')
   const k = 2
-  const t = 10
+  const t = 5
 
   const kGrams = splitOnKGrams(tokenizedCode, t)
   console.log('k-grams hashes count: ', kGrams.length)
