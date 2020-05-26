@@ -1,11 +1,23 @@
 declare namespace Data {
+  type Difference = {
+    reference: DiffObject
+    current: DiffObject
+  }
+
+  type DiffObject = {
+    name: string
+    group: string
+    file: string
+  }
+
   type MetaInfo = {
     isCreating?: boolean
     isEditing?: boolean
   }
 
   type Solution = {
-    id: number
+    task_id: number
+    student_id: number
     name: string
     group_number: number
     originality: number

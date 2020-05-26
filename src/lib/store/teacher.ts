@@ -9,6 +9,7 @@ export default class Teacher {
   @observable public info: Data.Teacher | null = null
   @observable public editableElement: Data.Subject | Data.Task | null = null
   @observable public task: Data.Task | null = null
+  @observable public difference: Data.Difference | null = null
 
   @computed
   get noActiveAction() {
@@ -206,6 +207,22 @@ export default class Teacher {
       })
 
       self.task = task
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  public fetchStudentSolution = flow(function* (solution: Data.Solution) {
+    const self = this as Teacher
+
+    try {
+      const response = yield fetchAPI({
+        endpoint: ENDPOINT.SOLUTION,
+        params: solution
+      })
+      const data = response.data as Data.Difference
+
+      self.difference = response.data
     } catch (error) {
       console.error(error)
     }

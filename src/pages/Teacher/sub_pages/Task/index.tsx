@@ -6,6 +6,7 @@ import { hot } from 'react-hot-loader/root'
 
 import compose from 'utils/compose'
 import useStore from 'hooks/useStore'
+import DiffViewer from 'components/DiffViewer'
 import SolutionsTable from 'components/SolutionsTable'
 import TaskForm from './components/Form'
 
@@ -30,11 +31,24 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
     teacher.updateTask(task)
   }, [])
 
+  const onShowFileClick = useCallback(
+    (solution: Data.Solution) => () => {
+      teacher.fetchStudentSolution(solution)
+    },
+    []
+  )
+
   if (teacher.task) {
     return (
       <Box>
         <TaskForm className={classes.paper} task={teacher.task} onFormSubmit={onFormSubmit} />
-        <SolutionsTable solutions={teacher.task.solutions} />
+        <SolutionsTable solutions={teacher.task.solutions} onRowClick={onShowFileClick} />
+        {!!teacher.difference && (
+          <DiffViewer
+            original={teacher.difference.reference.file}
+            plagiat={teacher.difference.current.file}
+          />
+        )}
       </Box>
     )
   }

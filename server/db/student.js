@@ -62,27 +62,30 @@ module.exports = function (db) {
       const fingerprint = findFingerprint(buf.toString())
 
       db.task(async  t => {
-        const hashes = await db.many(`select task_id, student_id, fingerprint from solution`)
-        const originality = Math.round(findSimilarity(hashes, fingerprint) * 100)
+        const hashes = await db.many(`
+          select id, fingerprint from solution
+          where task_id != $[task_id] or student_id != $[student_id]
+        `, req.body)
+        const [originality, reference] = findSimilarity(hashes, fingerprint)
 
         await db.none(`
-          insert into solution (task_id, student_id, subject_id, originality, date, fingerprint, file)
-          values ($[task_id], $[student_id], $[subject_id], $[originality], NOW(), $[fingerprint], $[file])
+          insert into solution (task_id, student_id, subject_id, originality, date, fingerprint, file, reference_id)
+          values ($[task_id], $[student_id], $[subject_id], $[originality], NOW(), $[fingerprint], $[file], $[reference_id])
           on conflict on constraint solution_pkey
           do update 
           set fingerprint = $[fingerprint],
               file = $[file],
               originality = $[originality],
+              reference_id = $[reference_id],
               date = NOW()
           where solution.task_id = excluded.task_id and solution.student_id = excluded.student_id
         `, {
           ...req.body,
           file: `\\x${buf.toString('hex')}`,
           fingerprint,
-          originality
+          originality,
+          reference_id: reference.id
         })
-
-        console.log(`originality: ${originality}%`)
         return originality
       })
         .then(data => {

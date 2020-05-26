@@ -5,6 +5,7 @@ const upload = require('multer')()
 const db = require('../db/index')
 
 router.get('/student_info/:id', db.student.getStudentInfo)
+router.get('/solution', db.teacher.getStudentSolution)
 router.put('/solution', upload.single('solution'), db.student.checkSolution)
 router.get('/teacher_info/:id', db.teacher.getTeacherInfo)
 router.post('/subject', db.teacher.createSubject)

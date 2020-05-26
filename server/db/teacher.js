@@ -90,7 +90,7 @@ const teacher = db => ({
           where id = $[id]
         `, req.params)
       const solutions = await db.any(`
-          select solution.task_id, student.name, student.group_number, originality from solution
+          select solution.task_id, solution.student_id, student.name, student.group_number, originality, solution.date, reference_id from solution
           inner join student
           on student.id = solution.student_id
           where solution.task_id = $[id]
@@ -169,6 +169,43 @@ const teacher = db => ({
             status: 'error',
             message: 'wrong request data'
           })
+      })
+  },
+
+  getStudentSolution(req, res) {
+    db.task(async t => {
+      const currentFile = await db.one(`
+        select student.name, student.group_number as group, solution.file from solution
+        inner join student
+        on student.id = solution.student_id
+        where task_id = $[task_id] and student_id = $[student_id]
+      `, req.query)
+      const referenceFile = await db.one(`
+        select student.name, student.group_number as group, solution.file from solution
+        inner join student
+        on student.id = solution.student_id
+        where solution.id = $[reference_id]
+      `, req.query)
+      
+
+      return {
+        reference: {
+          ...referenceFile,
+          file: referenceFile.file.toString()
+        },
+        current: {
+          file: currentFile.file.toString()
+        }
+      }
+    })
+      .then(data => {
+        res.status(200)
+          .send(data)
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(400)
+          .json(err)
       })
   }
 })
