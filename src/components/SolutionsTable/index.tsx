@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import { observer } from 'mobx-react'
 
-import useStore from 'hooks/useStore'
+import formatDate from 'utils/formatDate'
 import CustomPaper from 'components/CustomPaper'
 
 type TOuterProps = {
@@ -35,7 +35,7 @@ const SolutionsTable: FC<TProps> = ({ solutions, onRowClick }) => (
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.group_number}</TableCell>
               <TableCell>{item.originality} %</TableCell>
-              <TableCell>{item.date}</TableCell>
+              <TableCell>{formatDate(item.date)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
