@@ -42,7 +42,7 @@ const UploadModal: FC<TProps> = ({ className }) => {
   }, [])
 
   return (
-    <Modal>
+    <Modal onCloseClick={onCloseClick}>
       {student.uploadedFile ? (
         <div>
           <p>{student.uploadedFile.name}</p>
@@ -52,7 +52,6 @@ const UploadModal: FC<TProps> = ({ className }) => {
       ) : (
         <Dropzone params={dropzoneParams} />
       )}
-      <S.CrossButton onClick={onCloseClick}>Закрыть</S.CrossButton>
     </Modal>
   )
 }

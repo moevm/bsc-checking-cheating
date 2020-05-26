@@ -1,17 +1,23 @@
 import React, { FC } from 'react'
 
-import { Wrapper, Container } from './styles'
+import S from './styles'
 
 type TOuterProps = {
   className?: string
+  onCloseClick?: () => void
 }
 type TProps = TOuterProps
 
-const Modal: FC<TProps> = ({ className, children }) => {
+const Modal: FC<TProps> = ({ className, children, onCloseClick }) => {
   return (
-    <Wrapper>
-      <Container className={className}>{children}</Container>
-    </Wrapper>
+    <S.Wrapper>
+      <S.Container className={className}>{children}</S.Container>
+      {!!onCloseClick && (
+        <S.Button variant="contained" onClick={onCloseClick}>
+          <S.Close />
+        </S.Button>
+      )}
+    </S.Wrapper>
   )
 }
 
