@@ -15,6 +15,7 @@ import S from './styles'
 type TOuterProps = {
   className?: string
   task: Data.Task
+  onCancelCreating: () => void
   onFormSubmit: (task: Data.Task) => void
 }
 type TProps = TOuterProps
@@ -51,8 +52,12 @@ const useStyles = makeStyles(() => ({
   }
 }))
 
-const Form: FC<TProps> = ({ className, task, onFormSubmit }) => {
-  const [form, setForm] = useState<TState>({})
+const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) => {
+  const [form, setForm] = useState<TState>({
+    name: '',
+    description: '',
+    exts: ''
+  })
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const classes = useStyles()
 
@@ -62,6 +67,7 @@ const Form: FC<TProps> = ({ className, task, onFormSubmit }) => {
       exts: task.exts.join('; '),
       description: task.description
     })
+    setIsEditing(!!task.isCreating)
   }, [task])
 
   const onSubmitClick: FormEventHandler<HTMLFormElement> = e => {
@@ -77,6 +83,15 @@ const Form: FC<TProps> = ({ className, task, onFormSubmit }) => {
         .map(ext => (ext[0] === '.' ? ext : `.${ext}`))
     })
     setIsEditing(false)
+  }
+
+  const onResetClick = () => {
+    if (task.isCreating) {
+      setIsEditing(false)
+      onCancelCreating()
+    } else {
+      setIsEditing(false)
+    }
   }
 
   const onChange = (property: keyof TState): ChangeEventHandler<HTMLInputElement> => e => {
@@ -111,13 +126,13 @@ const Form: FC<TProps> = ({ className, task, onFormSubmit }) => {
               variant="contained"
               color="primary"
             >
-              Сохранить изменения
+              {task.isCreating ? 'Сохранить задание' : 'Сохранить изменения'}
             </Button>
             <Button
               className={classes.cancelButton}
               variant="contained"
               color="primary"
-              onClick={() => setIsEditing(false)}
+              onClick={onResetClick}
             >
               Отмена
             </Button>

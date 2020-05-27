@@ -14,91 +14,92 @@ type TOuterProps = {
 }
 type TProps = TOuterProps
 
-const SubjectItem: FC<TProps> = ({ data }) => {
-  const { teacher } = useStore()
+const SubjectItem: FC<TProps> = ({ data }) => <p>nothing</p>
+// {
+// const { teacher } = useStore()
 
-  const onInputChange = useCallback(
-    (property: string): ChangeEventHandler<HTMLInputElement> => e => {
-      teacher.changeObject(data, property, e.target.value)
-    },
-    []
-  )
+// const onInputChange = useCallback(
+//   (property: string): ChangeEventHandler<HTMLInputElement> => e => {
+//     teacher.changeObject(data, property, e.target.value)
+//   },
+//   []
+// )
 
-  const onCreateClick = useCallback(() => {
-    teacher.createSubject(data)
-  }, [])
+// const onCreateClick = useCallback(() => {
+//   teacher.createSubject(data)
+// }, [])
 
-  const onRemoveClick = useCallback(() => {
-    teacher.removeLocalSubject()
-  }, [])
+// const onRemoveClick = useCallback(() => {
+//   teacher.removeLocalSubject()
+// }, [])
 
-  const onSaveClick = useCallback(() => {
-    teacher.updateSubject()
-  }, [])
+// const onSaveClick = useCallback(() => {
+//   teacher.updateSubject()
+// }, [])
 
-  const onDeleteClick = useCallback(() => {
-    teacher.deleteSubject()
-  }, [])
+// const onDeleteClick = useCallback(() => {
+//   teacher.deleteSubject()
+// }, [])
 
-  const onCancelClick = useCallback(() => {
-    teacher.uneditSubject()
-  }, [])
+// const onCancelClick = useCallback(() => {
+//   teacher.uneditSubject()
+// }, [])
 
-  const onChangeClick = useCallback(() => {
-    teacher.editSubject(data)
-  }, [])
+// const onChangeClick = useCallback(() => {
+//   teacher.editSubject(data)
+// }, [])
 
-  return (
-    <ItemWithCollapse
-      head={
-        <>
-          <Input
-            placeholder="Название"
-            value={data.name}
-            onChange={onInputChange('name')}
-            disabled={!(data.isCreating || data.isEditing)}
-          />
-          <Input
-            placeholder="Группы"
-            value={data.groups.toString()}
-            onChange={onInputChange('groups')}
-            disabled={!(data.isCreating || data.isEditing)}
-          />
-          {!!data.isCreating && (
-            <>
-              <S.Button color="success" onClick={onCreateClick}>
-                Создать
-              </S.Button>
-              <S.Button color="secondary" onClick={onRemoveClick}>
-                Отменить
-              </S.Button>
-            </>
-          )}
-          {!!data.isEditing && (
-            <>
-              <S.Button color="success" onClick={onSaveClick}>
-                Сохранить
-              </S.Button>
-              <S.Button color="danger" onClick={onDeleteClick}>
-                Удалить
-              </S.Button>
-              <S.Button color="secondary" onClick={onCancelClick}>
-                Отменить
-              </S.Button>
-            </>
-          )}
-          {teacher.noActiveAction && (
-            <Button color="warning" onClick={onChangeClick}>
-              Изменить
-            </Button>
-          )}
-        </>
-      }
-      isOpened={true}
-    >
-      {!!data.tasks && data.tasks.map((item, index) => <TaskItem key={index} data={item} />)}
-    </ItemWithCollapse>
-  )
-}
+// return (
+//   <ItemWithCollapse
+//     head={
+//       <>
+//         <Input
+//           placeholder="Название"
+//           value={data.name}
+//           onChange={onInputChange('name')}
+//           disabled={!(data.isCreating || data.isEditing)}
+//         />
+//         <Input
+//           placeholder="Группы"
+//           value={data.groups.toString()}
+//           onChange={onInputChange('groups')}
+//           disabled={!(data.isCreating || data.isEditing)}
+//         />
+//         {!!data.isCreating && (
+//           <>
+//             <S.Button color="success" onClick={onCreateClick}>
+//               Создать
+//             </S.Button>
+//             <S.Button color="secondary" onClick={onRemoveClick}>
+//               Отменить
+//             </S.Button>
+//           </>
+//         )}
+//         {!!data.isEditing && (
+//           <>
+//             <S.Button color="success" onClick={onSaveClick}>
+//               Сохранить
+//             </S.Button>
+//             <S.Button color="danger" onClick={onDeleteClick}>
+//               Удалить
+//             </S.Button>
+//             <S.Button color="secondary" onClick={onCancelClick}>
+//               Отменить
+//             </S.Button>
+//           </>
+//         )}
+//         {teacher.noActiveAction && (
+//           <Button color="warning" onClick={onChangeClick}>
+//             Изменить
+//           </Button>
+//         )}
+//       </>
+//     }
+//     isOpened={true}
+//   >
+//     {!!data.tasks && data.tasks.map((item, index) => <TaskItem key={index} data={item} />)}
+//   </ItemWithCollapse>
+// )
+// }
 
 export default observer(SubjectItem)

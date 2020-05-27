@@ -113,8 +113,11 @@ const teacher = db => ({
       })
   },
 
-  createTask(req, res, next) {
-    db.none('insert into task (name, exts, groups, subject_id, teacher_id) values (${name}, ${exts}, ${groups}, ${subject_id}, ${teacher_id})', req.body)
+  createTask(req, res) {
+    db.none(`
+      insert into task (name, exts, groups, subject_id, teacher_id) 
+      values ($[name], $[exts], $[groups], $[subjectId], $[teacherId])
+      `, req.body)
       .then(function() {
         res.status(200)
           .json({
@@ -123,6 +126,7 @@ const teacher = db => ({
           })
       })
       .catch(function(err) {
+        console.log(err)
         res.status(400)
           .json({
             status: 'error',

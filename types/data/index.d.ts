@@ -38,7 +38,7 @@ declare namespace Data {
   } & MetaInfo
 
   type Task = {
-    id?: number
+    id: number | string
     description?: string
     name: string
     subjectId?: number

@@ -1,5 +1,5 @@
 import React, { FC, ComponentType } from 'react'
-import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
@@ -7,51 +7,53 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
-import { makeStyles } from '@material-ui/core/styles'
 import { observer } from 'mobx-react'
 
-import sizes from 'lib/theme/sizes'
-import CustomPaper from 'components/CustomPaper'
+import S from './styles'
 
 type TOuterProps = {
   subjects: Data.Subject[]
   TaskItem: ComponentType<{ data: Data.Task }>
+  onAddButtonClick?: (subject: Data.Subject) => () => void
   onSubjectItemClick: (subject: Data.Subject) => () => void
 }
 type TProps = TOuterProps
 
-const useStyles = makeStyles(() => ({
-  paper: {
-    marginBottom: sizes.MARGIN
-  }
-}))
-
-const SubjectsList: FC<TProps> = ({ children, subjects, TaskItem, onSubjectItemClick }) => {
-  const classes = useStyles()
-
-  return (
-    <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
-      {subjects.map((item, index) => (
-        <CustomPaper key={index} className={classes.paper}>
-          <ListItem
-            button
-            divider={item.isOpened && !!item.tasks.length}
-            onClick={onSubjectItemClick(item)}
-          >
-            <ListItemText>{item.name}</ListItemText>
-            {item.isOpened ? <ExpandLess /> : <ExpandMore />}
-          </ListItem>
-          <Collapse in={item.isOpened}>
-            <List>
-              {item.tasks.map((item, index) => (
-                <TaskItem key={index} data={item} />
-              ))}
-            </List>
-          </Collapse>
-        </CustomPaper>
-      ))}
-    </List>
-  )
-}
+const SubjectsList: FC<TProps> = ({
+  children,
+  subjects,
+  TaskItem,
+  onAddButtonClick,
+  onSubjectItemClick
+}) => (
+  <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
+    {subjects.map((subject, index) => (
+      <S.CustomPaper key={index}>
+        <ListItem
+          button
+          divider={subject.isOpened && !!(subject.tasks.length || onAddButtonClick)}
+          onClick={onSubjectItemClick(subject)}
+        >
+          <ListItemText>{subject.name}</ListItemText>
+          {subject.isOpened ? <ExpandLess /> : <ExpandMore />}
+        </ListItem>
+        <Collapse in={subject.isOpened}>
+          <List>
+            {subject.tasks.map((task, index) => (
+              <TaskItem key={index} data={task} />
+            ))}
+            {!!onAddButtonClick && (
+              <S.Item button onClick={onAddButtonClick(subject)}>
+                <Button color="primary" variant="contained">
+                  Добавить задание
+                </Button>
+              </S.Item>
+            )}
+          </List>
+        </Collapse>
+      </S.CustomPaper>
+    ))}
+  </List>
+)
 
 export default observer(SubjectsList)
