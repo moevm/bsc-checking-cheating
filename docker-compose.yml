@@ -1,0 +1,22 @@
+
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: yarn start
+    environment: 
+      DATABASE_URL: postgres://pguser:password@db:5432/antiplagiat
+    image: mranchor/antiplagiat-app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    image: mranchor/antiplagiat-db
+    ports:
+      - "35432:5432"
