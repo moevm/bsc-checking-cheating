@@ -1,9 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const dotenv = require('dotenv')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
 
+dotenv.config()
 const config = require('../webpack.dev.js')
 const compiler = webpack(config)
 const app = express()
