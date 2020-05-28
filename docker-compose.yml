@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     command: yarn start
     environment: 
-      DATABASE_URL: postgres://pguser:password@db:5432/antiplagiat
+      DATABASE_URL: postgres://docker:password@db:5432/antiplagiat
     image: mranchor/antiplagiat-app
     ports:
       - "3000:3000"
