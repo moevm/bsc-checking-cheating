@@ -29,7 +29,7 @@ export const routes: TCustomRoute[] = [
   },
   {
     name: 'teacher.index',
-    path: '/index',
+    path: '/',
     component: universalRoute(import('../../pages/Teacher/sub_pages/Index'))
   },
   {

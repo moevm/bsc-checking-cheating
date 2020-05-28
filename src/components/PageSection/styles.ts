@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 const Styled = {
   Section: styled.section`
-    flex: 1;
+    max-height: 100%;
     padding: ${props => props.theme.sizes.MAIN_PADDING};
     overflow: auto;
   `,
