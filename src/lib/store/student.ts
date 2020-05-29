@@ -59,6 +59,7 @@ export default class Student {
     const self = this as Student
     const formData = new FormData()
     formData.append('task_id', self.choosenTask.id.toString())
+    formData.append('check_type', self.choosenTask.check_type)
     formData.append('student_id', self.id.toString())
     formData.append('subject_id', self.choosenTask.subject_id.toString())
     formData.append('solution', self.uploadedFile)

@@ -57,8 +57,7 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
   const [form, setForm] = useState<TState>({
     ...task,
     extsString: task.exts ? task.exts.join('; ') : '',
-    description: task.description || '',
-    checkType: task.checkType || 'task'
+    description: task.description || ''
   })
   const [isEditing, setIsEditing] = useState<boolean>(!!task.isCreating)
   const classes = useStyles()
@@ -164,9 +163,9 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
               <S.FormLabel component="legend">Способ сравнения</S.FormLabel>
               <RadioGroup
                 aria-label="check solution type"
-                name="checkType"
-                value={form.checkType}
-                onChange={onChange('checkType')}
+                name="check_type"
+                value={form.check_type}
+                onChange={onChange('check_type')}
               >
                 <S.FormControlLabel value="task" control={<Radio />} label="по заданию" />
                 <S.FormControlLabel value="subject" control={<Radio />} label="по предмету" />

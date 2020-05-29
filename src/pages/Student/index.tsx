@@ -28,7 +28,7 @@ const StudentPage: FC<TProps> = () => {
 
   return (
     !!student.info && (
-      <PageSection title={student.info.name}>
+      <PageSection title={`${student.info.name} (${student.info.group_number})`}>
         <SubjectsList
           subjects={student.info.subjects}
           TaskItem={TaskItem}

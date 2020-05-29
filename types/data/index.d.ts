@@ -26,6 +26,7 @@ declare namespace Data {
   type Student = {
     id: number
     name: string
+    group_number: string
     subjects: Subject[]
   }
 
@@ -41,6 +42,7 @@ declare namespace Data {
     id?: number | string
     name?: string
     bound?: number
+    check_type?: 'all' | 'subject' | 'task'
     description?: string
     exts?: string[]
     groups?: string[]
@@ -48,7 +50,6 @@ declare namespace Data {
     solutions?: Solution[]
     subject_id?: number
     subjectGroups?: string[]
-    checkType?: 'all' | 'subject' | 'task'
   } & MetaInfo
 
   type Teacher = {

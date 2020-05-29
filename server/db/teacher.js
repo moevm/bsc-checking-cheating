@@ -7,7 +7,8 @@ const teacher = db => ({
         select subject.id, subject.name, teacher_subject.groups from subject
         inner join teacher_subject
         on subject.id = teacher_subject.subject_id
-        where teacher_subject.teacher_id = $[id]      
+        where teacher_subject.teacher_id = $[id]
+        order by subject.name      
       `, req.params)
       
       for (subject of subjects) {
@@ -147,7 +148,7 @@ const teacher = db => ({
       update task
       set name = $[name],
           exts = $[exts],
-          check_type = $[checkType],
+          check_type = $[check_type],
           description = $[description],
           bound = $[bound],
           groups = $[groups]

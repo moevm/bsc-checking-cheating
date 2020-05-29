@@ -16,14 +16,16 @@ module.exports = function (db) {
           inner join subject
           on subject.id = teacher_subject.subject_id
           where student.id = $[id]
+          order by subject.name
         `, req.params)
 
         for (let subject of subjects) {
           subject.tasks = await db.any(`
-            select task.id, task.name, task.subject_id, task.bound, solution.originality::numeric from task
+            select task.id, task.name, task.subject_id, task.bound, solution.originality::numeric, task.check_type from task
             left join solution
             on task.id = solution.task_id
             where $[group] = any (groups) and task.subject_id = $[subject_id] and (solution.student_id = $[id] or solution.student_id is null)
+            order by task.created_at
           `, {
             id: studentInfo.id,
             subject_id: subject.id,
@@ -48,11 +50,21 @@ module.exports = function (db) {
     checkSolution(req, res) {
       const buf = Buffer.from(req.file.buffer)
       const fingerprint = findFingerprint(buf.toString())
+      const getQueryByType = type => {
+        switch (type) {
+          case 'task':
+            return 'and task_id = $[task_id]'
+          case 'subject':
+            return 'and subject_id = $[subject_id]'
+          default:
+            return ''
+        }
+      }
 
       db.task(async  t => {
         const hashes = await db.any(`
           select id, fingerprint from solution
-          where task_id != $[task_id] or student_id != $[student_id]
+          where student_id != $[student_id] ${getQueryByType(req.body.check_type)} 
         `, req.body)
         const [originality, reference] = findSimilarity(hashes, fingerprint)
 

@@ -57,7 +57,7 @@ export default class Teacher {
       id: 'new',
       name: 'Новое задание',
       bound: 60,
-      checkType: 'task',
+      check_type: 'task',
       exts: [],
       groups: subject.groups,
       isCreating: true,
