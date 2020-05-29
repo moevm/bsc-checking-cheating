@@ -1,5 +1,4 @@
 import React, { FC, ComponentType } from 'react'
-import Button from '@material-ui/core/Button'
 import Collapse from '@material-ui/core/Collapse'
 import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
@@ -27,11 +26,13 @@ const SubjectsList: FC<TProps> = ({
   onSubjectItemClick
 }) => (
   <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
-    {subjects.map((subject, index) => (
-      <S.CustomPaper key={index}>
+    {subjects.map(subject => (
+      <S.CustomPaper key={subject.id}>
         <ListItem
           button
-          divider={subject.isOpened && !!(subject.tasks.length || onAddButtonClick)}
+          divider={
+            subject.isOpened && !!((subject.tasks && subject.tasks.length) || onAddButtonClick)
+          }
           onClick={onSubjectItemClick(subject)}
         >
           <ListItemText>{subject.name}</ListItemText>
@@ -39,14 +40,12 @@ const SubjectsList: FC<TProps> = ({
         </ListItem>
         <Collapse in={subject.isOpened}>
           <List>
-            {subject.tasks.map((task, index) => (
-              <TaskItem key={index} data={task} />
-            ))}
+            {!!subject.tasks && subject.tasks.map(task => <TaskItem key={task.id} data={task} />)}
             {!!onAddButtonClick && (
               <S.Item button onClick={onAddButtonClick(subject)}>
-                <Button color="primary" variant="contained">
+                <S.Button color="primary" variant="contained">
                   Добавить задание
-                </Button>
+                </S.Button>
               </S.Item>
             )}
           </List>

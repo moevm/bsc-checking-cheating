@@ -19,9 +19,7 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
   const router = useRouter()
 
   useEffect(() => {
-    if (typeof route.params.id === 'number') {
-      teacher.fetchTaskInfo(route.params.id)
-    }
+    teacher.fetchTaskInfo(route.params.id)
 
     return () => teacher.closeModal()
   }, [])

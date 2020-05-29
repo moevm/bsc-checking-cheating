@@ -1,12 +1,20 @@
 const teacher = db => ({
   // TODO: remove after making jwt auth
-  getTeacherInfo(req, res, next) {
+  getTeacherInfo(req, res) {
     db.task(async t => {
-      const teacherInfo = await db.one('select id, name, login from teacher where id = ${id}', req.params)
-      const subjects = await db.any('select * from subject where teacher_id = ${id}', req.params)
+      const teacherInfo = await db.one('select id, name from teacher where id = ${id}', req.params)
+      const subjects = await db.any(`
+        select subject.id, subject.name, teacher_subject.groups from subject
+        inner join teacher_subject
+        on subject.id = teacher_subject.subject_id
+        where teacher_subject.teacher_id = $[id]      
+      `, req.params)
       
       for (subject of subjects) {
-        const tasks = await db.any('select * from task where teacher_id = ${id} and subject_id = ${subjectId}', { ...req.params, subjectId: subject.id })
+        const tasks = await db.any(`
+          select * from task
+          where teacher_id = $[id] and subject_id = $[subjectId]
+        `, { ...req.params, subjectId: subject.id })
 
         subject.tasks = tasks
       }
@@ -21,10 +29,7 @@ const teacher = db => ({
       .catch(function(err) {
         console.log(err)
         res.status(400)
-          .json({
-            status: 'error',
-            message: 'no such user'
-          })
+          .json('oшибка')
       })
   },
 
