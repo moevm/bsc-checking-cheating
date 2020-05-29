@@ -14,6 +14,7 @@ const teacher = db => ({
         const tasks = await db.any(`
           select id, name, subject_id from task
           where teacher_id = $[id] and subject_id = $[subjectId]
+          order by created_at
         `, { ...req.params, subjectId: subject.id })
 
         subject.tasks = tasks

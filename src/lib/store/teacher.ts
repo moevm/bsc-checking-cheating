@@ -81,10 +81,10 @@ export default class Teacher {
 
   @action
   public changeTask = (newTask: Data.Task) => {
-    const subject = this.info.subjects.find(subject => subject.id === newTask.subject_id)
+    const subject = this.findSubjectById(newTask.subject_id)
     const index = subject.tasks.findIndex(task => task.id === newTask.id)
 
-    subject[index] = newTask
+    subject.tasks[index] = newTask
   }
 
   public requestTaskInfo = flow(function* (id: number) {
@@ -156,6 +156,7 @@ export default class Teacher {
         body: task
       })
 
+      self.changeTask(task)
       self.task = task
     } catch (error) {
       console.error(error)
