@@ -5,48 +5,30 @@ module.exports = function (db) {
     // TODO: remove after making jwt auth
     getStudentInfo(req, res, next) {
       db.task(async t => {
-        const studentInfo = await db.any(`
-          select distinct on (task.id) task.id as task_id, task.name as task_name, task.exts, task.subject_id, subject.name as subject_name, student.name, solution.originality from task
+        const studentInfo = await db.one('select id, name, group_number from student', req.params)
+        const subjects = await db.any(`
+          select subject.id, subject.name from student
+          inner join teacher_subject
+          on student.group_number = any (teacher_subject.groups)
           inner join subject
-          on task.subject_id = subject.id
-          inner join student
-          on student.group_number = any (task.groups)
-          left join solution
-          on student.id = solution.student_id and task.id = solution.task_id
+          on subject.id = teacher_subject.subject_id
           where student.id = $[id]
         `, req.params)
-        const result = {
-          name: studentInfo[0].name,
-          subjects: []
+
+        for (let subject of subjects) {
+          subject.tasks = await db.any(`
+            select id, name from task
+            where subject_id = $[subject_id] and $[group] = any (groups)
+          `, {
+            subject_id: subject.id,
+            group: studentInfo.group_number
+          })
         }
 
-        studentInfo.forEach(item => {
-          const new_task = {
-            id: item.task_id,
-            name: item.task_name,
-            exts: item.exts,
-            subjectId: item.subject_id,
-            originality: item.originality
-          } 
-          const new_subject = {
-            id: item.subject_id,
-            name: item.subject_name,
-            tasks: [new_task]
-          }
-          const subject = result.subjects.find(subject => subject.id === item.subject_id)
-
-          if (subject) {
-            subject.tasks.push(new_task)
-          } else {
-            result.subjects.push(new_subject)
-          }
-        })
-        return result
+        studentInfo.subjects = subjects
+        return studentInfo
       })     
-        .then(function(data) {
-          res.status(200)
-            .json(data)
-        })
+        .then((data) => res.status(200).json(data))
         .catch(function(err) {
           console.log(err)
           res.status(400)

@@ -8,22 +8,22 @@ import useStore from 'hooks/useStore'
 import S from './styles'
 
 type TOuterProps = {
-  data: Data.Task
+  task: Data.Task
 }
 type TProps = TOuterProps
 
-const TaskItem: FC<TProps> = ({ data }) => {
+const TaskItem: FC<TProps> = ({ task }) => {
   const { teacher } = useStore()
 
   const onDeleteClick = useCallback(() => {
-    teacher.deleteTask(data)
+    teacher.deleteTask(task)
   }, [teacher.deleteTask])
 
   return (
     <ListItem disableGutters>
-      <S.Link routeName="teacher.task" routeParams={{ id: data.id }}>
+      <S.Link routeName="teacher.task" routeParams={{ id: task.id }}>
         <S.FakeButton button>
-          <ListItemText>{data.name}</ListItemText>
+          <ListItemText>{task.name}</ListItemText>
         </S.FakeButton>
       </S.Link>
       <Button variant="contained" onClick={onDeleteClick}>

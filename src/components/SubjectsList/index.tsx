@@ -11,19 +11,13 @@ import S from './styles'
 
 type TOuterProps = {
   subjects: Data.Subject[]
-  TaskItem: ComponentType<{ data: Data.Task }>
+  TaskItem: ComponentType<{ task: Data.Task }>
   onAddButtonClick?: (subject: Data.Subject) => () => void
   onSubjectItemClick: (subject: Data.Subject) => () => void
 }
 type TProps = TOuterProps
 
-const SubjectsList: FC<TProps> = ({
-  children,
-  subjects,
-  TaskItem,
-  onAddButtonClick,
-  onSubjectItemClick
-}) => (
+const SubjectsList: FC<TProps> = ({ subjects, TaskItem, onAddButtonClick, onSubjectItemClick }) => (
   <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
     {subjects.map(subject => (
       <S.CustomPaper key={subject.id}>
@@ -36,11 +30,11 @@ const SubjectsList: FC<TProps> = ({
         >
           {subject.isOpened ? <ExpandLess /> : <ExpandMore />}
           <S.SubjectName>{subject.name}</S.SubjectName>
-          <S.Groups>группы: {subject.groups.join(', ')}</S.Groups>
+          {!!onAddButtonClick && <S.Groups>группы: {subject.groups.join(', ')}</S.Groups>}
         </ListItem>
         <Collapse in={subject.isOpened}>
           <List>
-            {!!subject.tasks && subject.tasks.map(task => <TaskItem key={task.id} data={task} />)}
+            {!!subject.tasks && subject.tasks.map(task => <TaskItem key={task.id} task={task} />)}
             {!!onAddButtonClick && (
               <S.Item button onClick={onAddButtonClick(subject)}>
                 <S.Button color="primary" variant="contained">

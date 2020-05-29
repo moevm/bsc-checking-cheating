@@ -4,7 +4,7 @@ import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 export default class Student {
-  private id = 2
+  private id = 1
 
   @observable public info: Data.Student | null = null
   @observable public choosenTask: Data.Task | null = null
@@ -15,7 +15,7 @@ export default class Student {
     return !!this.choosenTask
   }
 
-  public fetchStudentInfo = flow(function* () {
+  public requestStudentInfo = flow(function* () {
     const self = this as Student
 
     try {

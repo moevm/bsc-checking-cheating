@@ -1,55 +1,36 @@
 import React, { FC, useCallback } from 'react'
-import Button from '@material-ui/core/Button'
-import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
-import { makeStyles } from '@material-ui/core/styles'
 import { observer } from 'mobx-react'
 
 import useStore from 'hooks/useStore'
 
+import S from './styles'
+
 type TOuterProps = {
-  data: Data.Task
+  task: Data.Task
 }
 type TProps = TOuterProps
 
-const useStyles = makeStyles(() => ({
-  listItem: {
-    '&:hover': {
-      '& $button': {
-        opacity: 1
-      }
-    }
-  },
-  result: {
-    textAlign: 'right'
-  },
-  button: {
-    opacity: 0,
-    transition: 'opacity 0.3s'
-  }
-}))
-
-const TaskItem: FC<TProps> = ({ data }) => {
+const TaskItem: FC<TProps> = ({ task }) => {
   const { student } = useStore()
-  const classes = useStyles()
 
   const onItemClick = useCallback(() => {
-    // if (!data.originality) {
-    student.openModal(data)
+    // if (!task.originality) {
+    student.openModal(task)
     // }
-  }, [data])
+  }, [task])
 
   return (
-    <ListItem className={classes.listItem} button divider onClick={onItemClick}>
-      <ListItemText>{data.name}</ListItemText>
-      {/* {data.originality ? (
-        <ListItemText className={classes.result}>оригинальность: {data.originality}%</ListItemText>
+    <S.ListItem button onClick={onItemClick}>
+      <ListItemText>{task.name}</ListItemText>
+      {/* {task.originality ? (
+        <ListItemText className={classes.result}>оригинальность: {task.originality}%</ListItemText>
       ) : ( */}
-      <Button className={classes.button} color="primary" variant="contained">
+      <S.Button color="primary" variant="contained">
         Загрузить
-      </Button>
+      </S.Button>
       {/* )} */}
-    </ListItem>
+    </S.ListItem>
   )
 }
 

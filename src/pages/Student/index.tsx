@@ -16,7 +16,7 @@ const StudentPage: FC<TProps> = () => {
   const { student } = useStore()
 
   useEffect(() => {
-    student.fetchStudentInfo()
+    student.requestStudentInfo()
   }, [])
 
   const onSubjectItemClick = useCallback(
@@ -29,12 +29,12 @@ const StudentPage: FC<TProps> = () => {
   return (
     !!student.info && (
       <PageSection title={student.info.name}>
-        {student.modalIsOpen && <UploadModal />}
         <SubjectsList
           subjects={student.info.subjects}
           TaskItem={TaskItem}
           onSubjectItemClick={onSubjectItemClick}
         />
+        {student.modalIsOpen && <UploadModal />}
       </PageSection>
     )
   )
