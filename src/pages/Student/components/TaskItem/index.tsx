@@ -3,7 +3,6 @@ import ListItemText from '@material-ui/core/ListItemText'
 import { observer } from 'mobx-react'
 
 import useStore from 'hooks/useStore'
-import { SUCCESS, DANGER } from 'lib/theme/colors'
 
 import S from './styles'
 
@@ -32,9 +31,7 @@ const TaskItem: FC<TProps> = ({ task }) => {
         {withResult ? 'Заменить решение' : 'Загрузить'}
       </S.Button>
       {withResult && (
-        <S.Result
-          style={{ backgroundColor: parseFloat(task.originality) >= task.bound ? SUCCESS : DANGER }}
-        >
+        <S.Result bound={task.bound} result={task.originality}>
           {task.originality}
         </S.Result>
       )}

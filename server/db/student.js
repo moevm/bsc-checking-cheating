@@ -45,7 +45,7 @@ module.exports = function (db) {
         })
     },
 
-    checkSolution(req, res, next) {
+    checkSolution(req, res) {
       const buf = Buffer.from(req.file.buffer)
       const fingerprint = findFingerprint(buf.toString())
 
@@ -57,20 +57,22 @@ module.exports = function (db) {
         const [originality, reference] = findSimilarity(hashes, fingerprint)
 
         const result = await db.one(`
-          insert into solution (task_id, student_id, subject_id, originality, fingerprint, file, reference_id)
-          values ($[task_id], $[student_id], $[subject_id], $[originality], $[fingerprint], $[file], $[reference_id])
+          insert into solution (task_id, student_id, subject_id, originality, fingerprint, file, reference_id, file_name)
+          values ($[task_id], $[student_id], $[subject_id], $[originality], $[fingerprint], $[file], $[reference_id], $[file_name])
           on conflict on constraint solution_pkey
           do update 
           set fingerprint = $[fingerprint],
               file = $[file],
               originality = $[originality],
               reference_id = $[reference_id],
-              created_at = NOW()
+              created_at = NOW(),
+              file_name = $[file_name]
           where solution.task_id = excluded.task_id and solution.student_id = excluded.student_id
           returning originality
         `, {
           ...req.body,
           file: `\\x${buf.toString('hex')}`,
+          file_name: req.file.originalname,
           fingerprint,
           originality: originality,
           reference_id: reference && reference.id

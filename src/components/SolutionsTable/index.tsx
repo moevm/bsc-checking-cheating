@@ -10,14 +10,16 @@ import { observer } from 'mobx-react'
 
 import formatDate from 'utils/formatDate'
 import CustomPaper from 'components/CustomPaper'
+import Result from 'components/Result'
 
 type TOuterProps = {
+  bound: number
   solutions: Data.Solution[]
   onRowClick: (solution: Data.Solution) => () => void
 }
 type TProps = TOuterProps
 
-const SolutionsTable: FC<TProps> = ({ solutions, onRowClick }) => (
+const SolutionsTable: FC<TProps> = ({ bound, solutions, onRowClick }) => (
   <CustomPaper>
     <TableContainer>
       <Table>
@@ -34,8 +36,10 @@ const SolutionsTable: FC<TProps> = ({ solutions, onRowClick }) => (
             <TableRow key={index} hover onClick={onRowClick(item)}>
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.group_number}</TableCell>
-              <TableCell>{item.originality} %</TableCell>
-              <TableCell>{formatDate(item.date)}</TableCell>
+              <TableCell>
+                <Result bound={bound} result={item.originality} />
+              </TableCell>
+              <TableCell>{formatDate(item.created_at)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -68,10 +68,14 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
         onCancelCreating={onCancelClick}
         onFormSubmit={onFormSubmit}
       />
-      {/* {!!teacher.task.solutions && (
-        <SolutionsTable solutions={teacher.task.solutions} onRowClick={onShowFileClick} />
+      {!!teacher.task.solutions && (
+        <SolutionsTable
+          bound={teacher.task.bound}
+          solutions={teacher.task.solutions}
+          onRowClick={onShowFileClick}
+        />
       )}
-      {!!teacher.modal && <DiffModal difference={teacher.modal} onCloseClick={onCloseModalClick} />} */}
+      {!!teacher.modal && <DiffModal difference={teacher.modal} onCloseClick={onCloseModalClick} />}
     </Box>
   ) : (
     <p>loading</p>

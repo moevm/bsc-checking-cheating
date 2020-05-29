@@ -1,8 +1,12 @@
-import React, { FC, useEffect, useState, ChangeEventHandler, FormEventHandler } from 'react'
+import React, { FC, useState, ChangeEventHandler, FormEventHandler } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
+import Checkbox from '@material-ui/core/Checkbox'
+import InputLabel from '@material-ui/core/InputLabel'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
+import MenuItem from '@material-ui/core/MenuItem'
+import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import { observer } from 'mobx-react'
 
@@ -10,10 +14,10 @@ import sizes from 'lib/theme/sizes'
 import CustomPaper from 'components/CustomPaper'
 
 import S from './styles'
+import { Input, FormControl } from '@material-ui/core'
 
 type TOuterProps = {
   className?: string
-  // isCreating: boolean
   task: Data.Task
   onCancelCreating: () => void
   onFormSubmit: (task: Data.Task) => void
@@ -21,6 +25,7 @@ type TOuterProps = {
 type TProps = TOuterProps
 type TState = {
   name?: string
+  groups: string[]
   description?: string
   exts?: string
 }
@@ -44,7 +49,6 @@ const useStyles = makeStyles(() => ({
     }
   },
   changeButton: {
-    // opacity: 0,
     transition: 'opacity 0.3s'
   }
 }))
@@ -52,20 +56,12 @@ const useStyles = makeStyles(() => ({
 const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) => {
   const [form, setForm] = useState<TState>({
     name: task.name,
+    groups: task.groups,
     exts: task.exts ? task.exts.join('; ') : '',
     description: task.description || ''
   })
   const [isEditing, setIsEditing] = useState<boolean>(!!task.isCreating)
   const classes = useStyles()
-
-  useEffect(() => {
-    // setForm({
-    //   ...form,
-    //   name: task.name,
-    //   // exts: task.exts.join('; '),
-    //   description: task.description
-    // })
-  }, [task])
 
   const onSubmitClick: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -117,6 +113,27 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
               value={form.exts}
               onChange={onChange('exts')}
             />
+            <FormControl>
+              <InputLabel id="groups-select-label">Номера групп</InputLabel>
+              <Select
+                labelId="groups-select-label"
+                id="group-select"
+                autoWidth
+                multiple
+                labelWidth={300}
+                value={form.groups}
+                input={<Input />}
+                renderValue={(selected: string[]) => selected.join(', ')}
+                onChange={onChange('groups')}
+              >
+                {task.subjectGroups.map(group => (
+                  <MenuItem key={group} value={group}>
+                    <Checkbox checked={form.groups.indexOf(group) > -1} />
+                    <ListItemText primary={group} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <Button
               className={classes.submitButton}
               type="submit"

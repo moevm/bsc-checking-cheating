@@ -59,6 +59,7 @@ export default class Teacher {
       subject_id: subject.id,
       exts: [],
       groups: subject.groups,
+      subjectGroups: subject.groups,
       solutions: [],
       isCreating: true
     }

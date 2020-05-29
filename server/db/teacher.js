@@ -102,7 +102,12 @@ const teacher = db => ({
           on student.id = solution.student_id
           where solution.task_id = $[id]
         `, req.params)
+      const subject = await db.one(`
+          select groups from teacher_subject
+          where teacher_id = $[teacher_id] and subject_id = $[subject_id]
+      `, taskInfo)
 
+      taskInfo.subjectGroups = subject.groups
       taskInfo.solutions = solutions
 
       return taskInfo
