@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead'
 import TableRow from '@material-ui/core/TableRow'
 import { observer } from 'mobx-react'
 
-import formatDate from 'utils/formatDate'
+import { formatDate, formatTime } from 'utils/formatDate'
 import CustomPaper from 'components/CustomPaper'
 import Result from 'components/Result'
 
@@ -28,7 +28,8 @@ const SolutionsTable: FC<TProps> = ({ bound, solutions, onRowClick }) => (
             <TableCell>Ф.И.О</TableCell>
             <TableCell>Группа</TableCell>
             <TableCell>Оригинальность работы</TableCell>
-            <TableCell>Дата сдачи</TableCell>
+            <TableCell>Дата</TableCell>
+            <TableCell>Время</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -40,6 +41,7 @@ const SolutionsTable: FC<TProps> = ({ bound, solutions, onRowClick }) => (
                 <Result bound={bound} result={item.originality} />
               </TableCell>
               <TableCell>{formatDate(item.created_at)}</TableCell>
+              <TableCell>{formatTime(item.created_at)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

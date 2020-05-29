@@ -1,4 +1,4 @@
-import { observable, action, flow, autorun, computed, toJS, IObservableArray } from 'mobx'
+import { observable, action, flow, IObservableArray } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
@@ -56,28 +56,20 @@ export default class Teacher {
     this.task = {
       id: 'new',
       name: 'Новое задание',
-      subject_id: subject.id,
+      bound: 60,
+      checkType: 'task',
       exts: [],
       groups: subject.groups,
+      isCreating: true,
       subjectGroups: subject.groups,
       solutions: [],
-      isCreating: true
+      subject_id: subject.id
     }
-
-    // if (subject.tasks) {
-    //   subject.tasks.push(task)
-    // } else {
-    //   subject.tasks = [task]
-    // }
   }
 
   @action
   public removeDraftTask = () => {
     this.task = null
-    // const result = this.findTaskWithParentById(0)
-    // const oArray = result.subject.tasks as IObservableArray<Data.Task>
-
-    // oArray.remove(result.task)
   }
 
   @action

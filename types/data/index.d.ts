@@ -48,6 +48,7 @@ declare namespace Data {
     solutions?: Solution[]
     subject_id?: number
     subjectGroups?: string[]
+    checkType?: 'all' | 'subject' | 'task'
   } & MetaInfo
 
   type Teacher = {

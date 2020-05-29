@@ -2,10 +2,14 @@ import React, { FC, useState, ChangeEventHandler, FormEventHandler } from 'react
 import { makeStyles } from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
+import FormControl from '@material-ui/core/FormControl'
+import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuItem from '@material-ui/core/MenuItem'
+import Radio from '@material-ui/core/Radio'
+import RadioGroup from '@material-ui/core/RadioGroup'
 import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import { observer } from 'mobx-react'
@@ -14,7 +18,6 @@ import sizes from 'lib/theme/sizes'
 import CustomPaper from 'components/CustomPaper'
 
 import S from './styles'
-import { Input, FormControl } from '@material-ui/core'
 
 type TOuterProps = {
   className?: string
@@ -23,11 +26,8 @@ type TOuterProps = {
   onFormSubmit: (task: Data.Task) => void
 }
 type TProps = TOuterProps
-type TState = {
-  name?: string
-  groups: string[]
-  description?: string
-  exts?: string
+type TState = Data.Task & {
+  extsString: string
 }
 
 const useStyles = makeStyles(() => ({
@@ -55,10 +55,10 @@ const useStyles = makeStyles(() => ({
 
 const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) => {
   const [form, setForm] = useState<TState>({
-    name: task.name,
-    groups: task.groups,
-    exts: task.exts ? task.exts.join('; ') : '',
-    description: task.description || ''
+    ...task,
+    extsString: task.exts ? task.exts.join('; ') : '',
+    description: task.description || '',
+    checkType: task.checkType || 'task'
   })
   const [isEditing, setIsEditing] = useState<boolean>(!!task.isCreating)
   const classes = useStyles()
@@ -67,10 +67,9 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
     e.preventDefault()
 
     onFormSubmit({
-      ...task,
-      name: form.name,
-      description: form.description,
-      exts: form.exts
+      ...form,
+      bound: typeof form.bound === 'string' ? parseInt(form.bound) : form.bound,
+      exts: form.extsString
         .replace(/\s*/g, '')
         .split(';')
         .map(ext => (ext[0] === '.' ? ext : `.${ext}`))
@@ -105,20 +104,19 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
               onChange={onChange('name')}
             />
             <TextField
-              id="exts"
+              id="extsString"
               className={classes.textField}
               label="Допустимые расширения"
               size="small"
               variant="outlined"
-              value={form.exts}
-              onChange={onChange('exts')}
+              value={form.extsString}
+              onChange={onChange('extsString')}
             />
             <FormControl>
               <InputLabel id="groups-select-label">Номера групп</InputLabel>
               <Select
                 labelId="groups-select-label"
                 id="group-select"
-                autoWidth
                 multiple
                 labelWidth={300}
                 value={form.groups}
@@ -134,6 +132,15 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
                 ))}
               </Select>
             </FormControl>
+            <TextField
+              id="bound"
+              label="Граница (в %)"
+              size="small"
+              variant="outlined"
+              value={form.bound}
+              onChange={onChange('bound')}
+            />
+
             <Button
               className={classes.submitButton}
               type="submit"
@@ -152,17 +159,32 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
             </Button>
           </S.Wrapper>
 
-          <TextField
-            id="description"
-            label="Описание задания"
-            fullWidth
-            margin="normal"
-            multiline
-            rows={6}
-            variant="outlined"
-            value={form.description}
-            onChange={onChange('description')}
-          />
+          <S.WrapperWithMargin>
+            <S.FormControl component="fieldset">
+              <S.FormLabel component="legend">Способ сравнения</S.FormLabel>
+              <RadioGroup
+                aria-label="check solution type"
+                name="checkType"
+                value={form.checkType}
+                onChange={onChange('checkType')}
+              >
+                <S.FormControlLabel value="task" control={<Radio />} label="по заданию" />
+                <S.FormControlLabel value="subject" control={<Radio />} label="по предмету" />
+                <S.FormControlLabel value="all" control={<Radio />} label="по всей базе" />
+              </RadioGroup>
+            </S.FormControl>
+
+            <TextField
+              id="description"
+              label="Описание задания"
+              fullWidth
+              multiline
+              rows={6}
+              variant="outlined"
+              value={form.description}
+              onChange={onChange('description')}
+            />
+          </S.WrapperWithMargin>
         </form>
       ) : (
         <ListItem className={classes.listItem} button onClick={() => setIsEditing(true)}>

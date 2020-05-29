@@ -127,14 +127,11 @@ const teacher = db => ({
 
   createTask(req, res) {
     db.one(`
-      insert into task (name, exts, groups, subject_id, teacher_id) 
-      values ($[name], $[exts], $[groups], $[subject_id], $[teacherId])
+      insert into task (name, exts, groups, subject_id, teacher_id, check_type, bound) 
+      values ($[name], $[exts], $[groups], $[subject_id], $[teacherId], $[checkType], $[bound])
       returning id
       `, req.body)
-      .then(data => 
-        res.status(200)
-          .json(data)
-      )
+      .then(data => res.status(200).json(data))
       .catch(function(err) {
         console.log(err)
         res.status(400)
@@ -149,13 +146,14 @@ const teacher = db => ({
     db.none(`
       update task
       set name = $[name],
-          exts = $[exts]
+          exts = $[exts],
+          check_type = $[checkType],
+          description = $[description],
+          bound = $[bound],
+          groups = $[groups]
       where id = $[id]
     `, req.body)
-      .then(() => {
-        res.status(200)
-          .json('ok')
-      })
+      .then(() => res.status(200).json('ok'))
       .catch(error => {
         res.status(400)
           .json({
