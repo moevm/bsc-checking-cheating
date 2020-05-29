@@ -14,5 +14,6 @@ router.delete('/subject', db.teacher.deleteSubject)
 router.get('/task/:id', db.teacher.getTaskInfo)
 router.post('/task', db.teacher.createTask)
 router.patch('/task', db.teacher.updateTask)
+router.delete('/task/:id', db.teacher.deleteTask)
 
 module.exports = router

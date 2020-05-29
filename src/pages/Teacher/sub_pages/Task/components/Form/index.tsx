@@ -4,7 +4,6 @@ import Button from '@material-ui/core/Button'
 import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import TextField from '@material-ui/core/TextField'
-import cn from 'classnames'
 import { observer } from 'mobx-react'
 
 import sizes from 'lib/theme/sizes'
@@ -14,6 +13,7 @@ import S from './styles'
 
 type TOuterProps = {
   className?: string
+  // isCreating: boolean
   task: Data.Task
   onCancelCreating: () => void
   onFormSubmit: (task: Data.Task) => void
@@ -26,9 +26,6 @@ type TState = {
 }
 
 const useStyles = makeStyles(() => ({
-  paper: {
-    padding: '1.25rem'
-  },
   textField: {
     marginRight: sizes.MARGIN,
     marginLeft: sizes.MARGIN
@@ -54,20 +51,20 @@ const useStyles = makeStyles(() => ({
 
 const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) => {
   const [form, setForm] = useState<TState>({
-    name: '',
-    description: '',
-    exts: ''
+    name: task.name,
+    exts: task.exts ? task.exts.join('; ') : '',
+    description: task.description || ''
   })
-  const [isEditing, setIsEditing] = useState<boolean>(false)
+  const [isEditing, setIsEditing] = useState<boolean>(!!task.isCreating)
   const classes = useStyles()
 
   useEffect(() => {
-    setForm({
-      name: task.name,
-      exts: task.exts.join('; '),
-      description: task.description
-    })
-    setIsEditing(!!task.isCreating)
+    // setForm({
+    //   ...form,
+    //   name: task.name,
+    //   // exts: task.exts.join('; '),
+    //   description: task.description
+    // })
   }, [task])
 
   const onSubmitClick: FormEventHandler<HTMLFormElement> = e => {
@@ -99,7 +96,7 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
   }
 
   return (
-    <CustomPaper className={cn(classes.paper, className)}>
+    <CustomPaper className={className}>
       {isEditing ? (
         <form onSubmit={onSubmitClick} noValidate autoComplete="off">
           <S.Wrapper>

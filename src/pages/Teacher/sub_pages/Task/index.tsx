@@ -15,27 +15,39 @@ type TOuterProps = App.TInjectedRouteProps & {}
 type TProps = TOuterProps
 
 const TeacherTaskPage: FC<TProps> = ({ route }) => {
-  const { teacher } = useStore()
   const router = useRouter()
+  const { teacher } = useStore()
 
   useEffect(() => {
-    teacher.fetchTaskInfo(route.params.id)
-
-    return () => teacher.closeModal()
-  }, [])
-
-  const onCancelClick = () => {
-    teacher.removeDraftTask()
-    router.navigate('teacher')
-  }
-
-  const onFormSubmit = useCallback((task: Data.Task) => {
-    if (teacher.task.isCreating) {
-      teacher.createTask(task)
-    } else {
-      teacher.updateTask(task)
+    if (!teacher.task) {
+      if (route.params.id === 'new') {
+        router.navigate('teacher')
+      } else {
+        teacher.requestTaskInfo(route.params.id)
+      }
     }
+
+    return () => {
+      teacher.removeDraftTask()
+      //   // teacher.closeModal()
+    }
+  }, [teacher.removeDraftTask])
+
+  const onCancelClick = useCallback(() => {
+    router.navigate('teacher')
   }, [])
+
+  const onFormSubmit = useCallback(
+    (newTask: Data.Task) => {
+      if (teacher.task.isCreating) {
+        teacher.createTask(newTask)
+        router.navigate('teacher')
+      } else {
+        teacher.updateTask(newTask)
+      }
+    },
+    [teacher.createTask, teacher.updateTask]
+  )
 
   const onShowFileClick = useCallback(
     (solution: Data.Solution) => () => {
@@ -48,21 +60,22 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
     teacher.closeModal()
   }, [])
 
-  if (teacher.task) {
-    return (
-      <Box>
-        <S.TaskForm
-          task={teacher.task}
-          onCancelCreating={onCancelClick}
-          onFormSubmit={onFormSubmit}
-        />
+  return teacher.task ? (
+    <Box>
+      <S.TaskForm
+        // isCreating={isCreating}
+        task={teacher.task}
+        onCancelCreating={onCancelClick}
+        onFormSubmit={onFormSubmit}
+      />
+      {/* {!!teacher.task.solutions && (
         <SolutionsTable solutions={teacher.task.solutions} onRowClick={onShowFileClick} />
-        {!!teacher.modal && (
-          <DiffModal difference={teacher.modal} onCloseClick={onCloseModalClick} />
-        )}
-      </Box>
-    )
-  }
+      )}
+      {!!teacher.modal && <DiffModal difference={teacher.modal} onCloseClick={onCloseModalClick} />} */}
+    </Box>
+  ) : (
+    <p>loading</p>
+  )
 }
 
 export default compose(hot, observer)(TeacherTaskPage)

@@ -120,17 +120,15 @@ const teacher = db => ({
   },
 
   createTask(req, res) {
-    db.none(`
+    db.one(`
       insert into task (name, exts, groups, subject_id, teacher_id) 
-      values ($[name], $[exts], $[groups], $[subjectId], $[teacherId])
+      values ($[name], $[exts], $[groups], $[subject_id], $[teacherId])
+      returning id
       `, req.body)
-      .then(function() {
+      .then(data => 
         res.status(200)
-          .json({
-            status: 'success',
-            message: 'ok'
-          })
-      })
+          .json(data)
+      )
       .catch(function(err) {
         console.log(err)
         res.status(400)
@@ -142,7 +140,6 @@ const teacher = db => ({
   },
 
   updateTask(req, res) {
-    console.log(req.body)
     db.none(`
       update task
       set name = $[name],
@@ -159,6 +156,18 @@ const teacher = db => ({
             status: 'error',
             message: 'wrong request data'
           })
+      })
+  },
+
+  deleteTask(req, res) {
+    db.none(`
+      delete from task cascade
+      where id = $[id]
+    `, req.params)
+      .then(() => res.status(200).json('ok'))
+      .catch(err => {
+        console.log(err)
+        res.status(400).json('not ok')
       })
   },
 
