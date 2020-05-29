@@ -60,7 +60,7 @@ export default class Student {
     const formData = new FormData()
     formData.append('task_id', self.choosenTask.id.toString())
     formData.append('student_id', self.id.toString())
-    formData.append('subject_id', self.choosenTask.subjectId.toString())
+    formData.append('subject_id', self.choosenTask.subject_id.toString())
     formData.append('solution', self.uploadedFile)
 
     try {
@@ -70,7 +70,7 @@ export default class Student {
         body: formData
       })
       const data = response.data as { originality: number }
-      const subject = self.info.subjects.find(item => item.id === self.choosenTask.subjectId)
+      const subject = self.info.subjects.find(item => item.id === self.choosenTask.subject_id)
       const task = subject.tasks.find(item => item.id === self.choosenTask.id)
 
       task.originality = data.originality

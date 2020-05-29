@@ -12,7 +12,7 @@ const teacher = db => ({
       
       for (subject of subjects) {
         const tasks = await db.any(`
-          select * from task
+          select id, name, subject_id from task
           where teacher_id = $[id] and subject_id = $[subjectId]
         `, { ...req.params, subjectId: subject.id })
 
@@ -96,7 +96,7 @@ const teacher = db => ({
           where id = $[id]
         `, req.params)
       const solutions = await db.any(`
-          select solution.task_id, solution.student_id, student.name, student.group_number, originality, solution.date, reference_id from solution
+          select solution.task_id, solution.student_id, student.name, student.group_number, originality, solution.created_at, reference_id from solution
           inner join student
           on student.id = solution.student_id
           where solution.task_id = $[id]

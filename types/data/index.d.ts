@@ -30,7 +30,7 @@ declare namespace Data {
   }
 
   type Subject = {
-    id?: number
+    id: number
     name: string
     isOpened?: boolean
     groups: number[]
@@ -38,10 +38,10 @@ declare namespace Data {
   } & MetaInfo
 
   type Task = {
-    id: number | string
+    id?: number | string
+    name?: string
     description?: string
-    name: string
-    subjectId?: number
+    subject_id?: number
     originality?: number
     exts?: string[]
     groups?: number[]

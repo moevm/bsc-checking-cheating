@@ -1,5 +1,4 @@
-import { observable, action, flow, autorun, computed, IObservableArray } from 'mobx'
-import { nanoid } from 'nanoid'
+import { observable, action, flow, autorun, computed, toJS, IObservableArray } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
@@ -8,18 +7,28 @@ export default class Teacher {
   private id = 1
 
   @observable public info: Data.Teacher | null = null
-  @observable public editableElement: Data.Subject | Data.Task | null = null
-  @observable public task: Data.Task | null = null
   @observable public modal: Data.Difference | null = null
+  @observable public task: Data.Task | null = {}
+  @observable public isLoading: boolean = false
 
-  @computed
-  get noActiveAction() {
-    return !this.editableElement
+  // public findSubjectById = (id: number) => this.info.subjects.find(subject => subject.id === id)
+
+  public findTaskWithParentById = (
+    id: number | string
+  ): { subject: Data.Subject; task: Data.Task } => {
+    for (let subject of this.info.subjects) {
+      const task = subject.tasks.find(task => task.id === id)
+
+      if (task) {
+        return {
+          subject,
+          task
+        }
+      }
+    }
   }
 
-  private findSubjectById = (id: number) => this.info.subjects.find(subject => subject.id === id)
-
-  public getTeacherInfo = flow(function* () {
+  public requestTeacherInfo = flow(function* () {
     const self = this as Teacher
 
     try {
@@ -43,9 +52,9 @@ export default class Teacher {
   @action
   public addDraftTask = (subject: Data.Subject) => {
     const task = {
-      id: nanoid(),
-      subjectId: subject.id,
+      id: 0,
       name: 'Новое задание',
+      subjectId: subject.id,
       exts: [],
       groups: subject.groups,
       solutions: [],
@@ -57,17 +66,22 @@ export default class Teacher {
     } else {
       subject.tasks = [task]
     }
-    this.task = subject.tasks[subject.tasks.length - 1]
-    return this.task.id
   }
 
   @action
   public removeDraftTask = () => {
-    const subjectId = this.task.subjectId
-    const subject = this.info.subjects.find(subject => subject.id === subjectId)
-    const tasks = subject.tasks as IObservableArray<Data.Task>
+    const result = this.findTaskWithParentById(0)
+    const oArray = result.subject.tasks as IObservableArray<Data.Task>
 
-    tasks.remove(this.task)
+    oArray.remove(result.task)
+  }
+
+  @action
+  public changeTask = (newTask: Data.Task) => {
+    const subject = this.info.subjects.find(subject => subject.id === newTask.subject_id)
+    const index = subject.tasks.findIndex(task => task.id === newTask.id)
+
+    subject[index] = newTask
   }
 
   public createTask = flow(function* (newTask: Data.Task) {
@@ -83,7 +97,7 @@ export default class Teacher {
         }
       })
 
-      const subject = self.info.subjects.find(subject => subject.id === newTask.subjectId)
+      const subject = self.info.subjects.find(subject => subject.id === newTask.subject_id)
       const task = subject.tasks.find(task => (task.id = newTask.id))
       task.isCreating = false
       self.task = task
@@ -92,20 +106,22 @@ export default class Teacher {
     }
   })
 
-  public fetchTaskInfo = flow(function* (id: number) {
+  public requestTaskInfo = flow(function* (task: Data.Task) {
     const self = this as Teacher
 
+    self.isLoading = true
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.TASK,
-        path: `/${id}`
+        path: `/${task.id}`
       })
       const data = response.data as Data.Task
 
-      self.task = data
+      self.changeTask(data)
     } catch (error) {
       console.error(error)
     }
+    self.isLoading = false
   })
 
   public updateTask = flow(function* (task: Data.Task) {

@@ -16,7 +16,7 @@ const TeacherPage: FC<TProps> = ({ route }) => {
   const { teacher } = useStore()
 
   useEffect(() => {
-    teacher.getTeacherInfo()
+    teacher.requestTeacherInfo()
   }, [])
 
   return (

@@ -4,7 +4,6 @@ import ExpandLess from '@material-ui/icons/ExpandLess'
 import ExpandMore from '@material-ui/icons/ExpandMore'
 import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import { observer } from 'mobx-react'
 
@@ -35,8 +34,9 @@ const SubjectsList: FC<TProps> = ({
           }
           onClick={onSubjectItemClick(subject)}
         >
-          <ListItemText>{subject.name}</ListItemText>
           {subject.isOpened ? <ExpandLess /> : <ExpandMore />}
+          <S.SubjectName>{subject.name}</S.SubjectName>
+          <S.Groups>группы: {subject.groups.join(', ')}</S.Groups>
         </ListItem>
         <Collapse in={subject.isOpened}>
           <List>
