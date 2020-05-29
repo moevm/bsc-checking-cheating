@@ -14,6 +14,12 @@ const Styled = {
   Button: styled(Button)`
     opacity: 0;
     transition: opacity 0.3s;
+  `,
+  Result: styled(Button)`
+    margin-left: ${props => props.theme.sizes.MARGIN};
+    font-weight: 700;
+    color: ${props => props.theme.colors.TINT[700]};
+    pointer-events: none;
   `
 }
 

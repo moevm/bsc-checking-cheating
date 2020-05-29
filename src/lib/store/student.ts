@@ -69,7 +69,7 @@ export default class Student {
         method: METHOD.PUT,
         body: formData
       })
-      const data = response.data as { originality: number }
+      const data = response.data as { originality: string }
       const subject = self.info.subjects.find(item => item.id === self.choosenTask.subject_id)
       const task = subject.tasks.find(item => item.id === self.choosenTask.id)
 

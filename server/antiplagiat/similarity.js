@@ -2,7 +2,7 @@ module.exports = (solutions, fingerprint) => {
   let result = 0
   let reference = null
 
-  solutions.forEach((solution, index) => {
+  solutions.forEach(solution => {
     let count = 0
 
     if (solution.fingerprint) {
@@ -22,5 +22,5 @@ module.exports = (solutions, fingerprint) => {
       }
     }
   })
-  return [Math.round((fingerprint.length - result) / fingerprint.length * 100), reference]
+  return [(fingerprint.length - result) / fingerprint.length * 100, reference]
 }

@@ -40,12 +40,13 @@ declare namespace Data {
   type Task = {
     id?: number | string
     name?: string
+    bound?: number
     description?: string
-    subject_id?: number
-    originality?: number
     exts?: string[]
     groups?: number[]
+    originality?: string
     solutions?: Solution[]
+    subject_id?: number
   } & MetaInfo
 
   type Teacher = {
