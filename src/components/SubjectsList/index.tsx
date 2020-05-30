@@ -17,36 +17,49 @@ type TOuterProps = {
 }
 type TProps = TOuterProps
 
-const SubjectsList: FC<TProps> = ({ subjects, TaskItem, onAddButtonClick, onSubjectItemClick }) => (
-  <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
-    {subjects.map(subject => (
-      <S.CustomPaper key={subject.id}>
-        <ListItem
-          button
-          divider={
-            subject.isOpened && !!((subject.tasks && subject.tasks.length) || onAddButtonClick)
-          }
-          onClick={onSubjectItemClick(subject)}
-        >
-          {subject.isOpened ? <ExpandLess /> : <ExpandMore />}
-          <S.SubjectName>{subject.name}</S.SubjectName>
-          {!!onAddButtonClick && <S.Groups>группы: {subject.groups.join(', ')}</S.Groups>}
-        </ListItem>
-        <Collapse in={subject.isOpened}>
-          <List>
-            {!!subject.tasks && subject.tasks.map(task => <TaskItem key={task.id} task={task} />)}
-            {!!onAddButtonClick && (
-              <S.Item button onClick={onAddButtonClick(subject)}>
-                <S.Button color="primary" variant="contained">
-                  Добавить задание
-                </S.Button>
-              </S.Item>
-            )}
-          </List>
-        </Collapse>
-      </S.CustomPaper>
-    ))}
-  </List>
-)
+const SubjectsList: FC<TProps> = ({ subjects, TaskItem, onAddButtonClick, onSubjectItemClick }) => {
+  const isTeacher = !!onAddButtonClick
+
+  return (
+    <List subheader={<ListSubheader component="div">Предметы</ListSubheader>}>
+      {subjects.map(subject => {
+        const withTasks = !!(subject.tasks && subject.tasks.length)
+
+        return (
+          <S.CustomPaper key={subject.id}>
+            <ListItem
+              button
+              divider={subject.isOpened && (withTasks || isTeacher)}
+              disabled={!isTeacher && !withTasks}
+              onClick={onSubjectItemClick(subject)}
+            >
+              {subject.isOpened ? <ExpandLess /> : <ExpandMore />}
+              <S.SubjectName>{subject.name}</S.SubjectName>
+              <S.Groups>
+                {isTeacher
+                  ? `группы: ${subject.groups.join(', ')}`
+                  : withTasks
+                  ? ''
+                  : 'нет заданий'}
+              </S.Groups>
+            </ListItem>
+            <Collapse in={subject.isOpened}>
+              <List>
+                {withTasks && subject.tasks.map(task => <TaskItem key={task.id} task={task} />)}
+                {isTeacher && (
+                  <S.Item button onClick={onAddButtonClick(subject)}>
+                    <S.Button color="primary" variant="contained">
+                      Добавить задание
+                    </S.Button>
+                  </S.Item>
+                )}
+              </List>
+            </Collapse>
+          </S.CustomPaper>
+        )
+      })}
+    </List>
+  )
+}
 
 export default observer(SubjectsList)

@@ -29,7 +29,7 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
 
     return () => {
       teacher.removeDraftTask()
-      //   // teacher.closeModal()
+      teacher.closeModal()
     }
   }, [teacher.removeDraftTask])
 
