@@ -1,11 +1,7 @@
 import React, { FC, useState, ChangeEventHandler, FormEventHandler } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Button from '@material-ui/core/Button'
 import Checkbox from '@material-ui/core/Checkbox'
-import FormControl from '@material-ui/core/FormControl'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
-import ListItem from '@material-ui/core/ListItem'
 import ListItemText from '@material-ui/core/ListItemText'
 import MenuItem from '@material-ui/core/MenuItem'
 import Radio from '@material-ui/core/Radio'
@@ -14,7 +10,6 @@ import Select from '@material-ui/core/Select'
 import TextField from '@material-ui/core/TextField'
 import { observer } from 'mobx-react'
 
-import sizes from 'lib/theme/sizes'
 import CustomPaper from 'components/CustomPaper'
 
 import S from './styles'
@@ -23,6 +18,7 @@ type TOuterProps = {
   className?: string
   task: Data.Task
   onCancelCreating: () => void
+  onDeleteClick: () => void
   onFormSubmit: (task: Data.Task) => void
 }
 type TProps = TOuterProps
@@ -30,37 +26,13 @@ type TState = Data.Task & {
   extsString: string
 }
 
-const useStyles = makeStyles(() => ({
-  textField: {
-    marginRight: sizes.MARGIN,
-    marginLeft: sizes.MARGIN
-  },
-  submitButton: {
-    marginLeft: 'auto'
-  },
-  cancelButton: {
-    marginLeft: sizes.MARGIN
-  },
-  listItem: {
-    '&:hover': {
-      '& $changeButton': {
-        opacity: 1
-      }
-    }
-  },
-  changeButton: {
-    transition: 'opacity 0.3s'
-  }
-}))
-
-const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) => {
+const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, onFormSubmit }) => {
   const [form, setForm] = useState<TState>({
     ...task,
     extsString: task.exts ? task.exts.join('; ') : '',
     description: task.description || ''
   })
   const [isEditing, setIsEditing] = useState<boolean>(!!task.isCreating)
-  const classes = useStyles()
 
   const onSubmitClick: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
@@ -97,70 +69,70 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
       {isEditing ? (
         <form onSubmit={onSubmitClick} noValidate autoComplete="off">
           <S.Wrapper>
-            <TextField
-              id="name"
-              label="Название задания"
-              size="small"
-              variant="outlined"
-              value={form.name}
-              onChange={onChange('name')}
-            />
-            <TextField
-              id="extsString"
-              className={classes.textField}
-              label="Допустимые расширения"
-              size="small"
-              variant="outlined"
-              value={form.extsString}
-              onChange={onChange('extsString')}
-            />
-            <FormControl>
-              <InputLabel id="groups-select-label">Номера групп</InputLabel>
-              <Select
-                labelId="groups-select-label"
-                id="group-select"
-                multiple
-                labelWidth={300}
-                value={form.groups}
-                input={<Input />}
-                renderValue={(selected: string[]) => selected.join(', ')}
-                onChange={onChange('groups')}
-              >
-                {task.subjectGroups.map(group => (
-                  <MenuItem key={group} value={group}>
-                    <Checkbox checked={form.groups.indexOf(group) > -1} />
-                    <ListItemText primary={group} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              id="bound"
-              label="Граница (в %)"
-              size="small"
-              variant="outlined"
-              value={form.bound}
-              onChange={onChange('bound')}
-            />
+            <S.LeftColumn>
+              <S.NameTextField
+                id="name"
+                label="Название задания"
+                fullWidth
+                size="small"
+                variant="outlined"
+                value={form.name}
+                onChange={onChange('name')}
+              />
 
-            <Button
-              className={classes.submitButton}
-              size="small"
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
-              {task.isCreating ? 'Сохранить задание' : 'Сохранить изменения'}
-            </Button>
-            <Button
-              className={classes.cancelButton}
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={onResetClick}
-            >
-              Отмена
-            </Button>
+              <S.SecondRow>
+                <TextField
+                  id="extsString"
+                  disabled
+                  label="Допустимые расширения"
+                  size="small"
+                  variant="outlined"
+                  value={form.extsString}
+                  onChange={onChange('extsString')}
+                />
+                <S.BoundTextField
+                  id="bound"
+                  label="Граница (в %)"
+                  size="small"
+                  variant="outlined"
+                  value={form.bound}
+                  onChange={onChange('bound')}
+                />
+                <S.GroupFormControl>
+                  <InputLabel id="groups-select-label">Номера групп</InputLabel>
+                  <Select
+                    labelId="groups-select-label"
+                    id="group-select"
+                    multiple
+                    labelWidth={300}
+                    variant="standard"
+                    value={form.groups}
+                    input={<Input />}
+                    renderValue={(selected: string[]) => selected.join(', ')}
+                    onChange={onChange('groups')}
+                  >
+                    {task.subjectGroups.map(group => (
+                      <MenuItem key={group} value={group}>
+                        <Checkbox checked={form.groups.indexOf(group) > -1} />
+                        <ListItemText primary={group} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </S.GroupFormControl>
+              </S.SecondRow>
+            </S.LeftColumn>
+
+            <S.RightColumn>
+              <S.SaveButton type="submit" variant="contained">
+                {task.isCreating ? 'Создать' : 'Сохранить'}
+              </S.SaveButton>
+              <S.CancelButton variant="contained" onClick={onResetClick}>
+                Отменить
+              </S.CancelButton>
+              <S.DeleteButton variant="contained" onClick={onDeleteClick}>
+                Удалить
+              </S.DeleteButton>
+            </S.RightColumn>
           </S.Wrapper>
 
           <S.WrapperWithMargin>
@@ -191,12 +163,12 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
           </S.WrapperWithMargin>
         </form>
       ) : (
-        <ListItem className={classes.listItem} button onClick={() => setIsEditing(true)}>
+        <S.ListItem button onClick={() => setIsEditing(true)}>
           <ListItemText>{task.name}</ListItemText>
-          <Button className={classes.changeButton} variant="contained" color="primary">
+          <S.FakeButton variant="contained" color="primary">
             Изменить
-          </Button>
-        </ListItem>
+          </S.FakeButton>
+        </S.ListItem>
       )}
     </CustomPaper>
   )

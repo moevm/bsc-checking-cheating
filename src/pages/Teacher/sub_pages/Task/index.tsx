@@ -49,6 +49,10 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
     [teacher.createTask, teacher.updateTask]
   )
 
+  const onDeleteClick = useCallback(() => {
+    teacher.deleteTask(teacher.task)
+  }, [teacher.deleteTask, teacher.task])
+
   const onShowFileClick = useCallback(
     (solution: Data.Solution) => () => {
       teacher.fetchStudentSolution(solution)
@@ -63,9 +67,9 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
   return teacher.task ? (
     <Box>
       <S.TaskForm
-        // isCreating={isCreating}
         task={teacher.task}
         onCancelCreating={onCancelClick}
+        onDeleteClick={onDeleteClick}
         onFormSubmit={onFormSubmit}
       />
       {!!teacher.task.solutions && (

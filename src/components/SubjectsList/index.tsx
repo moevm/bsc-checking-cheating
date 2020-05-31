@@ -34,13 +34,9 @@ const SubjectsList: FC<TProps> = ({ subjects, TaskItem, onAddButtonClick, onSubj
               onClick={onSubjectItemClick(subject)}
             >
               {subject.isOpened ? <ExpandLess /> : <ExpandMore />}
-              <S.SubjectName>{subject.name}</S.SubjectName>
-              <S.Groups>
-                {isTeacher
-                  ? `группы: ${subject.groups.join(', ')}`
-                  : withTasks
-                  ? ''
-                  : 'нет заданий'}
+              <S.SubjectName disableTypography>{subject.name}</S.SubjectName>
+              <S.Groups disableTypography>
+                {isTeacher ? subject.groups.join(', ') : withTasks ? '' : 'нет заданий'}
               </S.Groups>
             </ListItem>
             <Collapse in={subject.isOpened}>

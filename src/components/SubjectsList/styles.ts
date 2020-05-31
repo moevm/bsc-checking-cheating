@@ -14,6 +14,7 @@ const Styled = {
   `,
   SubjectName: styled(ListItemText)`
     margin-left: 1.5625rem;
+    font-weight: 700;
   `,
   Groups: styled(ListItemText)`
     font-weight: 700;
