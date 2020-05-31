@@ -20,16 +20,13 @@ const winnowKGrams = (kGrams, t, k) => {
   for (let i = 0; i < kGrams.length - w + 1; i++) {
     let localMin = null
 
-    const winnows = []
     for (let j = i; j < i + w; j++) {
       if (localMin === null || kGrams[j] < localMin.value) {
         localMin = { value: kGrams[j] }
       } else if (kGrams[j] === localMin.value) {
         localMin.isRepeat = true
       }
-      winnows.push(kGrams[j])
     }
-    // console.log(winnows)
 
     if (prevMin === null || localMin.value !== prevMin.value || localMin.isRepeat) {
       prevMin = localMin
@@ -42,20 +39,23 @@ const winnowKGrams = (kGrams, t, k) => {
 
 
 module.exports = function(code) {
-  const spaceRegExp = '\\s'
-  const commentRegExp = '\\/\\/(\\s|[а-яA-Я:;]|w)*\\n'
-  const regExp = new RegExp(`${commentRegExp}|${jsRegExp}|${spaceRegExp}`, 'g')
-  // console.log(regExp)
+  const commentRegExp = /\/\*[\s\S]*?\*\/|(?<!:)\/\/.*$/gm
+  const variableRegExp = /(?<=(const|var|let|function)[ \t]+)[\w$]+(?=[ \t]*(?:=|\())/gm
+  const operandsRegExp = /(?:!|=)={0,2}|(\+|-|\*|&|\|)(\1|=)?|(?:\^|\/|%|>{1,3}|<{1,2})=?/g
+  const finalRegExp = /\s|{|}|\[|\]|\(|\)/g
+  let tokenizedCode = code.replace(commentRegExp, '')
+  const variablesRegExp = new RegExp(`(?<!\\w+)(?:${tokenizedCode.match(variableRegExp).join('|')})(?!\\w+)`, 'g')
 
-  const tokenizedCode = code.replace(regExp, '')
-  const k = 2
-  const t = 9
+  tokenizedCode = tokenizedCode.replace(variablesRegExp, '')
+  tokenizedCode = tokenizedCode.replace(jsRegExp, '')
+  tokenizedCode = tokenizedCode.replace(operandsRegExp, '')
+  tokenizedCode = tokenizedCode.replace(finalRegExp, '')
+
+  const k = 3
+  const t = 6
 
   const kGrams = splitOnKGrams(tokenizedCode, t)
-  console.log('k-grams hashes count: ', kGrams.length)
-
   const winnowedKGrams = winnowKGrams(kGrams, t, k)
-  console.log('winnowed hashes: ', winnowedKGrams.length)
 
   return winnowedKGrams
 }
