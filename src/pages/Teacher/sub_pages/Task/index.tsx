@@ -50,6 +50,7 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
   )
 
   const onDeleteClick = useCallback(() => {
+    router.navigate('teacher')
     teacher.deleteTask(teacher.task)
   }, [teacher.deleteTask, teacher.task])
 

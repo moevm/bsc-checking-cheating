@@ -133,7 +133,7 @@ export default class Teacher {
       const subject = self.findSubjectById(task.subject_id)
       const oArray = subject.tasks as OArray
 
-      oArray.remove(task)
+      oArray.remove(oArray.find(item => item.id === task.id))
     } catch (error) {
       console.error(error)
     }

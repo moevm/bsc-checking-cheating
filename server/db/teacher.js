@@ -129,7 +129,7 @@ const teacher = db => ({
   createTask(req, res) {
     db.one(`
       insert into task (name, exts, groups, subject_id, teacher_id, check_type, bound) 
-      values ($[name], $[exts], $[groups], $[subject_id], $[teacherId], $[checkType], $[bound])
+      values ($[name], $[exts], $[groups], $[subject_id], $[teacherId], $[check_type], $[bound])
       returning id
       `, req.body)
       .then(data => res.status(200).json(data))
