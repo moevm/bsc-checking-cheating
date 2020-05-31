@@ -29,7 +29,7 @@ const UploadModal: FC<TProps> = ({ className }) => {
   })
 
   const dropzoneParams: DropzoneOptions = {
-    accept: ['.cpp', '.js', 'image/jpeg'],
+    accept: student.choosenTask.exts,
     maxSize: 10 * 1024 * 1024 * 8,
     onDrop: useCallback(
       acceptedFiles => {
@@ -64,7 +64,7 @@ const UploadModal: FC<TProps> = ({ className }) => {
           </S.ButtonsWrapper>
         </S.LoadedFileWrapper>
       ) : (
-        <Dropzone params={dropzoneParams} />
+        <Dropzone description={student.choosenTask.description} params={dropzoneParams} />
       )}
     </Modal>
   )

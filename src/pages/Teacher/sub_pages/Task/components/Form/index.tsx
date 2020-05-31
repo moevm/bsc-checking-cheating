@@ -69,9 +69,12 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
       ...form,
       bound: typeof form.bound === 'string' ? parseInt(form.bound) : form.bound,
       exts: form.extsString
-        .replace(/\s*/g, '')
-        .split(';')
-        .map(ext => (ext[0] === '.' ? ext : `.${ext}`))
+        ? form.extsString
+            .toLowerCase()
+            .replace(/\s*/g, '')
+            .split(';')
+            .map(ext => (ext[0] === '.' ? ext : `.${ext}`))
+        : []
     })
     setIsEditing(false)
   }
@@ -142,6 +145,7 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
 
             <Button
               className={classes.submitButton}
+              size="small"
               type="submit"
               variant="contained"
               color="primary"
@@ -150,6 +154,7 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onFormSubmit }) =
             </Button>
             <Button
               className={classes.cancelButton}
+              size="small"
               variant="contained"
               color="primary"
               onClick={onResetClick}

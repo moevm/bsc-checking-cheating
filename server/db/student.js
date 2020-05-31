@@ -21,7 +21,7 @@ module.exports = function (db) {
 
         for (let subject of subjects) {
           subject.tasks = await db.any(`
-            select task.id, task.name, task.subject_id, task.bound, solution.originality::numeric, task.check_type from task
+            select task.id, task.name, task.subject_id, task.bound, solution.originality, task.check_type, task.exts, task.description from task
             left join solution
             on task.id = solution.task_id
             where $[group] = any (groups) and task.subject_id = $[subject_id] and (solution.student_id = $[id] or solution.student_id is null)
