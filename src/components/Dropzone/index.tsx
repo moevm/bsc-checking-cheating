@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 import { useDropzone, DropzoneOptions } from 'react-dropzone'
 
-import { Container, Title, Info } from './styles'
+import S from './styles'
 
 type TOuterProps = {
   className?: string
@@ -13,11 +13,11 @@ const Dropzone: FC<TProps> = ({ className, params }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone(params)
 
   return (
-    <Container className={className} {...getRootProps()} isDragActive={isDragActive}>
+    <S.Container className={className} {...getRootProps()} isDragActive={isDragActive}>
       <input {...getInputProps()} />
-      <Title>Загрузите файл</Title>
-      <Info>Выберите файл на копьютере или перенесите его в это окно</Info>
-    </Container>
+      <S.Title>Загрузите файл</S.Title>
+      <S.Info>Выберите файл на копьютере или перенесите его в это окно</S.Info>
+    </S.Container>
   )
 }
 

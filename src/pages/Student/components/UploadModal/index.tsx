@@ -1,4 +1,4 @@
-import React, { FC, useCallback, MouseEventHandler } from 'react'
+import React, { FC, useCallback, useEffect } from 'react'
 import { observer } from 'mobx-react'
 import { DropzoneOptions } from 'react-dropzone'
 
@@ -15,6 +15,18 @@ type TProps = TOuterProps
 
 const UploadModal: FC<TProps> = ({ className }) => {
   const { student } = useStore()
+
+  const onKeyPress: EventListener = (e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      student.closeModal()
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keyup', onKeyPress)
+
+    return () => document.removeEventListener('keyup', onKeyPress)
+  })
 
   const dropzoneParams: DropzoneOptions = {
     accept: ['.cpp', '.js', 'image/jpeg'],
@@ -44,11 +56,13 @@ const UploadModal: FC<TProps> = ({ className }) => {
   return (
     <Modal onCloseClick={onCloseClick}>
       {student.uploadedFile ? (
-        <div>
-          <p>{student.uploadedFile.name}</p>
-          <button onClick={onRemoveClick}>Убрать</button>
-          <button onClick={onSendClick}>Отправить</button>
-        </div>
+        <S.LoadedFileWrapper>
+          <S.LoadedFile>{student.uploadedFile.name}</S.LoadedFile>
+          <S.ButtonsWrapper>
+            <S.SendButton onClick={onSendClick}>Отправить</S.SendButton>
+            <S.CandelButton onClick={onRemoveClick}>Убрать</S.CandelButton>
+          </S.ButtonsWrapper>
+        </S.LoadedFileWrapper>
       ) : (
         <Dropzone params={dropzoneParams} />
       )}

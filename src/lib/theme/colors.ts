@@ -1,7 +1,7 @@
 export const SUCCESS = '#28a745'
 export const WARNING = '#ffc107'
 export const DANGER = '#dc3545'
-export const PRIMARY = '#007bff'
+export const PRIMARY = '#3f51b5'
 export const SECONDARY = '#6c757d'
 export const TINT = {
   20: 'rgba(0, 0, 0, 0.2)',

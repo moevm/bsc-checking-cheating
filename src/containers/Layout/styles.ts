@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   html, body, #root {
     width: 100%;
     height: 100%;
-    font: 16px "Open Sans";
+    font: 16px sans-serif;
     overflow: hidden;
   }
 
