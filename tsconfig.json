@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": ".",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "paths": {
+      "constants/*": ["src/lib/constants/*"],
+      "containers/*": ["src/containers/*"],
+      "components/*": ["src/components/*"],
+      "hooks/*": ["src/lib/hooks/*"],
+      "lib/*": ["src/lib/*"],
+      "pages/*": ["src/pages/*"],
+      "services/*": ["src/lib/services/*"],
+      "utils/*": ["src/lib/utils/*"]
+    },
+    "typeRoots": ["./types", "./node_modules/@types"]
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "exclude": ["node_modules"]
+}

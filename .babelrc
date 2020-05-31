@@ -1,0 +1,35 @@
+{
+  "presets": [
+      [
+        "@babel/env",
+        {
+          "modules": false,
+          "useBuiltIns": "usage",
+          "corejs": 3
+        }
+      ],
+      "@babel/react"
+    ],
+  "plugins": [
+    ["@babel/plugin-proposal-decorators",
+      {
+        "decoratorsBeforeExport": true
+      }
+    ],
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "regenerator": true
+      }
+    ],
+    [
+      "babel-plugin-styled-components",
+      {
+        "ssr": false,
+        "fileName": false
+      }
+    ],
+    "universal-import",
+    "react-hot-loader/babel"
+  ]
+}

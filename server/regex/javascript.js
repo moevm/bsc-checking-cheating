@@ -1,0 +1,3 @@
+const regex = /(?<=[ \t]+|^|\(|=|\.)(?:arguments|abstract|await|boolean|break|byte|case|catch|char|class|console|const|continue|debugger|default|delete|do|double|else|enum|eval|export|extends|false|final|finally|float|for|function|if|import|in|instanceof|int|interface|let|long|native|new|null|of|package|private|protected|public|return|short|static|super|switch|synchronized|then|this|throw|throws|transient|true|try|typeof|var|void|volatile|while|with|yield)(?=\(|\s+)/gm
+
+module.exports = regex
