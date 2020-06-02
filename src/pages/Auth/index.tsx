@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 import { hot } from 'react-hot-loader/root'
 
 import compose from 'utils/compose'
-import PageSection from 'components/PageSection'
+import AuthForm from './components/AuthForm'
 
 import S from './styles'
 
@@ -12,10 +12,11 @@ type TProps = TOuterProps
 
 const TeacherPage: FC<TProps> = () => {
   return (
-    <PageSection title="Авторизация">
-      <S.Link routeName="student">Студент</S.Link>
-      <S.Link routeName="teacher">Преподаватель</S.Link>
-    </PageSection>
+    <S.Section title="Авторизация">
+      {/* <S.Link routeName="student">Студент</S.Link>
+      <S.Link routeName="teacher">Преподаватель</S.Link> */}
+      <AuthForm />
+    </S.Section>
   )
 }
 

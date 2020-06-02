@@ -12,7 +12,7 @@ type TProps = TOuterProps
 
 const useStyles = makeStyles(() => ({
   paper: {
-    padding: '0.9375rem'
+    padding: '2rem 1.8rem'
   }
 }))
 
