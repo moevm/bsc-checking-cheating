@@ -44,9 +44,15 @@ module.exports = function(code) {
   const operandsRegExp = /(?:!|=)={0,2}|(\+|-|\*|&|\|)(\1|=)?|(?:\^|\/|%|>{1,3}|<{1,2})=?/g
   const finalRegExp = /\s|{|}|\[|\]|\(|\)/g
   let tokenizedCode = code.replace(commentRegExp, '')
-  const variablesRegExp = new RegExp(`(?<!\\w+)(?:${tokenizedCode.match(variableRegExp).join('|')})(?!\\w+)`, 'g')
 
-  tokenizedCode = tokenizedCode.replace(variablesRegExp, '')
+  const variables = tokenizedCode.match(variableRegExp)
+
+  if (variables) {
+    const variablesRegExp = new RegExp(`(?<!\\w+)(?:${variables.join('|')})(?!\\w+)`, 'g')
+
+    tokenizedCode = tokenizedCode.replace(variablesRegExp, '')
+  }
+
   tokenizedCode = tokenizedCode.replace(jsRegExp, '')
   tokenizedCode = tokenizedCode.replace(operandsRegExp, '')
   tokenizedCode = tokenizedCode.replace(finalRegExp, '')
