@@ -9,7 +9,8 @@
     "build": "cd client && yarn compile && cd ..",
     "clean": "yarn rimraf ./static/webpack",
     "lint": "yarn tsc --noEmit && yarn eslint src --ext ts,tsx",
-    "start": "yarn clean && nodemon ./server"
+    "start": "yarn clean && nodemon ./server",
+    "test": "node ./server/tests"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.14",
