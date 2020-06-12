@@ -11,6 +11,7 @@ export enum METHOD {
 }
 
 export const ENDPOINT = {
+  AUTH: '/auth',
   SOLUTION: '/solution',
   SOLUTIONS: '/solutions',
   SUBJECT: '/subject',
