@@ -1,5 +1,5 @@
 const { crc32 } = require('crc')
-const jsRegExp = require('../regex/javascript')
+const jsRegExp = require('../language/javascript')
 
 const splitOnKGrams = (code, t) => {
   const array = []
@@ -57,8 +57,10 @@ module.exports = function(code) {
   tokenizedCode = tokenizedCode.replace(operandsRegExp, '')
   tokenizedCode = tokenizedCode.replace(finalRegExp, '')
 
-  const k = 3
-  const t = 6
+  // const tokenizedCode = code
+
+  const k = 4
+  const t = 12
 
   const kGrams = splitOnKGrams(tokenizedCode, t)
   const winnowedKGrams = winnowKGrams(kGrams, t, k)

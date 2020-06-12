@@ -19,7 +19,7 @@ fs.readdir(directoryPath, function (err, subDirs) {
           const file = fs.readFileSync(filePath)
 
           if (file) {
-            codes.push({ name: subDir.replace('-', '|').padEnd(25, '-'), fingerprint: findFingerprint(file.toString()) })
+            codes.push({ name: subDir.replace('-', '|').padEnd(30, '-').padStart(33, ' '), fingerprint: findFingerprint(file.toString()) })
           }
         } catch (error) {
           console.log(error)
