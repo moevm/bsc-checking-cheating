@@ -3,6 +3,7 @@ const upload = require('multer')()
 
 const db = require('../db/index')
 
+router.post('/auth', db.auth.login)
 router.get('/student_info/:id', db.student.getStudentInfo)
 router.get('/solution', db.teacher.getStudentSolution)
 router.put('/solution', upload.single('solution'), db.student.checkSolution)
