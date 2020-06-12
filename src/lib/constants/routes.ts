@@ -26,17 +26,18 @@ export const routes: TCustomRoute[] = [
     name: 'teacher',
     path: '/teacher',
     forwardTo: 'teacher.index',
-    accessType: 'teacher',
     component: universalRoute(import('../../pages/Teacher'))
   },
   {
     name: 'teacher.index',
     path: '/',
+    accessType: 'teacher',
     component: universalRoute(import('../../pages/Teacher/sub_pages/Index'))
   },
   {
     name: 'teacher.task',
     path: '/task/:id',
+    accessType: 'teacher',
     component: universalRoute(import('../../pages/Teacher/sub_pages/Task'))
   },
   {

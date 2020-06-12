@@ -14,7 +14,7 @@ export type TOuterProps = {
 type TProps = TOuterProps
 
 const App: FC<TProps> = ({ router }) => (
-  <StoreProvider>
+  <StoreProvider router={router}>
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <RouterProvider router={router}>
