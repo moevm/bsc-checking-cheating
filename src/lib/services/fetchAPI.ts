@@ -8,6 +8,7 @@ type TFetchOptions = {
   method?: METHOD
   params?: { [key: string]: any }
   path?: string
+  token?: string
 }
 
 export default function <T>({
@@ -15,14 +16,17 @@ export default function <T>({
   endpoint,
   method = METHOD.GET,
   params,
-  path = ''
+  path = '',
+  token = ''
 }: TFetchOptions) {
   const url = `${API_URL}${endpoint}${path}`
+  const reqHeaders = token ? { Authorization: `Bearer ${token}` } : {}
 
   console.log(method.toUpperCase(), url)
 
   return axios.request<T>({
     url,
+    headers: reqHeaders,
     method,
     params,
     data: body

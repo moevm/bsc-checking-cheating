@@ -1,11 +1,10 @@
 import { observable, action, computed, flow } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
+import { user } from 'lib/store'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 export default class Student {
-  private id = 1
-
   @observable public info: Data.Student | null = null
   @observable public choosenTask: Data.Task | null = null
   @observable public uploadedFile: File | null = null
@@ -21,7 +20,7 @@ export default class Student {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.STUDENT_INFO,
-        path: `/${this.id}`
+        token: user.access.token
       })
       const data = response.data as Data.Student
 
@@ -60,7 +59,7 @@ export default class Student {
     const formData = new FormData()
     formData.append('task_id', self.choosenTask.id.toString())
     formData.append('check_type', self.choosenTask.check_type)
-    formData.append('student_id', self.id.toString())
+    // formData.append('student_id', self.id.toString())
     formData.append('subject_id', self.choosenTask.subject_id.toString())
     formData.append('solution', self.uploadedFile)
 

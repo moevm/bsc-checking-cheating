@@ -2,21 +2,21 @@ const teacher = db => ({
   // TODO: remove after making jwt auth
   getTeacherInfo(req, res) {
     db.task(async t => {
-      const teacherInfo = await db.one('select id, name from teacher where id = ${id}', req.params)
+      const teacherInfo = await db.one('select id, name from teacher where id = ${id}', { id: req.id })
       const subjects = await db.any(`
         select subject.id, subject.name, teacher_subject.groups from subject
         inner join teacher_subject
         on subject.id = teacher_subject.subject_id
         where teacher_subject.teacher_id = $[id]
         order by subject.name      
-      `, req.params)
+      `, { id: req.id })
       
       for (subject of subjects) {
         const tasks = await db.any(`
           select id, name, subject_id from task
           where teacher_id = $[id] and subject_id = $[subjectId]
           order by created_at
-        `, { ...req.params, subjectId: subject.id })
+        `, { id: req.id, subjectId: subject.id })
 
         subject.tasks = tasks
       }

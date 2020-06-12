@@ -8,7 +8,7 @@ module.exports = function (db) {
         const studentInfo = await db.one(`
           select id, name, group_number from student
           where id = $[id]
-        `, req.params)
+        `, { id: req.id })
         const subjects = await db.any(`
           select subject.id, subject.name from student
           inner join teacher_subject
@@ -17,7 +17,7 @@ module.exports = function (db) {
           on subject.id = teacher_subject.subject_id
           where student.id = $[id]
           order by subject.name
-        `, req.params)
+        `, { id: req.id })
 
         for (let subject of subjects) {
           subject.tasks = await db.any(`

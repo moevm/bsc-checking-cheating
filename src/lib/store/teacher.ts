@@ -1,13 +1,12 @@
 import { observable, action, flow, IObservableArray } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
+import { user } from 'lib/store'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 type OArray = IObservableArray<Data.Task>
 
 export default class Teacher {
-  private id = 1
-
   @observable public info: Data.Teacher | null = null
   @observable public modal: Data.Difference | null = null
   @observable public task: Data.Task | null = null
@@ -36,7 +35,7 @@ export default class Teacher {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.TEACHER_INFO,
-        path: `/${this.id}`
+        token: user.access.token
       })
       const data = response.data as Data.Teacher
 
