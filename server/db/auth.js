@@ -19,7 +19,7 @@ const authModule = (db, jwt) => ({
           expiresIn: 86400
         })
 
-        res.status(200).json({ token, access_type: user.access_type })
+        res.status(200).json({ token, type: user.access_type })
       })
       .catch(err => {
         res.status(500).json('Error on server')

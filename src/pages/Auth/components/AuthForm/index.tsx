@@ -23,7 +23,7 @@ const AuthForm: FC<TProps> = () => {
   const onFormSubmit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
 
-    user.requestAuth(form)
+    user.logIn(form)
   }
 
   return (
