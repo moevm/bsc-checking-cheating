@@ -1,9 +1,7 @@
-import React, { FC, useEffect, useState, ChangeEventHandler, FormEventHandler } from 'react'
+import React, { FC } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import cn from 'classnames'
-
-import sizes from 'lib/theme/sizes'
 
 type TOuterProps = {
   className?: string
@@ -12,7 +10,7 @@ type TProps = TOuterProps
 
 const useStyles = makeStyles(() => ({
   paper: {
-    padding: '0.9375rem'
+    padding: '1rem'
   }
 }))
 

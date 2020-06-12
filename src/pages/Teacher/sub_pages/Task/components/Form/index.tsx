@@ -1,13 +1,17 @@
 import React, { FC, useState, ChangeEventHandler, FormEventHandler } from 'react'
+import Alert from '@material-ui/lab/Alert'
 import Checkbox from '@material-ui/core/Checkbox'
 import Input from '@material-ui/core/Input'
 import InputLabel from '@material-ui/core/InputLabel'
 import ListItemText from '@material-ui/core/ListItemText'
+import { makeStyles } from '@material-ui/core/styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Radio from '@material-ui/core/Radio'
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Select from '@material-ui/core/Select'
+import Snackbar from '@material-ui/core/Snackbar'
 import TextField from '@material-ui/core/TextField'
+import Tooltip from '@material-ui/core/Tooltip'
 import { observer } from 'mobx-react'
 
 import CustomPaper from 'components/CustomPaper'
@@ -26,7 +30,20 @@ type TState = Data.Task & {
   extsString: string
 }
 
+const useStyle = makeStyles(() => ({
+  arrow: {
+    color: 'rgba(0, 0, 0, 0.9)'
+  },
+  tooltip: {
+    padding: 10,
+    fontWeight: 700,
+    fontSize: '0.75rem',
+    backgroundColor: 'rgba(0, 0, 0, 0.9)'
+  }
+}))
+
 const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, onFormSubmit }) => {
+  const classes = useStyle()
   const [form, setForm] = useState<TState>({
     ...task,
     extsString: task.exts ? task.exts.join('; ') : '',
@@ -81,17 +98,26 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
               />
 
               <S.SecondRow>
-                <TextField
-                  id="extsString"
-                  disabled
-                  label="Допустимые расширения"
-                  size="small"
-                  variant="outlined"
-                  value={form.extsString}
-                  onChange={onChange('extsString')}
-                />
+                <Tooltip
+                  classes={classes}
+                  title="Необходимо перечислить допустимые раширения файлов через точку с запятой (; )"
+                  placement="top-start"
+                  arrow
+                >
+                  <TextField
+                    id="extsString"
+                    disabled
+                    label="Допустимые расширения"
+                    size="small"
+                    variant="outlined"
+                    value={form.extsString}
+                    onChange={onChange('extsString')}
+                  />
+                </Tooltip>
                 <S.BoundTextField
+                  error
                   id="bound"
+                  helperText="Можно использовать только цифры"
                   label="Граница (в %)"
                   size="small"
                   variant="outlined"
@@ -164,6 +190,12 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
         </form>
       ) : (
         <S.ListItem button onClick={() => setIsEditing(true)}>
+          <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true}>
+            <Alert elevation={6} variant="filled" severity="success">
+              Изменения сохранены
+            </Alert>
+          </Snackbar>
+
           <ListItemText>{task.name}</ListItemText>
           <S.FakeButton variant="contained" color="primary">
             Изменить
