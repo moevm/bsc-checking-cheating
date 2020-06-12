@@ -1,16 +1,17 @@
 import React, { PureComponent } from 'react'
 import { routeNode } from 'react-router5'
-import { SubscribeState, Route } from 'router5'
+import { Route } from 'router5'
 
 import compose from 'utils/compose'
-import getRouteComponent from 'utils/getRouteComponent'
+import { getRouteComponent } from 'utils/router'
 import Layout from 'containers/Layout'
 
-type TOuterProps = {}
-type TRouteNodeProps = SubscribeState
+type TOuterProps = {
+  router: App.TRouter
+}
+type TRouteNodeProps = App.TInjectedRouteProps
 type TProps = TOuterProps & TRouteNodeProps
 
-// TODO: make router service
 class Router extends PureComponent<TProps> {
   getSectionRouteComponent(route: Route) {
     return getRouteComponent(route && route.name.split('.')[0])

@@ -2,6 +2,7 @@ import { Route } from 'router5'
 import universal from 'react-universal-component'
 
 export type TCustomRoute = Route & {
+  accessType?: 'admin' | 'student' | 'teacher'
   component?: ReturnType<typeof universalRoute>
 }
 
@@ -25,6 +26,7 @@ export const routes: TCustomRoute[] = [
     name: 'teacher',
     path: '/teacher',
     forwardTo: 'teacher.index',
+    accessType: 'teacher',
     component: universalRoute(import('../../pages/Teacher'))
   },
   {
@@ -40,6 +42,7 @@ export const routes: TCustomRoute[] = [
   {
     name: 'student',
     path: '/student',
+    accessType: 'student',
     component: universalRoute(import('../../pages/Student'))
   }
 ]

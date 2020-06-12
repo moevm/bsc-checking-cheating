@@ -2,7 +2,7 @@ import React, { FC, memo } from 'react'
 import { withRoute } from 'react-router5'
 import { SubscribeState } from 'router5'
 
-import getRouteComponent from 'utils/getRouteComponent'
+import { getRouteComponent } from 'utils/router'
 
 type TOuterProps = SubscribeState & {
   routeName: string

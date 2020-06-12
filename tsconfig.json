@@ -12,6 +12,7 @@
       "constants/*": ["src/lib/constants/*"],
       "containers/*": ["src/containers/*"],
       "components/*": ["src/components/*"],
+      "HOCs/*": ["src/lib/HOCs/*"],
       "hooks/*": ["src/lib/hooks/*"],
       "lib/*": ["src/lib/*"],
       "pages/*": ["src/pages/*"],

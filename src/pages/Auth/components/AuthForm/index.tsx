@@ -8,12 +8,12 @@ import S from './styles'
 type TOuterProps = {}
 type TProps = TOuterProps
 type TState = {
-  email?: string
-  password?: string
+  email: string
+  password: string
 }
 
 const AuthForm: FC<TProps> = () => {
-  const [form, setForm] = useState<TState>({})
+  const [form, setForm] = useState<TState>({ email: '', password: '' })
   const { user } = useStore()
 
   const onChange = (property: keyof TState): ChangeEventHandler<HTMLInputElement> => e => {

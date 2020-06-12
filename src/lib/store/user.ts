@@ -5,7 +5,7 @@ import { ENDPOINT, METHOD } from 'constants/api'
 
 class User {
   public token: string = null
-  public accessType: string = null
+  @observable public accessType: string = null
 
   @action
   public requestAuth = flow(function* (login) {
