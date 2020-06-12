@@ -1,10 +1,11 @@
-import { observable, action, computed, flow } from 'mobx'
+import { action, flow, observable } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 class User {
-  @observable token: string = null
+  public token: string = null
+  public accessType: string = null
 
   @action
   public requestAuth = flow(function* (login) {
@@ -16,9 +17,10 @@ class User {
         method: METHOD.POST,
         body: login
       })
-      const data = response.data
+      const data = response.data as { token: string; access_type: string }
 
-      self.token = data
+      self.accessType = data.access_type
+      self.token = data.token
     } catch (error) {
       console.error(error)
     }

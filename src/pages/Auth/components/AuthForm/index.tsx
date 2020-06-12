@@ -1,34 +1,41 @@
-import React, { FC, useState, ChangeEventHandler } from 'react'
+import React, { FC, useState, ChangeEventHandler, FormEventHandler } from 'react'
 import { observer } from 'mobx-react'
 
+import useStore from 'hooks/useStore'
 import CustomPaper from 'components/CustomPaper'
-
 import S from './styles'
 
 type TOuterProps = {}
 type TProps = TOuterProps
 type TState = {
-  login?: string
+  email?: string
   password?: string
 }
 
 const AuthForm: FC<TProps> = () => {
   const [form, setForm] = useState<TState>({})
+  const { user } = useStore()
 
   const onChange = (property: keyof TState): ChangeEventHandler<HTMLInputElement> => e => {
     setForm({ ...form, [property]: e.target.value })
   }
 
+  const onFormSubmit: FormEventHandler<HTMLFormElement> = e => {
+    e.preventDefault()
+
+    user.requestAuth(form)
+  }
+
   return (
     <CustomPaper>
-      <S.Form>
+      <S.Form onSubmit={onFormSubmit}>
         <S.LoginTextField
           id="name"
-          label="Логин"
+          label="Email"
           size="small"
           variant="outlined"
-          value={form.login}
-          onChange={onChange('login')}
+          value={form.email}
+          onChange={onChange('email')}
         />
         <S.PasswordTextField
           id="bound"
@@ -39,7 +46,7 @@ const AuthForm: FC<TProps> = () => {
           value={form.password}
           onChange={onChange('password')}
         />
-        <S.Button color="primary" variant="contained">
+        <S.Button type="submit" color="primary" variant="contained">
           Авторизоваться
         </S.Button>
       </S.Form>

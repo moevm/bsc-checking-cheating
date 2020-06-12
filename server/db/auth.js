@@ -8,21 +8,21 @@ const authModule = (db, jwt) => ({
     `, login)
       .then(user => {
         if (!user) {
-          res.status(404).send('No such user')
+          res.status(404).json('No such user')
         }
 
         if (user.password !== login.password) {
-          res.status(401).send('Wrong password')
+          res.status(401).json('Wrong password')
         }
 
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
           expiresIn: 86400
         })
 
-        res.status(200).send({ token })
+        res.status(200).json({ token, access_type: user.access_type })
       })
       .catch(err => {
-        res.status(500).send('Error on server')
+        res.status(500).json('Error on server')
       })
   }
 })
