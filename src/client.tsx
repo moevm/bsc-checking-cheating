@@ -5,7 +5,7 @@ import { AppContainer } from 'react-hot-loader'
 import createRouter from 'router5'
 import browserPlugin from 'router5-plugin-browser'
 
-import { preventNavigation } from 'utils/router'
+// import { preventNavigation } from 'utils/router'
 import App, { TOuterProps } from 'containers/App'
 import { routes } from 'constants/routes'
 
@@ -24,7 +24,7 @@ const startApp = () => {
   const router = createRouter(routes)
 
   router.usePlugin(browserPlugin())
-  router.useMiddleware(preventNavigation)
+  // router.useMiddleware(preventNavigation)
   router.start(() => {
     console.log('START Router5')
 

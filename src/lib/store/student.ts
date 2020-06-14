@@ -1,7 +1,7 @@
 import { observable, action, computed, flow } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
-import { user } from 'lib/store'
+import RootStore from 'lib/store'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 export default class Student {
@@ -20,7 +20,7 @@ export default class Student {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.STUDENT_INFO,
-        token: user.access.token
+        token: RootStore.user.access.token
       })
       const data = response.data as Data.Student
 

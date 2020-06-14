@@ -1,4 +1,4 @@
-import { user } from 'lib/store'
+// import { user } from 'lib/store'
 import { routes } from 'constants/routes'
 
 export const getRouteByName = (routeName: string) => {
@@ -15,8 +15,8 @@ export const getRouteComponent = (routeName: string) => {
   }
 }
 
-export const preventNavigation = () => (toState, fromState, done) => {
-  user.checkAuthorization(toState, done)
+// export const preventNavigation = () => (toState, fromState, done) => {
+//   user.checkAuthorization(toState, done)
 
-  return undefined
-}
+//   return undefined
+// }

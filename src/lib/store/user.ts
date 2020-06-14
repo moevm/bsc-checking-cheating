@@ -14,17 +14,20 @@ class User {
     type: null
   }
 
-  constructor() {
+  constructor(router: Router) {
+    this.router = router
     const cookies = parseCookies()
 
     if (cookies.access) {
       this.access = JSON.parse(cookies.access)
+
+      this.router.navigate(this.access.type)
     }
   }
 
-  public addRouter = (router: Router) => {
-    this.router = router
-  }
+  // public addRouter = (router: Router) => {
+  //   this.router = router
+  // }
 
   public logIn = flow(function* (login) {
     const self = this as User
@@ -54,15 +57,15 @@ class User {
     this.router.navigate('auth')
   }
 
-  public checkAuthorization = (nextState: State, done: () => void) => {
-    const route = getRouteByName(nextState.name)
+  // public checkAuthorization = (nextState: State, done: () => void) => {
+  //   const route = getRouteByName(nextState.name)
 
-    if ((!route.accessType && !this.access.type) || route.accessType === this.access.type) {
-      done()
-    } else {
-      this.router.navigate('auth')
-    }
-  }
+  //   if ((!route.accessType && !this.access.type) || route.accessType === this.access.type) {
+  //     done()
+  //   } else {
+  //     this.router.navigate(this.access.type)
+  //   }
+  // }
 }
 
 export default User
