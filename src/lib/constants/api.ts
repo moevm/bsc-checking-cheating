@@ -13,6 +13,7 @@ export enum METHOD {
 export const ENDPOINT = {
   ADMIN: '/admin',
   AUTH: '/auth',
+  GROUP: '/group',
   SOLUTION: '/solution',
   SOLUTIONS: '/solutions',
   SUBJECT: '/subject',

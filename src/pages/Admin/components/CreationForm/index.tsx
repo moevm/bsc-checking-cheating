@@ -10,10 +10,11 @@ export type TModalForm = {
 }
 type TOuterProps = TModalForm & {
   className?: string
+  onClose: () => void
 }
 type TProps = TOuterProps
 
-const CreationForm: FC<TProps> = ({ className, properties, onSubmitClick }) => {
+const CreationForm: FC<TProps> = ({ className, properties, onClose, onSubmitClick }) => {
   const obj = useMemo(
     () =>
       properties.reduce((result, property) => {
@@ -27,6 +28,7 @@ const CreationForm: FC<TProps> = ({ className, properties, onSubmitClick }) => {
   const onSubmit: FormEventHandler<HTMLFormElement> = e => {
     e.preventDefault()
 
+    onClose()
     onSubmitClick(form)
   }
 

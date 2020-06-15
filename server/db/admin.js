@@ -47,7 +47,11 @@ const admin = db => ({
       req.body
     )
       .then(() => res.status(200).json('ok'))
-      .catch(err => res.status(500).json('Error on server'))
+      .catch(err => {
+        console.log(err)
+
+        res.status(500).json('Error on server')
+      })
   },
 
   addSubject(req, res) {
@@ -60,6 +64,23 @@ const admin = db => ({
     )
       .then(() => res.status(200).json('ok'))
       .catch(err => res.status(500).json('Error on server'))
+  },
+
+  addGroup(req, res) {
+    db.one(
+      `
+        insert into group_number (number)
+        values ($[number])
+        returning id
+      `,
+      req.body
+    )
+      .then(data => res.status(200).json(data))
+      .catch(err => {
+        console.log(err)
+
+        res.status(500).json('Error on server')
+      })
   }
 })
 

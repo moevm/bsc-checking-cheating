@@ -66,6 +66,10 @@ const AdminPage: FC<TProps> = () => {
               columns={[{ name: 'Название предмета', property: 'name' }]}
               content={admin.info.subjects}
               title="Предметы"
+              onAddClick={onAddClick({
+                properties: ['name'],
+                onSubmitClick: admin.postSubject
+              })}
             />
           )}
           {!!admin.info.groups.length && (
@@ -73,11 +77,15 @@ const AdminPage: FC<TProps> = () => {
               columns={[{ name: 'Номер группы', property: 'number' }]}
               content={admin.info.groups}
               title="Группы"
+              onAddClick={onAddClick({
+                properties: ['number'],
+                onSubmitClick: admin.postGroup
+              })}
             />
           )}
           {!!modal && (
             <Modal onCloseClick={onCloseModalClick}>
-              <CreationForm {...modal} />
+              <CreationForm {...modal} onClose={onCloseModalClick} />
             </Modal>
           )}
         </>
