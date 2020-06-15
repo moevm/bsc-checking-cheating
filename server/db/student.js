@@ -5,11 +5,15 @@ module.exports = function (db) {
     // TODO: remove after making jwt auth
     getStudentInfo(req, res, next) {
       db.task(async t => {
-        const studentInfo = await db.one(`
+        const studentInfo = await db.one(
+          `
           select id, name, group_number from student
           where id = $[id]
-        `, { id: req.id })
-        const subjects = await db.any(`
+        `,
+          { id: req.id }
+        )
+        const subjects = await db.any(
+          `
           select subject.id, subject.name from student
           inner join teacher_subject
           on student.group_number = any (teacher_subject.groups)
@@ -17,30 +21,34 @@ module.exports = function (db) {
           on subject.id = teacher_subject.subject_id
           where student.id = $[id]
           order by subject.name
-        `, { id: req.id })
+        `,
+          { id: req.id }
+        )
 
         for (let subject of subjects) {
-          subject.tasks = await db.any(`
+          subject.tasks = await db.any(
+            `
             select task.id, task.name, task.subject_id, task.bound, solution.originality, task.check_type, task.exts, task.description from task
             left join solution
             on task.id = solution.task_id
             where $[group] = any (groups) and task.subject_id = $[subject_id] and (solution.student_id = $[id] or solution.student_id is null)
             order by task.created_at
-          `, {
-            id: studentInfo.id,
-            subject_id: subject.id,
-            group: studentInfo.group_number
-          })
+          `,
+            {
+              id: studentInfo.id,
+              subject_id: subject.id,
+              group: studentInfo.group_number
+            }
+          )
         }
 
         studentInfo.subjects = subjects
         return studentInfo
-      })     
-        .then((data) => res.status(200).json(data))
-        .catch(function(err) {
+      })
+        .then(data => res.status(200).json(data))
+        .catch(function (err) {
           console.log(err)
-          res.status(400)
-          .json({
+          res.status(400).json({
             status: 'error',
             message: 'no such user'
           })
@@ -61,14 +69,18 @@ module.exports = function (db) {
         }
       }
 
-      db.task(async  t => {
-        const hashes = await db.any(`
+      db.task(async t => {
+        const hashes = await db.any(
+          `
           select id, fingerprint from solution
           where student_id != $[student_id] ${getQueryByType(req.body.check_type)} 
-        `, req.body)
+        `,
+          req.body
+        )
         const [originality, reference] = findSimilarity(hashes, fingerprint)
 
-        const result = await db.one(`
+        const result = await db.one(
+          `
           insert into solution (task_id, student_id, subject_id, originality, fingerprint, file, reference_id, file_name)
           values ($[task_id], $[student_id], $[subject_id], $[originality], $[fingerprint], $[file], $[reference_id], $[file_name])
           on conflict on constraint solution_pkey
@@ -81,14 +93,16 @@ module.exports = function (db) {
               file_name = $[file_name]
           where solution.task_id = excluded.task_id and solution.student_id = excluded.student_id
           returning originality
-        `, {
-          ...req.body,
-          file: `\\x${buf.toString('hex')}`,
-          file_name: req.file.originalname,
-          fingerprint,
-          originality: originality,
-          reference_id: reference && reference.id
-        })
+        `,
+          {
+            ...req.body,
+            file: `\\x${buf.toString('hex')}`,
+            file_name: req.file.originalname,
+            fingerprint,
+            originality: originality,
+            reference_id: reference && reference.id
+          }
+        )
 
         return result
       })

@@ -14,13 +14,13 @@ module.exports = (solutions, fingerprint) => {
             return
           }
         })
-      })  
-  
+      })
+
       if (!result || count > result) {
         result = count
         reference = solution
       }
     }
   })
-  return [(fingerprint.length - result) / fingerprint.length * 100, reference]
+  return [((fingerprint.length - result) / fingerprint.length) * 100, reference]
 }

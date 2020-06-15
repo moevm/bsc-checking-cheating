@@ -2,10 +2,13 @@ const authModule = (db, jwt) => ({
   login(req, res) {
     const login = req.body
 
-    db.one(`
+    db.one(
+      `
       select * from user_info
       where email = $[email]
-    `, login)
+    `,
+      login
+    )
       .then(user => {
         if (!user) {
           res.status(404).json('No such user')
