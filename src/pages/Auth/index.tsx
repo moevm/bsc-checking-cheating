@@ -12,7 +12,7 @@ type TProps = TOuterProps
 
 const AuthPage: FC<TProps> = () => {
   return (
-    <S.Section title="Авторизация">
+    <S.Section>
       {/* <S.Link routeName="student">Студент</S.Link>
       <S.Link routeName="teacher">Преподаватель</S.Link> */}
       <AuthForm />

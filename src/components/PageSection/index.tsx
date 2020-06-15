@@ -7,7 +7,7 @@ import S from './styles'
 
 type TOuterProps = {
   className?: string
-  title: string
+  title?: string
 }
 type TProps = TOuterProps
 
@@ -16,9 +16,13 @@ const PageSection: FC<TProps> = ({ className, children, title }) => {
 
   return (
     <S.Section className={className}>
-      <S.Title>{title}</S.Title>
-      {user.isAuthorized && <Button onClick={user.logOut}>Выйти</Button>}
-      {children}
+      {!!title && (
+        <S.TitleWrapper>
+          <S.Title>{title}</S.Title>
+          {user.isAuthorized && <Button onClick={user.logOut}>Выйти</Button>}
+        </S.TitleWrapper>
+      )}
+      <S.ContentWrapper>{children}</S.ContentWrapper>
     </S.Section>
   )
 }
