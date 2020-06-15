@@ -138,9 +138,9 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
                     onChange={onChange('groups')}
                   >
                     {task.subjectGroups.map(group => (
-                      <MenuItem key={group} value={group}>
+                      <MenuItem key={group.id} value={group.id}>
                         <Checkbox checked={form.groups.indexOf(group) > -1} />
-                        <ListItemText primary={group} />
+                        <ListItemText primary={group.number} />
                       </MenuItem>
                     ))}
                   </Select>

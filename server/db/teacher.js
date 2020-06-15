@@ -5,6 +5,7 @@ const teacher = db => ({
       const teacherInfo = await db.one('select id, name from user_info where id = ${id}', {
         id: req.id
       })
+      const groups = await db.many('select id, number from group_number')
       const subjects = await db.any(
         `
         select subject.id, subject.name, teacher_subject.group_ids as groups from subject
@@ -25,7 +26,7 @@ const teacher = db => ({
         `,
           { id: teacherInfo.id, subjectId: subject.id }
         )
-
+        subject.groups = groups.filter(group => !!subject.groups.find(id => id === group.id))
         subject.tasks = tasks
       }
       teacherInfo.subjects = subjects

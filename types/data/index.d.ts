@@ -49,7 +49,7 @@ declare namespace Data {
     id?: number
     name: string
     isOpened?: boolean
-    groups: string[]
+    groups: Group[]
     tasks: Task[]
     created_at?: string
   } & MetaInfo
@@ -61,11 +61,11 @@ declare namespace Data {
     check_type?: 'all' | 'subject' | 'task'
     description?: string
     exts?: string[]
-    groups?: string[]
+    groups?: Group[]
     originality?: string
     solutions?: Solution[]
     subject_id?: number
-    subjectGroups?: string[]
+    subjectGroups?: Group[]
   } & MetaInfo
 
   type Teacher = {
