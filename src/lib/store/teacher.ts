@@ -1,16 +1,22 @@
 import { observable, action, flow, IObservableArray } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
-import RootStore from 'lib/store'
+import UserStore from 'lib/store/user'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 type OArray = IObservableArray<Data.Task>
 
 export default class Teacher {
+  private user: UserStore = null
+
   @observable public info: Data.Teacher | null = null
   @observable public modal: Data.Difference | null = null
   @observable public task: Data.Task | null = null
   @observable public isLoading: boolean = false
+
+  constructor(user: UserStore) {
+    this.user = user
+  }
 
   public findSubjectById = (id: number) => this.info.subjects.find(subject => subject.id === id)
 
@@ -35,7 +41,7 @@ export default class Teacher {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.TEACHER_INFO,
-        token: RootStore.user.access.token
+        token: this.user.access.token
       })
       const data = response.data as Data.Teacher
 

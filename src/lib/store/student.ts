@@ -1,13 +1,19 @@
 import { observable, action, computed, flow } from 'mobx'
 
 import fetchAPI from 'services/fetchAPI'
-import RootStore from 'lib/store'
+import UserStore from 'lib/store/user'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 export default class Student {
+  private user: UserStore = null
+
   @observable public info: Data.Student | null = null
   @observable public choosenTask: Data.Task | null = null
   @observable public uploadedFile: File | null = null
+
+  constructor(user: UserStore) {
+    this.user = user
+  }
 
   @computed
   get modalIsOpen() {
@@ -20,7 +26,7 @@ export default class Student {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.STUDENT_INFO,
-        token: RootStore.user.access.token
+        token: this.user.access.token
       })
       const data = response.data as Data.Student
 

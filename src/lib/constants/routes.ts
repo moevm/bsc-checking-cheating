@@ -45,5 +45,11 @@ export const routes: TCustomRoute[] = [
     path: '/student',
     accessType: 'student',
     component: universalRoute(import('../../pages/Student'))
+  },
+  {
+    name: 'admin',
+    path: '/admin',
+    accessType: 'admin',
+    component: universalRoute(import('../../pages/Admin'))
   }
 ]

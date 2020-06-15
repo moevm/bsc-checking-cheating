@@ -2,17 +2,13 @@ import { action, flow, observable } from 'mobx'
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
 import { State, Router } from 'router5'
 
-import { getRouteByName } from 'utils/router'
 import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
 
 class User {
   private router: Router
   public cookies: { [key: string]: string } = null
-  public access: { type: string; token: string } = {
-    token: null,
-    type: null
-  }
+  public access: { type: string; token: string } = null
 
   constructor(router: Router) {
     this.router = router
@@ -25,9 +21,9 @@ class User {
     }
   }
 
-  // public addRouter = (router: Router) => {
-  //   this.router = router
-  // }
+  get isAuthorized() {
+    return !!this.access
+  }
 
   public logIn = flow(function* (login) {
     const self = this as User
@@ -42,7 +38,7 @@ class User {
 
       self.access = data
       setCookie(null, 'access', JSON.stringify(self.access), {
-        maxAge: 24 * 60 * 60,
+        maxAge: 30 * 24 * 60 * 60,
         path: '/'
       })
       self.router.navigate(self.access.type)
@@ -52,8 +48,8 @@ class User {
   })
 
   public logOut = () => {
-    destroyCookie(null, 'token')
-
+    destroyCookie(null, 'access')
+    this.access = null
     this.router.navigate('auth')
   }
 

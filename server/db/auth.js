@@ -4,9 +4,9 @@ const authModule = (db, jwt) => ({
 
     db.one(
       `
-      select * from user_info
-      where email = $[email]
-    `,
+        select * from user_info
+        where email = $[email]
+      `,
       login
     )
       .then(user => {
@@ -19,7 +19,7 @@ const authModule = (db, jwt) => ({
         }
 
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-          expiresIn: 86400
+          expiresIn: 30 * 24 * 60 * 60
         })
 
         res.status(200).json({ token, type: user.access_type })

@@ -10,7 +10,7 @@ import S from './styles'
 type TOuterProps = {}
 type TProps = TOuterProps
 
-const TeacherPage: FC<TProps> = () => {
+const AuthPage: FC<TProps> = () => {
   return (
     <S.Section title="Авторизация">
       {/* <S.Link routeName="student">Студент</S.Link>
@@ -20,4 +20,4 @@ const TeacherPage: FC<TProps> = () => {
   )
 }
 
-export default compose(hot, observer)(TeacherPage)
+export default compose(hot, observer)(AuthPage)
