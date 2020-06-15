@@ -190,11 +190,11 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
         </form>
       ) : (
         <S.ListItem button onClick={() => setIsEditing(true)}>
-          <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true}>
+          {/* <Snackbar anchorOrigin={{ vertical: 'top', horizontal: 'center' }} open={true}>
             <Alert elevation={6} variant="filled" severity="success">
               Изменения сохранены
             </Alert>
-          </Snackbar>
+          </Snackbar> */}
 
           <ListItemText>{task.name}</ListItemText>
           <S.FakeButton variant="contained" color="primary">

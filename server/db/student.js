@@ -7,19 +7,21 @@ module.exports = function (db) {
       db.task(async t => {
         const studentInfo = await db.one(
           `
-          select id, name, group_number from student
-          where id = $[id]
+          select user_info.id, name, group_id, group_number.number as group_number from user_info
+          inner join group_number
+          on group_id = group_number.id
+          where user_info.id = $[id]
         `,
           { id: req.id }
         )
         const subjects = await db.any(
           `
-          select subject.id, subject.name from student
+          select subject.id, subject.name from user_info
           inner join teacher_subject
-          on student.group_number = any (teacher_subject.groups)
+          on user_info.group_id = any (teacher_subject.group_ids)
           inner join subject
           on subject.id = teacher_subject.subject_id
-          where student.id = $[id]
+          where user_info.id = $[id]
           order by subject.name
         `,
           { id: req.id }

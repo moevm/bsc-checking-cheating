@@ -2,18 +2,18 @@ const teacher = db => ({
   // TODO: remove after making jwt auth
   getTeacherInfo(req, res) {
     db.task(async t => {
-      const teacherInfo = await db.one('select id, name from teacher where id = ${id}', {
+      const teacherInfo = await db.one('select id, name from user_info where id = ${id}', {
         id: req.id
       })
       const subjects = await db.any(
         `
-        select subject.id, subject.name, teacher_subject.groups from subject
+        select subject.id, subject.name, teacher_subject.group_ids as groups from subject
         inner join teacher_subject
         on subject.id = teacher_subject.subject_id
         where teacher_subject.teacher_id = $[id]
         order by subject.name      
       `,
-        { id: req.id }
+        { id: teacherInfo.id }
       )
 
       for (subject of subjects) {
@@ -23,7 +23,7 @@ const teacher = db => ({
           where teacher_id = $[id] and subject_id = $[subjectId]
           order by created_at
         `,
-          { id: req.id, subjectId: subject.id }
+          { id: teacherInfo.id, subjectId: subject.id }
         )
 
         subject.tasks = tasks
@@ -41,64 +41,64 @@ const teacher = db => ({
       })
   },
 
-  createSubject(req, res, next) {
-    db.none(
-      'insert into subject (name, teacher_id, groups) values (${name}, ${teacher_id}, ${groups})',
-      req.body
-    )
-      .then(function () {
-        res.status(200).json({
-          status: 'success',
-          message: 'ok'
-        })
-      })
-      .catch(function (err) {
-        res.status(400).json({
-          status: 'error',
-          message: 'wrong request data'
-        })
-      })
-  },
+  // createSubject(req, res, next) {
+  //   db.none(
+  //     'insert into subject (name, teacher_id, groups) values (${name}, ${teacher_id}, ${groups})',
+  //     req.body
+  //   )
+  //     .then(function () {
+  //       res.status(200).json({
+  //         status: 'success',
+  //         message: 'ok'
+  //       })
+  //     })
+  //     .catch(function (err) {
+  //       res.status(400).json({
+  //         status: 'error',
+  //         message: 'wrong request data'
+  //       })
+  //     })
+  // },
 
-  updateSubject(req, res, next) {
-    db.none(
-      `
-      update subject
-      set name = $[name],
-          groups = $[groups]
-      where id = $[id]
-    `,
-      req.body
-    )
-      .then(() => {
-        res.status(200).json('ok')
-      })
-      .catch(error => {
-        res.status(400).json({
-          status: 'error',
-          message: 'wrong request data'
-        })
-      })
-  },
+  // updateSubject(req, res, next) {
+  //   db.none(
+  //     `
+  //     update subject
+  //     set name = $[name],
+  //         groups = $[groups]
+  //     where id = $[id]
+  //   `,
+  //     req.body
+  //   )
+  //     .then(() => {
+  //       res.status(200).json('ok')
+  //     })
+  //     .catch(error => {
+  //       res.status(400).json({
+  //         status: 'error',
+  //         message: 'wrong request data'
+  //       })
+  //     })
+  // },
 
-  deleteSubject(req, res, next) {
-    db.none(
-      `
-      delete from subject
-      where id = $[id]
-    `,
-      req.body
-    )
-      .then(() => {
-        res.status(200).json('ok')
-      })
-      .catch(error => {
-        res.status(400).json({
-          status: 'error',
-          message: 'wrong request data'
-        })
-      })
-  },
+  // deleteSubject(req, res, next) {
+  //   db.none(
+  //     `
+  //     delete from subject
+  //     where id = $[id]
+  //   `,
+  //     req.body
+  //   )
+  //     .then(() => {
+  //       res.status(200).json('ok')
+  //     })
+  //     .catch(error => {
+  //       res.status(400).json({
+  //         status: 'error',
+  //         message: 'wrong request data'
+  //       })
+  //     })
+  // },
 
   getTaskInfo(req, res) {
     db.task(async t => {
@@ -149,7 +149,10 @@ const teacher = db => ({
       values ($[name], $[exts], $[groups], $[subject_id], $[teacherId], $[check_type], $[bound])
       returning id
       `,
-      req.body
+      {
+        ...req.body,
+        teacherId: req.id
+      }
     )
       .then(data => res.status(200).json(data))
       .catch(function (err) {

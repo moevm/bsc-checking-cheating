@@ -91,7 +91,8 @@ export default class Teacher {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.TASK,
-        path: `/${id}`
+        path: `/${id}`,
+        token: self.user.access.token
       })
       const data = response.data as Data.Task
 
@@ -108,6 +109,7 @@ export default class Teacher {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.TASK,
         method: METHOD.POST,
+        token: self.user.access.token,
         body: {
           ...newTask,
           teacherId: self.info.id
@@ -132,6 +134,7 @@ export default class Teacher {
       yield fetchAPI({
         endpoint: ENDPOINT.TASK,
         method: METHOD.DELETE,
+        token: self.user.access.token,
         path: `/${task.id}`
       })
 
@@ -151,6 +154,7 @@ export default class Teacher {
       yield fetchAPI({
         endpoint: ENDPOINT.TASK,
         method: METHOD.PATCH,
+        token: self.user.access.token,
         body: task
       })
 
@@ -167,6 +171,7 @@ export default class Teacher {
     try {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.SOLUTION,
+        token: self.user.access.token,
         params: solution
       })
       const data = response.data as Data.Difference
