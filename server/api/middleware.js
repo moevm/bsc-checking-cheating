@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 
-const checkToken = (req, res, next) => {
+const checkToken = accessType => (req, res, next) => {
   let token = req.headers['authorization']
 
   if (token.startsWith('Bearer ')) {
@@ -11,6 +11,10 @@ const checkToken = (req, res, next) => {
     jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
       if (err) {
         return res.status(500).json('Failed to authenticate token')
+      }
+
+      if (decoded.accessType !== accessType) {
+        return res.status(403).json('Wrong access type')
       }
 
       req.id = decoded.id

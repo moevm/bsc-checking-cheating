@@ -18,9 +18,13 @@ const authModule = (db, jwt) => ({
           res.status(401).json('Wrong password')
         }
 
-        const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY, {
-          expiresIn: 30 * 24 * 60 * 60
-        })
+        const token = jwt.sign(
+          { id: user.id, accessType: user.access_type },
+          process.env.SECRET_KEY,
+          {
+            expiresIn: 30 * 24 * 60 * 60
+          }
+        )
 
         res.status(200).json({ token, type: user.access_type })
       })

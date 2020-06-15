@@ -1,4 +1,10 @@
 declare namespace Data {
+  type Admin = {
+    groups: Group[]
+    students: Student[]
+    subjects: Subject[]
+    teachers: Teacher[]
+  }
   type Difference = {
     reference: DiffObject
     current: DiffObject
@@ -7,6 +13,12 @@ declare namespace Data {
   type DiffObject = {
     title: string
     file: string
+  }
+
+  type Group = {
+    id?: number
+    number: string
+    created_at?: string
   }
 
   type MetaInfo = {
@@ -24,18 +36,20 @@ declare namespace Data {
   }
 
   type Student = {
-    id: number
+    id?: number
     name: string
     group_number: string
-    subjects: Subject[]
+    subjects?: Subject[]
+    created_at?: string
   }
 
   type Subject = {
-    id: number
+    id?: number
     name: string
     isOpened?: boolean
     groups: string[]
     tasks: Task[]
+    created_at?: string
   } & MetaInfo
 
   type Task = {
@@ -53,9 +67,11 @@ declare namespace Data {
   } & MetaInfo
 
   type Teacher = {
-    id: string
+    id?: string
+    email: string
     name: string
     subjects: Subject[]
+    created_at?: string
   }
 }
 

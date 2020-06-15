@@ -1,5 +1,6 @@
 import { Router } from 'router5'
 
+import AdminStore from './admin'
 import StudentStore from './student'
 import TeacherStore from './teacher'
 import UserStore from './user'
@@ -28,6 +29,7 @@ const createStore = (router: Router) => {
   const user = new UserStore(router)
 
   return {
+    admin: new AdminStore(user),
     student: new StudentStore(user),
     teacher: new TeacherStore(user),
     user

@@ -1,11 +1,11 @@
-import { action, flow, observable } from 'mobx'
+import { flow } from 'mobx'
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
-import { State, Router } from 'router5'
+import { Router } from 'router5'
 
 import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
 
-class User {
+class UserStore {
   private router: Router
   public cookies: { [key: string]: string } = null
   public access: { type: string; token: string } = null
@@ -18,6 +18,8 @@ class User {
       this.access = JSON.parse(cookies.access)
 
       this.router.navigate(this.access.type)
+    } else {
+      this.router.navigate('auth')
     }
   }
 
@@ -26,7 +28,7 @@ class User {
   }
 
   public logIn = flow(function* (login) {
-    const self = this as User
+    const self = this as UserStore
 
     try {
       const response = yield fetchAPI({
@@ -64,4 +66,4 @@ class User {
   // }
 }
 
-export default User
+export default UserStore
