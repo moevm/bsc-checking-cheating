@@ -115,9 +115,9 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
                   />
                 </Tooltip>
                 <S.BoundTextField
-                  error
+                  // error
                   id="bound"
-                  helperText="Можно использовать только цифры"
+                  // helperText="Можно использовать только цифры"
                   label="Граница (в %)"
                   size="small"
                   variant="outlined"

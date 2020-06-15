@@ -9,7 +9,6 @@ const REGULAR_SIZE = '0.625rem 0.9375rem'
 const Styled = {
   Button: styled(Button)<TOuterProps>`
     font-weight: 700;
-    background-color: ${props => props.theme.colors[props.nColor.toUpperCase()]};
     &:hover {
       background-color: ${props => props.theme.colors.TINT[300]};
     }

@@ -50,7 +50,10 @@ class UserStore {
   })
 
   public logOut = () => {
-    destroyCookie(null, 'access')
+    destroyCookie(null, 'access', {
+      maxAge: 30 * 24 * 60 * 60,
+      path: '/'
+    })
     this.access = null
     this.router.navigate('auth')
   }
