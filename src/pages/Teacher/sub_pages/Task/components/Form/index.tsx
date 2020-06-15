@@ -155,9 +155,11 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
               <S.CancelButton variant="contained" onClick={onResetClick}>
                 Отменить
               </S.CancelButton>
-              <S.DeleteButton variant="contained" onClick={onDeleteClick}>
-                Удалить
-              </S.DeleteButton>
+              {!task.isCreating && (
+                <S.DeleteButton variant="contained" onClick={onDeleteClick}>
+                  Удалить
+                </S.DeleteButton>
+              )}
             </S.RightColumn>
           </S.Wrapper>
 
