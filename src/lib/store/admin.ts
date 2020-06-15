@@ -33,7 +33,7 @@ class AdminStore {
     const self = this as AdminStore
 
     try {
-      yield fetchAPI({
+      const response = yield fetchAPI({
         endpoint: ENDPOINT.USER,
         method: METHOD.POST,
         token: self.user.access.token,
@@ -43,10 +43,38 @@ class AdminStore {
           access_type: 'teacher'
         }
       })
+      const data = response.data as { id: number }
 
       self.info.teachers.push({
+        ...data,
         email: info.email,
         name: info.name
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  @action.bound
+  postStudent = flow(function* (info: Data.Student) {
+    const self = this as AdminStore
+
+    try {
+      const response = yield fetchAPI({
+        endpoint: ENDPOINT.USER,
+        method: METHOD.POST,
+        token: self.user.access.token,
+        body: {
+          ...info,
+          access_type: 'student'
+        }
+      })
+      const data = response.data as { id: number }
+
+      self.info.students.push({
+        ...data,
+        ...info,
+        group_number: self.info.groups.find(group => group.id === +info.group_id).number
       })
     } catch (error) {
       console.error(error)
@@ -58,14 +86,18 @@ class AdminStore {
     const self = this as AdminStore
 
     try {
-      yield fetchAPI({
+      const response = yield fetchAPI({
         endpoint: ENDPOINT.SUBJECT,
         method: METHOD.POST,
         token: self.user.access.token,
         body: info
       })
+      const data = response.data as { id: number }
 
-      self.info.subjects.push(info)
+      self.info.subjects.push({
+        ...data,
+        ...info
+      })
     } catch (error) {
       console.error(error)
     }

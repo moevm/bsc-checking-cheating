@@ -59,6 +59,18 @@ const AdminPage: FC<TProps> = () => {
               ]}
               content={admin.info.students}
               title="Студенты"
+              onAddClick={onAddClick({
+                properties: ['email', 'password', 'name'],
+                radio: {
+                  property: 'group_id',
+                  title: 'Номер группы',
+                  values: admin.info.groups.map(item => ({
+                    id: item.id.toString(),
+                    name: item.number
+                  }))
+                },
+                onSubmitClick: admin.postStudent
+              })}
             />
           )}
           {!!admin.info.subjects.length && (

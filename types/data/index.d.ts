@@ -37,7 +37,9 @@ declare namespace Data {
 
   type Student = {
     id?: number
+    email: string
     name: string
+    group_id: string
     group_number: string
     subjects?: Subject[]
     created_at?: string
@@ -67,7 +69,7 @@ declare namespace Data {
   } & MetaInfo
 
   type Teacher = {
-    id?: string
+    id?: number
     email: string
     name: string
     subjects?: Subject[]
