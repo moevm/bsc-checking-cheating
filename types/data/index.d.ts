@@ -70,7 +70,7 @@ declare namespace Data {
     id?: string
     email: string
     name: string
-    subjects: Subject[]
+    subjects?: Subject[]
     created_at?: string
   }
 }

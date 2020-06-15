@@ -18,5 +18,6 @@ export const ENDPOINT = {
   SUBJECT: '/subject',
   TASK: '/task',
   STUDENT_INFO: '/student_info',
-  TEACHER_INFO: '/teacher_info'
+  TEACHER_INFO: '/teacher_info',
+  USER: '/user_info'
 }

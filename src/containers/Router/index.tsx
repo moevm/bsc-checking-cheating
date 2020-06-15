@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { withRoute } from 'react-router5'
+import { routeNode } from 'react-router5'
 import { Route } from 'router5'
 
 import compose from 'utils/compose'
@@ -19,7 +19,6 @@ class Router extends PureComponent<TProps> {
 
   render() {
     const { route } = this.props
-    console.log(route)
     const Component = this.getSectionRouteComponent(route)
 
     return (
@@ -30,4 +29,4 @@ class Router extends PureComponent<TProps> {
   }
 }
 
-export default compose(withRoute)(Router)
+export default compose(routeNode(''))(Router)
