@@ -18,17 +18,15 @@ class Tokenization {
       const filePath = path.join(directoryPath, fileName)
       const file = fs.readFileSync(filePath)
 
-      if (/\.js$/.test(fileName)) {
-        console.log(file.toString().split('|').join('", "'))
-      }
-
       if (/\.json$/.test(fileName)) {
         const name = fileName.replace(/\.json/, '')
+        const language = JSON.parse(file.toString())
 
-        result[name] = JSON.parse(file.toString())
+        result[name] = language
+        result.exts.push(language.extenstion)
       }
       return result
-    }, {})
+    }, { exts: [] })
 
     return result
   }

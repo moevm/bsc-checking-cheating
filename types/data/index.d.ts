@@ -71,6 +71,7 @@ declare namespace Data {
   type Teacher = {
     id?: number
     email: string
+    exts?: string[]
     name: string
     subjects?: Subject[]
     created_at?: string

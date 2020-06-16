@@ -1,3 +1,6 @@
+const tokenization = require('../antiplagiat/tokenization')
+const { language } = require('../antiplagiat/tokenization')
+
 const teacher = db => ({
   // TODO: remove after making jwt auth
   getTeacherInfo(req, res) {
@@ -30,6 +33,7 @@ const teacher = db => ({
         subject.tasks = tasks
       }
       teacherInfo.subjects = subjects
+      teacherInfo.exts = tokenization.languages.exts
 
       return teacherInfo
     })

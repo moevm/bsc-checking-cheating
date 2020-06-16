@@ -63,7 +63,7 @@ export default class Teacher {
       name: 'Новое задание',
       bound: 60,
       check_type: 'task',
-      exts: ['.js'],
+      exts: [],
       groups: subject.groups.map(group => group.id),
       isCreating: true,
       subjectGroups: subject.groups,

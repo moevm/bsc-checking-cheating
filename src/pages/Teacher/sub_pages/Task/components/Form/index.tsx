@@ -20,15 +20,14 @@ import S from './styles'
 
 type TOuterProps = {
   className?: string
+  exts: string[]
   task: Data.Task
   onCancelCreating: () => void
   onDeleteClick: () => void
   onFormSubmit: (task: Data.Task) => void
 }
 type TProps = TOuterProps
-type TState = Data.Task & {
-  extsString: string
-}
+type TState = Data.Task
 
 const useStyle = makeStyles(() => ({
   arrow: {
@@ -42,11 +41,17 @@ const useStyle = makeStyles(() => ({
   }
 }))
 
-const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, onFormSubmit }) => {
+const Form: FC<TProps> = ({
+  className,
+  exts,
+  task,
+  onCancelCreating,
+  onDeleteClick,
+  onFormSubmit
+}) => {
   const classes = useStyle()
   const [form, setForm] = useState<TState>({
     ...task,
-    extsString: task.exts ? task.exts.join('; ') : '',
     description: task.description || ''
   })
   const [isEditing, setIsEditing] = useState<boolean>(!!task.isCreating)
@@ -56,14 +61,7 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
 
     onFormSubmit({
       ...form,
-      bound: typeof form.bound === 'string' ? parseInt(form.bound) : form.bound,
-      exts: form.extsString
-        ? form.extsString
-            .toLowerCase()
-            .replace(/\s*/g, '')
-            .split(';')
-            .map(ext => (ext[0] === '.' ? ext : `.${ext}`))
-        : []
+      bound: typeof form.bound === 'string' ? parseInt(form.bound) : form.bound
     })
     setIsEditing(false)
   }
@@ -98,7 +96,7 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
               />
 
               <S.SecondRow>
-                <Tooltip
+                {/* <Tooltip
                   classes={classes}
                   title="Необходимо перечислить допустимые раширения файлов через точку с запятой (; )"
                   placement="top-start"
@@ -113,7 +111,28 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
                     value={form.extsString}
                     onChange={onChange('extsString')}
                   />
-                </Tooltip>
+                </Tooltip> */}
+                <S.GroupFormControl>
+                  <InputLabel id="exts-select-label">Расширения</InputLabel>
+                  <Select
+                    labelId="exts-select-label"
+                    id="exts-select"
+                    multiple
+                    labelWidth={300}
+                    variant="standard"
+                    value={form.exts}
+                    input={<Input />}
+                    renderValue={(selected: string[]) => selected.join(', ')}
+                    onChange={onChange('exts')}
+                  >
+                    {exts.map(ext => (
+                      <MenuItem key={ext} value={ext}>
+                        <Checkbox checked={form.exts.indexOf(ext) !== -1} />
+                        <ListItemText primary={ext} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </S.GroupFormControl>
                 <S.BoundTextField
                   // error
                   id="bound"

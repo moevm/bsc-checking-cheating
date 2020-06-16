@@ -68,6 +68,7 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
   return teacher.task ? (
     <Box>
       <S.TaskForm
+        exts={teacher.info.exts}
         task={teacher.task}
         onCancelCreating={onCancelClick}
         onDeleteClick={onDeleteClick}
