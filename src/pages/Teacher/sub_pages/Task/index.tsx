@@ -67,6 +67,7 @@ const TeacherTaskPage: FC<TProps> = ({ route }) => {
 
   return teacher.task ? (
     <Box>
+      <S.Link routeName="teacher">Вернуться назад</S.Link>
       <S.TaskForm
         exts={teacher.info.exts}
         task={teacher.task}

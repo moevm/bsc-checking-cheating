@@ -22,5 +22,8 @@ module.exports = (solutions, fingerprint) => {
       }
     }
   })
-  return [((fingerprint.length - result) / fingerprint.length) * 100, reference]
+
+  const percent = ((fingerprint.length - result) / fingerprint.length) * 100
+
+  return [percent, percent > 60 ? null : reference]
 }

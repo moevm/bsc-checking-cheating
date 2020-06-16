@@ -57,10 +57,12 @@ const teacher = db => ({
       )
       const solutions = await db.any(
         `
-          select solution.task_id, solution.student_id, student.name, student.group_number, originality, solution.created_at, reference_id from solution
-          inner join student
-          on student.id = solution.student_id
-          where solution.task_id = $[id]
+          select task_id, student_id, name, originality, group_number.number as group_number, solution.created_at, reference_id from solution
+          inner join user_info
+          on user_info.id = student_id and task_id = $[id]
+          inner join group_number
+          on group_id = group_number.id
+
         `,
         req.params
       )
@@ -182,10 +184,11 @@ const teacher = db => ({
     db.task(async t => {
       const currentFile = await db.one(
         `
-        select student.name, student.group_number as group, solution.file from solution
-        inner join student
-        on student.id = solution.student_id
-        where task_id = $[task_id] and student_id = $[student_id]
+        select name, group_number.number as group, solution.file from solution
+        inner join user_info
+        on user_info.id = student_id and student_id = $[student_id] and task_id = $[task_id]
+        inner join group_number
+        on group_number.id = group_id
       `,
         req.query
       )
@@ -193,11 +196,12 @@ const teacher = db => ({
         req.query.reference_id &&
         (await db.one(
           `
-        select student.name, student.group_number as group, solution.file from solution
-        inner join student
-        on student.id = solution.student_id
-        where solution.id = $[reference_id]
-      `,
+            select name, group_number.number as group, solution.file from solution
+            inner join user_info
+            on user_info.id = solution.student_id and solution.id = $[reference_id]
+            inner join group_number
+            on group_number.id = group_id
+          `,
           req.query
         ))
 
@@ -222,7 +226,7 @@ const teacher = db => ({
       })
       .catch(err => {
         console.log(err)
-        res.status(400).json(err)
+        res.status(400).json('err')
       })
   }
 })

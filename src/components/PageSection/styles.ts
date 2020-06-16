@@ -23,7 +23,7 @@ const Styled = {
   `,
   ContentWrapper: styled.div`
     height: calc(100% - ${HEADER_HEIGHT});
-    padding: 0 ${props => props.theme.sizes.MAIN_PADDING};
+    padding: 1.25rem ${props => props.theme.sizes.MAIN_PADDING};
     overflow: auto;
   `
 }
