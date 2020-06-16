@@ -134,12 +134,21 @@ const Form: FC<TProps> = ({ className, task, onCancelCreating, onDeleteClick, on
                     variant="standard"
                     value={form.groups}
                     input={<Input />}
-                    renderValue={(selected: string[]) => selected.join(', ')}
+                    renderValue={(selected: number[]) =>
+                      task.subjectGroups.reduce((result, group, index) => {
+                        if (selected.indexOf(group.id) !== -1) {
+                          return `${result}${group.number}${
+                            index === task.subjectGroups.length - 1 ? '' : ', '
+                          }`
+                        }
+                        return result
+                      }, '')
+                    }
                     onChange={onChange('groups')}
                   >
                     {task.subjectGroups.map(group => (
                       <MenuItem key={group.id} value={group.id}>
-                        <Checkbox checked={form.groups.indexOf(group) > -1} />
+                        <Checkbox checked={form.groups.indexOf(group.id) > -1} />
                         <ListItemText primary={group.number} />
                       </MenuItem>
                     ))}

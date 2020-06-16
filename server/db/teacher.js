@@ -42,65 +42,6 @@ const teacher = db => ({
       })
   },
 
-  // createSubject(req, res, next) {
-  //   db.none(
-  //     'insert into subject (name, teacher_id, groups) values (${name}, ${teacher_id}, ${groups})',
-  //     req.body
-  //   )
-  //     .then(function () {
-  //       res.status(200).json({
-  //         status: 'success',
-  //         message: 'ok'
-  //       })
-  //     })
-  //     .catch(function (err) {
-  //       res.status(400).json({
-  //         status: 'error',
-  //         message: 'wrong request data'
-  //       })
-  //     })
-  // },
-
-  // updateSubject(req, res, next) {
-  //   db.none(
-  //     `
-  //     update subject
-  //     set name = $[name],
-  //         groups = $[groups]
-  //     where id = $[id]
-  //   `,
-  //     req.body
-  //   )
-  //     .then(() => {
-  //       res.status(200).json('ok')
-  //     })
-  //     .catch(error => {
-  //       res.status(400).json({
-  //         status: 'error',
-  //         message: 'wrong request data'
-  //       })
-  //     })
-  // },
-
-  // deleteSubject(req, res, next) {
-  //   db.none(
-  //     `
-  //     delete from subject
-  //     where id = $[id]
-  //   `,
-  //     req.body
-  //   )
-  //     .then(() => {
-  //       res.status(200).json('ok')
-  //     })
-  //     .catch(error => {
-  //       res.status(400).json({
-  //         status: 'error',
-  //         message: 'wrong request data'
-  //       })
-  //     })
-  // },
-
   getTaskInfo(req, res) {
     db.task(async t => {
       const taskInfo = await db.one(
@@ -119,15 +60,22 @@ const teacher = db => ({
         `,
         req.params
       )
+      const groups = await db.many(
+        `
+          select * from group_number
+          order by number
+        `
+      )
       const subject = await db.one(
         `
-          select groups from teacher_subject
+          select group_ids from teacher_subject
           where teacher_id = $[teacher_id] and subject_id = $[subject_id]
       `,
         taskInfo
       )
 
-      taskInfo.subjectGroups = subject.groups
+      taskInfo.groups = taskInfo.group_ids || []
+      taskInfo.subjectGroups = groups.filter(group => subject.group_ids.indexOf(group.id) !== -1)
       taskInfo.solutions = solutions
 
       return taskInfo
@@ -136,6 +84,8 @@ const teacher = db => ({
         res.status(200).json(task)
       })
       .catch(error => {
+        console.log(error)
+
         res.status(400).json({
           status: 'error',
           message: 'wrong request data'
@@ -146,7 +96,7 @@ const teacher = db => ({
   createTask(req, res) {
     db.one(
       `
-      insert into task (name, exts, groups, subject_id, teacher_id, check_type, bound) 
+      insert into task (name, exts, group_ids, subject_id, teacher_id, check_type, bound) 
       values ($[name], $[exts], $[groups], $[subject_id], $[teacherId], $[check_type], $[bound])
       returning id
       `,
@@ -174,13 +124,15 @@ const teacher = db => ({
           check_type = $[check_type],
           description = $[description],
           bound = $[bound],
-          groups = $[groups]
+          group_ids = $[groups]
       where id = $[id]
     `,
       req.body
     )
       .then(() => res.status(200).json('ok'))
       .catch(error => {
+        console.log(err)
+
         res.status(400).json({
           status: 'error',
           message: 'wrong request data'

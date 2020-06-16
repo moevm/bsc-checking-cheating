@@ -61,7 +61,7 @@ declare namespace Data {
     check_type?: 'all' | 'subject' | 'task'
     description?: string
     exts?: string[]
-    groups?: Group[]
+    groups?: number[]
     originality?: string
     solutions?: Solution[]
     subject_id?: number

@@ -64,7 +64,7 @@ export default class Teacher {
       bound: 60,
       check_type: 'task',
       exts: ['.js'],
-      groups: subject.groups,
+      groups: subject.groups.map(group => group.id),
       isCreating: true,
       subjectGroups: subject.groups,
       solutions: [],
