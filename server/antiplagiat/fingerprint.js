@@ -38,8 +38,9 @@ const winnowKGrams = (kGrams, t, k) => {
   return result.map(item => item.value)
 }
 
-module.exports = function (code) {
-  const tokenizedCode = tokenization.transform(code, 'java')
+module.exports = function (code, fileName) {
+  const ext = fileName.replace(/^.*\./, '')
+  const tokenizedCode = tokenization.transform(code, ext)
   const k = 3
   const t = 5
 

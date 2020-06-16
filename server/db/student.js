@@ -59,7 +59,7 @@ module.exports = function (db) {
 
     checkSolution(req, res) {
       const buf = Buffer.from(req.file.buffer)
-      const fingerprint = findFingerprint(buf.toString())
+      const fingerprint = findFingerprint(buf.toString(), req.file.originalname)
       const getQueryByType = type => {
         switch (type) {
           case 'task':
@@ -77,7 +77,10 @@ module.exports = function (db) {
           select id, fingerprint from solution
           where student_id != $[student_id] ${getQueryByType(req.body.check_type)} 
         `,
-          req.body
+          {
+            ...req.body,
+            student_id: req.id
+          }
         )
         const [originality, reference] = findSimilarity(hashes, fingerprint)
 
@@ -98,6 +101,7 @@ module.exports = function (db) {
         `,
           {
             ...req.body,
+            student_id: req.id,
             file: `\\x${buf.toString('hex')}`,
             file_name: req.file.originalname,
             fingerprint,

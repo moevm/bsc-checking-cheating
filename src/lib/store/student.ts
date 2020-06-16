@@ -73,6 +73,7 @@ export default class Student {
       const response = yield fetchAPI({
         endpoint: ENDPOINT.SOLUTION,
         method: METHOD.PUT,
+        token: self.user.access.token,
         body: formData
       })
       const data = response.data as { originality: string }
