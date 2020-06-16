@@ -1,6 +1,6 @@
 import { flow } from 'mobx'
 import { parseCookies, setCookie, destroyCookie } from 'nookies'
-import { Router } from 'router5'
+import { Router, State } from 'router5'
 
 import fetchAPI from 'services/fetchAPI'
 import { ENDPOINT, METHOD } from 'constants/api'
@@ -12,6 +12,8 @@ class UserStore {
 
   constructor(router: Router) {
     this.router = router
+    // this.router.useMiddleware(this.routerMiddleware)
+
     const cookies = parseCookies()
 
     if (cookies.access) {
@@ -58,13 +60,17 @@ class UserStore {
     this.router.navigate('auth')
   }
 
-  // public checkAuthorization = (nextState: State, done: () => void) => {
-  //   const route = getRouteByName(nextState.name)
+  // public routerMiddleware = () => (toState: State, fromState: State, done: () => void) => {
+  //   const pageName = toState.name.replace(/\.\S+/, '')
 
-  //   if ((!route.accessType && !this.access.type) || route.accessType === this.access.type) {
-  //     done()
+  //   if (this.access) {
+  //     if (this.access.type === pageName) {
+  //       done()
+  //     } else {
+  //       this.router.navigate(this.access.type)
+  //     }
   //   } else {
-  //     this.router.navigate(this.access.type)
+  //     this.router.navigate('auth')
   //   }
   // }
 }
