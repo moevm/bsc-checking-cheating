@@ -28,6 +28,25 @@ const AdminPage: FC<TProps> = () => {
     [setModal]
   )
 
+  const onTeacherRowClick = useCallback(
+    (teacher: Data.Teacher) => () => {
+      setModal({
+        checkbox: {
+          property: 'group_ids',
+          values: admin.info.groups.map(item => ({ id: item.id.toString(), name: item.number }))
+        },
+        meta: teacher,
+        radio: {
+          property: 'subject_id',
+          title: 'Предмет',
+          values: admin.info.subjects.map(item => ({ id: item.id.toString(), name: item.name }))
+        },
+        onSubmitClick: admin.postSemestrInfo
+      })
+    },
+    []
+  )
+
   const onCloseModalClick = useCallback(() => {
     setModal(null)
   }, [setModal])
@@ -48,6 +67,7 @@ const AdminPage: FC<TProps> = () => {
                 properties: ['email', 'password', 'name'],
                 onSubmitClick: admin.postTeacher
               })}
+              onRowClick={onTeacherRowClick}
             />
           )}
           {!!admin.info.students.length && (

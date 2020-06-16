@@ -56,6 +56,26 @@ class AdminStore {
   })
 
   @action.bound
+  postSemestrInfo = flow(function* (info: any) {
+    const self = this as AdminStore
+
+    try {
+      const response = yield fetchAPI({
+        endpoint: ENDPOINT.SEMESTR,
+        method: METHOD.POST,
+        token: self.user.access.token,
+        body: {
+          group_ids: info.group_ids.map((id: string) => +id),
+          subject_id: info.subject_id,
+          teacher_id: info.id
+        }
+      })
+    } catch (error) {
+      console.error(error)
+    }
+  })
+
+  @action.bound
   postStudent = flow(function* (info: Data.Student) {
     const self = this as AdminStore
 

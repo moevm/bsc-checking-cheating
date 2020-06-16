@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import Collapse from '@material-ui/core/Collapse'
 import ListItem from '@material-ui/core/ListItem'
 import Table from '@material-ui/core/Table'
@@ -30,10 +30,18 @@ type TOuterProps = {
   content: any[]
   title: string
   onAddClick?: () => void
+  onRowClick?: (content: any) => () => void
 }
 type TProps = TOuterProps
 
-const ContentTable: FC<TProps> = ({ className, columns, content, title, onAddClick }) => {
+const ContentTable: FC<TProps> = ({
+  className,
+  columns,
+  content,
+  title,
+  onAddClick,
+  onRowClick
+}) => {
   const [isOpened, setIsOpened] = useState<boolean>(false)
 
   return (
@@ -54,7 +62,11 @@ const ContentTable: FC<TProps> = ({ className, columns, content, title, onAddCli
             </TableHead>
             <TableBody>
               {content.map((item, index) => (
-                <TableRow key={index}>
+                <TableRow
+                  key={index}
+                  hover={!!onRowClick}
+                  onClick={onRowClick ? onRowClick(item) : null}
+                >
                   {columns.map((column, index) => (
                     <TableCell key={index}>{item[column.property]}</TableCell>
                   ))}

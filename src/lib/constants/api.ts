@@ -14,6 +14,7 @@ export const ENDPOINT = {
   ADMIN: '/admin',
   AUTH: '/auth',
   GROUP: '/group',
+  SEMESTR: '/semestr',
   SOLUTION: '/solution',
   SOLUTIONS: '/solutions',
   SUBJECT: '/subject',

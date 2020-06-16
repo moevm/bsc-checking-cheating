@@ -8,6 +8,7 @@ router.get('/admin', middleware('admin'), db.admin.getInfo)
 router.post('/user_info', middleware('admin'), db.admin.addUser)
 router.post('/subject', middleware('admin'), db.admin.addSubject)
 router.post('/group', middleware('admin'), db.admin.addGroup)
+router.post('/semestr', middleware('admin'), db.admin.addSemestr)
 
 router.post('/auth', db.auth.login)
 router.get('/student_info', middleware('student'), db.student.getStudentInfo)

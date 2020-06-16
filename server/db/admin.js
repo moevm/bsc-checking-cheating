@@ -25,6 +25,7 @@ const admin = db => ({
       res.groups = await db.any(
         `
           select * from group_number
+          order by number
         `
       )
 
@@ -39,14 +40,15 @@ const admin = db => ({
   },
 
   addUser(req, res) {
-    db.none(
+    db.one(
       `
         insert into user_info (email, password, name, group_id, access_type)
         values ($[email], $[password], $[name], $[group_id], $[access_type])
+        returning id
       `,
       req.body
     )
-      .then(() => res.status(200).json('ok'))
+      .then(data => res.status(200).json(data))
       .catch(err => {
         console.log(err)
 
@@ -55,14 +57,15 @@ const admin = db => ({
   },
 
   addSubject(req, res) {
-    db.none(
+    db.one(
       `
         insert into subject (name)
         values ($[name])
+        returning id
       `,
       req.body
     )
-      .then(() => res.status(200).json('ok'))
+      .then(data => res.status(200).json(data))
       .catch(err => res.status(500).json('Error on server'))
   },
 
@@ -76,6 +79,22 @@ const admin = db => ({
       req.body
     )
       .then(data => res.status(200).json(data))
+      .catch(err => {
+        console.log(err)
+
+        res.status(500).json('Error on server')
+      })
+  },
+
+  addSemestr(req, res) {
+    db.none(
+      `
+        insert into teacher_subject (teacher_id, subject_id, group_ids)
+        values ($[teacher_id], $[subject_id], $[group_ids])
+      `,
+      req.body
+    )
+      .then(() => res.status(200).json('ok'))
       .catch(err => {
         console.log(err)
 
