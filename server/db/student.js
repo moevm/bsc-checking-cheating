@@ -32,14 +32,14 @@ module.exports = function (db) {
             `
             select task.id, task.name, task.subject_id, task.bound, solution.originality, task.check_type, task.exts, task.description from task
             left join solution
-            on task.id = solution.task_id
-            where $[group] = any (groups) and task.subject_id = $[subject_id] and (solution.student_id = $[id] or solution.student_id is null)
+            on task.id = solution.task_id and solution.student_id = $[id]
+            where $[group] = any (group_ids) and task.subject_id = $[subject_id]
             order by task.created_at
           `,
             {
               id: studentInfo.id,
               subject_id: subject.id,
-              group: studentInfo.group_number
+              group: studentInfo.group_id
             }
           )
         }

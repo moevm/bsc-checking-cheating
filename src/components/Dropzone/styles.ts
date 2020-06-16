@@ -28,7 +28,6 @@ const Styled = {
   Info: styled.p`
     margin-bottom: ${props => props.theme.sizes.MARGIN};
     line-height: 1.5;
-    text-align: left;
     &::first-line {
       text-indent: 1.25rem;
     }
